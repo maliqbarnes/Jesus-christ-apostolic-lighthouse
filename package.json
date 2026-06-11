@@ -1,0 +1,16 @@
+{
+  "name": "jcal-kingdom-website-demo",
+  "version": "1.0.0",
+  "description": "Node/Express demo website for Jesus Christ Apostolic Lighthouse Kingdom Ministries International.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["jcal", "ministry", "church", "new-orleans", "express"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
