@@ -922,16 +922,80 @@ main {
 
 .legacy-card {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
   align-items: center;
-  max-width: 850px;
-  margin: 32px auto 0;
+  max-width: 1140px;
+  margin: 36px auto 0;
   background: white;
-  border: 1px solid var(--line);
-  border-radius: 28px;
-  padding: 32px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid rgba(184, 137, 22, 0.28);
+  border-radius: 32px;
+  padding: 36px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.05);
+}
+
+.legacy-content-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.legacy-content-group .portrait.large {
+  width: 100%;
+  max-height: 280px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(184, 137, 22, 0.3);
+  margin-bottom: 0;
+}
+
+.legacy-text-details h3 {
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: 1.55rem;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+
+.legacy-text-details p {
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.legacy-video-wrapper {
+  width: 100%;
+}
+
+.legacy-video-card {
+  background: #090d16;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 2px solid rgba(184, 137, 22, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.tribute-video-element {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 340px;
+  object-fit: cover;
+  background: #000000;
+  display: block;
+}
+
+.tribute-video-caption {
+  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  color: #fef08a;
+  padding: 12px 18px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .portrait {
