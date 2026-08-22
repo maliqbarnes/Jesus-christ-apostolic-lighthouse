@@ -95,9 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
       liveIframe.style.display = 'none';
       isCameraActive = true;
       if (btnToggleCam) btnToggleCam.textContent = '⏹ Stop Camera & Mic';
+      return true;
     } catch (err) {
       console.error('Camera access error:', err);
       alert('Unable to access camera or microphone. Please check browser permissions.');
+      isCameraActive = false;
+      return false;
     }
   }
 
@@ -322,7 +325,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnToggleLive) {
     btnToggleLive.addEventListener('click', async () => {
       const token = getToken();
+      if (!token) return alert('Admin authentication required.');
+
       const newLiveState = !currentStreamState.isLive;
+
+      if (newLiveState) {
+        if (!isCameraActive || !localStream) {
+          const started = await startCameraStream();
+          if (!started || !localStream) {
+            alert('⚠️ Camera and Microphone must be enabled and active before you can go live!');
+            return;
+          }
+        }
+
+        const hasVideo = localStream.getVideoTracks().some(t => t.enabled && t.readyState === 'live');
+        const hasAudio = localStream.getAudioTracks().some(t => t.enabled && t.readyState === 'live');
+
+        if (!hasVideo || !hasAudio) {
+          alert('⚠️ Both an active Camera (video) and Microphone (audio) track are required to go live!');
+          return;
+        }
+      }
+
       try {
         const res = await fetch('/api/stream/state', {
           method: 'POST',
@@ -330,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ isLive: newLiveState })
+          body: JSON.stringify({ isLive: newLiveState, streamType: 'webrtc' })
         });
         const data = await res.json();
         if (res.ok && data.success) {

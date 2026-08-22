@@ -89,9 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
       studioStandbyScreen.style.display = 'none';
       isCamActive = true;
       studioBtnCam.textContent = '⏹ Stop Camera & Mic';
+      return true;
     } catch (err) {
       console.error('Camera start error:', err);
-      alert('Unable to access selected camera/mic. Please verify browser permissions.');
+      alert('Unable to access camera or microphone. Please verify browser permissions.');
+      isCamActive = false;
+      return false;
     }
   }
 
@@ -245,13 +248,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Master Live Trigger
+  // Master Live Trigger (Requires active camera & microphone)
   if (studioBtnMasterLive) {
     studioBtnMasterLive.addEventListener('click', async () => {
       const token = getToken();
       if (!token) return alert('Admin authentication required.');
 
       const newLiveState = !(currentStreamState && currentStreamState.isLive);
+
+      if (newLiveState) {
+        // 1. Ensure camera & mic are started
+        if (!isCamActive || !localStream) {
+          const started = await startCamera();
+          if (!started || !localStream) {
+            alert('⚠️ Camera and Microphone must be enabled and allowed in your browser before you can go live!');
+            return;
+          }
+        }
+
+        // 2. Verify active video and audio tracks exist and are enabled
+        const videoTracks = localStream.getVideoTracks();
+        const audioTracks = localStream.getAudioTracks();
+
+        const hasVideo = videoTracks.some(t => t.enabled && t.readyState === 'live');
+        const hasAudio = audioTracks.some(t => t.enabled && t.readyState === 'live');
+
+        if (!hasVideo || !hasAudio) {
+          alert('⚠️ Both Camera (video) and Microphone (audio) must be enabled and active to go live!');
+          return;
+        }
+      }
+
       try {
         const res = await fetch('/api/stream/state', {
           method: 'POST',
@@ -259,13 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ isLive: newLiveState })
+          body: JSON.stringify({ isLive: newLiveState, streamType: 'webrtc' })
         });
         const data = await res.json();
         if (res.ok && data.success) {
-          if (newLiveState && !isCamActive) {
-            await startCamera();
-          }
           fetchStreamState();
         }
       } catch (err) {
