@@ -1,0 +1,233 @@
+/* ==========================================
+   DEDICATED ADMIN BROADCAST STUDIO STYLES
+   ========================================== */
+
+:root {
+  --studio-bg: #f8fafc;
+  --studio-card-bg: rgba(255, 255, 255, 0.94);
+  --studio-border: rgba(14, 165, 233, 0.25);
+  --studio-cyan: #0284c7;
+  --studio-gold: #b45309;
+}
+
+body.admin-studio-body {
+  background-color: var(--studio-bg);
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.08), transparent 45%),
+    radial-gradient(circle at 90% 90%, rgba(245, 158, 11, 0.1), transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  color: #0f172a;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.admin-studio-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(184, 137, 22, 0.25);
+  padding: 14px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.studio-nav-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.studio-grid-layout {
+  max-width: 1440px;
+  margin: 24px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+}
+
+/* STATS ANALYTICS BAR */
+.studio-stats-bar {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.stat-card-studio {
+  background: var(--studio-card-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--studio-border);
+  border-radius: 18px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.06);
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  background: rgba(14, 165, 233, 0.1);
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.stat-info small {
+  display: block;
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-info strong {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  color: var(--navy-dark);
+}
+
+/* STUDIO MONITOR & CAMERA CONTROLS */
+.studio-monitor-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.studio-viewport-card {
+  background: var(--studio-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--studio-border);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 16px 40px rgba(14, 165, 233, 0.08);
+}
+
+.studio-video-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #090d16;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(14, 165, 233, 0.3);
+}
+
+.studio-controls-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ctrl-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ADMIN STUDIO BUTTON SYSTEM (WHITE-SPACE NOWRAP & COORDINATED COLORS) */
+.admin-studio-body .btn {
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.admin-studio-body .btn.sm {
+  padding: 8px 16px;
+  font-size: 0.84rem;
+}
+
+.admin-studio-body .btn.primary {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+  border: 1px solid rgba(2, 132, 199, 0.4);
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+}
+
+.admin-studio-body .btn.primary:hover {
+  background: linear-gradient(135deg, #0369a1, #075985);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+}
+
+.admin-studio-body .btn.secondary {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.admin-studio-body .btn.secondary:hover {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: #0284c7;
+  color: #0284c7;
+  transform: translateY(-2px);
+}
+
+.admin-studio-body .btn.danger {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  color: #ffffff;
+  border: 1px solid rgba(225, 29, 72, 0.4);
+  box-shadow: 0 4px 16px rgba(225, 29, 72, 0.3);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.admin-studio-body .btn.danger:hover {
+  background: linear-gradient(135deg, #be123c, #9f1239);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+}
+
+/* STUDIO SETTINGS PANEL */
+.studio-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.studio-card-box {
+  background: var(--studio-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--studio-border);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 16px 40px rgba(14, 165, 233, 0.08);
+}
+
+.studio-card-box h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  margin: 0 0 16px 0;
+  color: var(--navy-dark);
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
+  .studio-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}

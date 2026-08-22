@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Broadcaster Control Center & Studio • JCAL Admin</title>
+
+  <!-- Google Fonts & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="stream.css" />
+  <link rel="stylesheet" href="admin-studio.css" />
+</head>
+<body class="admin-studio-body">
+
+  <!-- Admin Studio Top Navbar -->
+  <header class="admin-studio-nav">
+    <div class="studio-nav-shell">
+      <a class="brand" href="index.html#admin" aria-label="Return to CMS Portal">
+        <div class="logo-mark" aria-hidden="true">
+          <img src="images/logo.png" alt="JCAL Logo" />
+        </div>
+        <span class="brand-text">
+          <strong>BROADCASTER STUDIO</strong>
+          <small>Admin Control Center</small>
+        </span>
+      </a>
+
+      <div id="studio-live-pill" class="stream-status-pill standby-mode">
+        <span id="studio-live-pill-text">⏳ STANDBY / OFFLINE</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="stream.html" target="_blank" class="btn secondary sm">Preview Public Stream ↗</a>
+        <a href="index.html#admin" class="btn primary sm">Back to CMS Admin Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN STUDIO GRID CONTAINER -->
+  <main class="studio-grid-layout">
+    
+    <!-- STATS ANALYTICS BAR -->
+    <div class="studio-stats-bar">
+      <div class="stat-card-studio">
+        <span class="stat-icon">👥</span>
+        <div class="stat-info">
+          <small>Live Public Viewers</small>
+          <strong id="stat-viewers">0 Watching</strong>
+        </div>
+      </div>
+      <div class="stat-card-studio">
+        <span class="stat-icon">⏱</span>
+        <div class="stat-info">
+          <small>Broadcast Timer</small>
+          <strong id="stat-timer">00:00:00</strong>
+        </div>
+      </div>
+      <div class="stat-card-studio">
+        <span class="stat-icon">📡</span>
+        <div class="stat-info">
+          <small>Stream Resolution</small>
+          <strong id="stat-resolution">Standby / Offline</strong>
+        </div>
+      </div>
+      <div class="stat-card-studio">
+        <span class="stat-icon">🙌</span>
+        <div class="stat-info">
+          <small>Praise Reactions</small>
+          <strong id="stat-reactions">0 Received</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEFT: HD MONITOR & WEBRTC CAMERA STUDIO CONTROLS -->
+    <section class="studio-monitor-section">
+      <div class="studio-viewport-card">
+        <div class="studio-video-viewport">
+          <video id="studio-video-element" class="video-element" autoplay playsinline muted style="display: none;"></video>
+          <div id="studio-standby-screen" style="text-align: center; color: #94a3b8; padding: 40px;">
+            <span style="font-size: 4rem; display: block; margin-bottom: 12px;">📷</span>
+            <h3 style="color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 8px;">Broadcaster Camera Standby</h3>
+            <p style="margin: 0; font-size: 0.96rem; max-width: 440px;">Click <strong>Start Camera & Mic</strong> below to test camera preview, audio feeds, and filters before triggering Go Live.</p>
+          </div>
+        </div>
+
+        <div class="studio-controls-panel">
+          <div class="ctrl-group">
+            <button id="studio-btn-cam" class="btn primary sm">📷 Start Camera & Mic</button>
+            <button id="studio-btn-mic" class="btn secondary sm">🎙 Mute Mic</button>
+            <button id="studio-btn-filter" class="btn secondary sm">✨ Filter: Warm</button>
+          </div>
+          <div class="ctrl-group">
+            <button id="studio-btn-master-live" class="btn danger">🔴 GO LIVE BROADCAST</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMERA & AUDIO DEVICE SELECTION CARD -->
+      <div class="studio-card-box">
+        <h3>⚙️ Hardware & Device Configuration</h3>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="select-camera">Camera Input Device</label>
+            <select id="select-camera" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);">
+              <option value="default">Default Web Camera</option>
+            </select>
+          </div>
+          <div class="form-group col">
+            <label for="select-mic">Microphone Input Device</label>
+            <select id="select-mic" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);">
+              <option value="default">Default System Microphone</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: BROADCAST METADATA & LIVE CHAT MODERATION CONSOLE -->
+    <aside class="studio-settings-section">
+      <!-- Broadcast Details Form -->
+      <div class="studio-card-box">
+        <h3>📡 Broadcast Metadata & Settings</h3>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="studio-stream-type">Stream Mode</label>
+          <select id="studio-stream-type" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);">
+            <option value="webrtc">Camera & Mic Studio (WebRTC Browser Broadcast)</option>
+            <option value="embed">Custom Embed / Zoom / Facebook Live</option>
+            <option value="youtube">YouTube Live Broadcast</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="studio-sermon-title">Sermon Title</label>
+          <input type="text" id="studio-sermon-title" value="Sunday Anointing & Prophetic Praise Service" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="studio-sermon-speaker">Minister / Speaker</label>
+          <input type="text" id="studio-sermon-speaker" value="Apostle Dr. Ronnie Ray Stewart Sr." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);" />
+        </div>
+
+        <button id="studio-btn-save-meta" class="btn secondary sm" style="width: 100%;">Save Stream Settings</button>
+      </div>
+
+      <!-- Live Chat Moderation Console -->
+      <div class="studio-card-box" style="flex: 1; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="margin: 0;">💬 Live Chat Moderation</h3>
+          <span id="studio-chat-count" class="chat-count-badge">0 Messages</span>
+        </div>
+        
+        <div id="studio-chat-feed" style="flex: 1; min-height: 280px; max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.08);">
+          <!-- Chat messages rendered dynamically -->
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script src="admin-studio.js"></script>
+</body>
+</html>
