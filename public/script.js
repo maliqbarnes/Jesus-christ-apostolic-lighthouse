@@ -359,11 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Render Floating Glassmorphic Announcement Modal & Hero Notice
+    // Render Floating Glassmorphic Announcement Modal
     const noticeModal = document.getElementById('announcement-modal');
     const noticeBodyEl = document.getElementById('notice-modal-body');
     const noticeDismissBtn = document.getElementById('notice-dismiss-btn');
-    const announceHeroEl = document.getElementById('hero-announcement');
 
     if (siteContent.services && siteContent.services.announcement !== undefined) {
       const text = siteContent.services.announcement.trim();
@@ -374,15 +373,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (noticeModal) noticeModal.style.display = 'flex';
       } else {
         if (noticeModal && !window.noticeDismissed) noticeModal.style.display = 'none';
-      }
-
-      if (announceHeroEl) {
-        if (text) {
-          announceHeroEl.textContent = text;
-          if (announceHeroEl.closest('.info-item')) announceHeroEl.closest('.info-item').style.display = 'flex';
-        } else {
-          if (announceHeroEl.closest('.info-item')) announceHeroEl.closest('.info-item').style.display = 'none';
-        }
       }
     }
 

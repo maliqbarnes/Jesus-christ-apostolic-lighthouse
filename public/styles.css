@@ -274,7 +274,7 @@ main {
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: clamp(140px, 12vw, 170px) 0 80px;
+  padding: 170px 0 80px 0;
   margin-top: 0;
   background: #fdfdfd;
 }
@@ -2611,9 +2611,11 @@ main {
   }
 
   /* Hero & Main Sections Mobile (Prevent Navbar Overlap) */
+  .hero,
   #hero,
   .hero-section {
-    padding-top: clamp(100px, 15vw, 130px) !important;
+    padding-top: 140px !important;
+    margin-top: 0 !important;
   }
 
   .hero-layout {
