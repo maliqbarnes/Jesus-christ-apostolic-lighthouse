@@ -1540,6 +1540,13 @@ main {
   place-items: center;
   font-size: 1.2rem;
   flex-shrink: 0;
+  color: var(--gold-dark);
+}
+
+a[href^="tel"] {
+  color: var(--gold-dark) !important;
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .contact-info-card h4 {
