@@ -281,9 +281,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
       if (data.authenticated) {
         setToken(token);
+        
+        // Auto-open CMS dashboard if hash === '#admin' or sessionStorage 'jcal_cms_active' is true
+        if (window.location.hash === '#admin' || sessionStorage.getItem('jcal_cms_active') === 'true') {
+          sessionStorage.setItem('jcal_cms_active', 'true');
+          if (dashboardOverlay) dashboardOverlay.style.display = 'flex';
+          if (adminDock) adminDock.style.display = 'none';
+        }
         return true;
       } else {
         setToken(null);
+        sessionStorage.removeItem('jcal_cms_active');
         return false;
       }
     } catch (err) {
@@ -292,6 +300,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
   }
+
+  // Listen for hash changes (e.g., navigating back to index.html#admin)
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#admin') {
+      const token = getToken();
+      if (token && dashboardOverlay) {
+        sessionStorage.setItem('jcal_cms_active', 'true');
+        dashboardOverlay.style.display = 'flex';
+        if (adminDock) adminDock.style.display = 'none';
+      } else if (adminModal) {
+        adminModal.style.display = 'flex';
+      }
+    }
+  });
 
   // Fetch Public Content & Update DOM
   async function fetchSiteContent() {
@@ -744,6 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     setToken(null);
+    sessionStorage.removeItem('jcal_cms_active');
     dashboardOverlay.style.display = 'none';
     if (adminDock) adminDock.style.display = 'none';
   }
@@ -755,6 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // View Live Site Button
   if (viewLiveSiteBtn) {
     viewLiveSiteBtn.addEventListener('click', async () => {
+      sessionStorage.removeItem('jcal_cms_active');
       dashboardOverlay.style.display = 'none';
       if (adminDock) adminDock.style.display = 'flex';
       await fetchSiteContent();
@@ -765,8 +789,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Dock Open Dashboard Button
   if (dockOpenBtn) {
     dockOpenBtn.addEventListener('click', () => {
+      sessionStorage.setItem('jcal_cms_active', 'true');
       if (adminDock) adminDock.style.display = 'none';
-      dashboardOverlay.style.display = 'grid';
+      dashboardOverlay.style.display = 'flex';
     });
   }
 
