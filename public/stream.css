@@ -800,6 +800,13 @@ body.stream-body {
     padding: 4px 10px !important;
     font-size: 0.72rem !important;
   }
+
+  /* On Mobile: Video controls bar & mute toggle remain visible by default for touch access */
+  .video-controls-bar {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -811,6 +818,9 @@ body.stream-body {
     font-size: 1.25rem;
   }
   .video-controls-bar {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
     padding: 10px;
     flex-wrap: wrap;
     gap: 8px;
