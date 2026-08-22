@@ -972,20 +972,22 @@ main {
 .legacy-video-outside-box {
   position: relative;
   width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 32px;
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 35px rgba(184, 137, 22, 0.15);
   border: 2.5px solid rgba(184, 137, 22, 0.45);
-  background: #090d16;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 0;
 }
 
 .tribute-video-element {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 340px;
-  max-height: 500px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   background: #000000;
   display: block;
   border: none;
