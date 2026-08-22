@@ -268,21 +268,30 @@
     <section class="section legacy">
       <p class="eyebrow centered">Founding Legacy</p>
       <h2>Honoring Our Founder</h2>
-      <div class="legacy-card">
-        <div class="portrait large has-image">
-          <img src="images/apostle-ronnie.jpg" alt="Apostle Dr. Ronnie Ray Stewart Sr. Portrait" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" />
+
+      <div class="legacy-outer-layout">
+        <!-- Left Side Container: Card with Founder Image & Tribute Words -->
+        <div class="legacy-card">
+          <div class="portrait large has-image">
+            <img src="images/apostle-ronnie.jpg" alt="Apostle Dr. Ronnie Ray Stewart Sr. Portrait" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" />
+          </div>
+
+          <div class="legacy-text-details">
+            <h3>A Tribute to Our Chief Apostle</h3>
+            <p>In loving tribute to the life, vision, labor, and enduring spiritual legacy of Apostle Dr. Ronnie Ray Stewart Sr., whose dedicated shepherd's heart laid the foundation for Jesus Christ Apostolic Lighthouse Kingdom Ministries International.</p>
+          </div>
         </div>
 
-        <div class="legacy-text-details">
-          <h3>A Tribute to Our Chief Apostle</h3>
-          <p>In loving tribute to the life, vision, labor, and enduring spiritual legacy of Apostle Dr. Ronnie Ray Stewart Sr., whose dedicated shepherd's heart laid the foundation for Jesus Christ Apostolic Lighthouse Kingdom Ministries International.</p>
-        </div>
-
-        <div class="legacy-video-wrapper">
-          <video autoplay muted loop playsinline class="tribute-video-element">
+        <!-- Right Side: Video Box OUTSIDE of the legacy-card container -->
+        <div class="legacy-video-outside-box">
+          <video id="tribute-video-player" autoplay muted loop playsinline class="tribute-video-element">
             <source src="videos/Camellia%20House%20presents%20a%20tribute%20A%20great%20man%20of%20God.%20Apostle%20Ronnie%20R.%20Stewart,%20Sr.%20-%20Camellia%20City%20(1080p).mp4" type="video/mp4" />
             Your browser does not support HTML5 video.
           </video>
+          
+          <button id="tribute-mute-btn" class="tribute-mute-btn" aria-label="Toggle Audio Sound">
+            <span id="tribute-mute-icon">🔇</span> <span id="tribute-mute-text">Unmute Audio</span>
+          </button>
         </div>
       </div>
     </section>

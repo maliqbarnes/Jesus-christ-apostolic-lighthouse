@@ -26,6 +26,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Tribute Video Mute / Unmute Toggle Button
+  const tributeVideo = document.getElementById('tribute-video-player');
+  const tributeMuteBtn = document.getElementById('tribute-mute-btn');
+  const tributeMuteIcon = document.getElementById('tribute-mute-icon');
+  const tributeMuteText = document.getElementById('tribute-mute-text');
+
+  if (tributeMuteBtn && tributeVideo) {
+    tributeMuteBtn.onclick = () => {
+      tributeVideo.muted = !tributeVideo.muted;
+      if (tributeVideo.muted) {
+        if (tributeMuteIcon) tributeMuteIcon.textContent = '🔇';
+        if (tributeMuteText) tributeMuteText.textContent = 'Unmute Audio';
+        tributeMuteBtn.style.background = 'rgba(15, 23, 42, 0.85)';
+        tributeMuteBtn.style.color = '#fef08a';
+      } else {
+        if (tributeMuteIcon) tributeMuteIcon.textContent = '🔊';
+        if (tributeMuteText) tributeMuteText.textContent = 'Mute Audio';
+        tributeMuteBtn.style.background = 'rgba(234, 179, 8, 0.95)';
+        tributeMuteBtn.style.color = '#0f172a';
+      }
+    };
+  }
+
   // Mobile Navigation Toggle
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');

@@ -920,25 +920,34 @@ main {
   color: var(--black);
 }
 
-.legacy-card {
+.legacy-outer-layout {
   display: grid;
-  grid-template-columns: 220px 1.2fr 1.3fr;
-  gap: 36px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
   align-items: center;
-  max-width: 1280px;
+  max-width: 1340px;
   width: 95%;
   margin: 36px auto 0;
+}
+
+.legacy-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: center;
   background: #ffffff;
   border: 1.5px solid rgba(184, 137, 22, 0.28);
   border-radius: 32px;
-  padding: 36px;
+  padding: 32px;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
+  margin: 0;
+  width: 100%;
 }
 
 .legacy-card .portrait.large {
   width: 100%;
-  height: 240px;
+  height: 220px;
   border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -960,20 +969,53 @@ main {
   margin: 0;
 }
 
-.legacy-video-wrapper {
+.legacy-video-outside-box {
+  position: relative;
   width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(184, 137, 22, 0.35);
+  background: #090d16;
 }
 
 .tribute-video-element {
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 340px;
-  border-radius: 24px;
+  max-height: 380px;
   object-fit: cover;
   background: #000000;
   display: block;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
-  border: 1.5px solid rgba(184, 137, 22, 0.3);
+  border: none;
+}
+
+.tribute-mute-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fef08a;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.tribute-mute-btn:hover {
+  background: rgba(234, 179, 8, 0.95);
+  color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(234, 179, 8, 0.4);
 }
 
 .portrait {
