@@ -956,7 +956,8 @@ main {
 
 .legacy-text-details h3 {
   font-family: "Outfit", system-ui, sans-serif;
-  font-size: 1.65rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  white-space: nowrap !important;
   color: var(--black);
   margin-bottom: 12px;
 }
