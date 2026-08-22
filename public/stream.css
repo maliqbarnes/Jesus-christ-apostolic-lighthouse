@@ -737,7 +737,7 @@ body.stream-body {
   }
 
   .stream-container {
-    padding: 75px 12px 24px 12px !important;
+    padding: 108px 12px 24px 12px !important;
     margin: 0 auto !important;
   }
 
@@ -782,7 +782,7 @@ body.stream-body {
 
 @media (max-width: 640px) {
   .stream-container {
-    padding: 75px 12px 24px 12px !important;
+    padding: 108px 12px 24px 12px !important;
     margin: 0 auto !important;
   }
   .stream-info-card h1 {
