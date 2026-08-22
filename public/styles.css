@@ -2728,6 +2728,48 @@ a[href^="tel"] {
     grid-template-columns: 1fr;
   }
 
+  /* Founder Tribute Mobile Responsive Adjustments */
+  .legacy-outer-layout {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    width: 100% !important;
+    margin-top: 24px !important;
+  }
+
+  .legacy-card {
+    padding: 24px 20px !important;
+    border-radius: 24px !important;
+    gap: 16px !important;
+  }
+
+  .legacy-card .portrait.large {
+    height: 220px !important;
+    border-radius: 18px !important;
+  }
+
+  .legacy-text-details h3 {
+    font-size: 1.35rem !important;
+    white-space: normal !important;
+  }
+
+  .legacy-video-outside-box {
+    margin-top: 0 !important;
+    border-radius: 24px !important;
+    width: 100% !important;
+  }
+
+  .tribute-video-element {
+    width: 100% !important;
+    max-height: 280px !important;
+  }
+
+  .tribute-mute-btn {
+    bottom: 12px !important;
+    right: 12px !important;
+    padding: 6px 14px !important;
+    font-size: 0.78rem !important;
+  }
+
   /* Admin Dashboard Mobile */
   .dashboard-card {
     width: 95vw;
