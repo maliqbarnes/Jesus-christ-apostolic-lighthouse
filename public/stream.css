@@ -50,7 +50,7 @@ body.stream-body {
 }
 
 .stream-status-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
@@ -59,6 +59,8 @@ body.stream-body {
   font-weight: 800;
   letter-spacing: 0.05em;
   transition: all 0.3s ease;
+  white-space: nowrap !important;
+  flex-shrink: 0;
 }
 
 .stream-status-pill.live-mode {

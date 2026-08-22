@@ -2403,6 +2403,16 @@ main {
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.05em;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+}
+
+.stream-status-pill,
+.standby-mode,
+.live-mode {
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  flex-shrink: 0;
 }
 
 .preview-viewer-count {

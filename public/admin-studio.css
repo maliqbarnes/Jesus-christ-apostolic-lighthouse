@@ -42,6 +42,14 @@ body.admin-studio-body {
   flex-wrap: wrap;
 }
 
+.admin-studio-body .stream-status-pill {
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .studio-grid-layout {
   max-width: 1440px;
   margin: 24px auto;
