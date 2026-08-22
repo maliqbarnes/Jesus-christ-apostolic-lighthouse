@@ -265,7 +265,7 @@ app.put('/api/admin/password', requireAuth, (req, res) => {
 let streamState = {
   isLive: false,
   title: "Sunday Anointing & Prophetic Praise Service",
-  speaker: "Apostle Dr. Ronnie Ray Stewart Sr.",
+  speaker: "Apostle Joyce B. Stewart",
   streamType: "webrtc", // 'webrtc' | 'embed' | 'youtube' | 'facebook' | 'zoom'
   embedUrl: "",
   viewerCount: 0,
