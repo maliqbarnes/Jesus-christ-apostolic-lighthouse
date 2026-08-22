@@ -2681,7 +2681,8 @@ a[href^="tel"] {
   .brand-text small {
     display: block !important;
     font-size: 0.64rem;
-    color: var(--muted);
+    color: var(--gold-dark) !important;
+    font-weight: 700 !important;
     line-height: 1.15;
   }
 

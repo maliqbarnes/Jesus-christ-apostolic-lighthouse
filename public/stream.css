@@ -715,7 +715,8 @@ body.stream-body {
   .stream-header .brand-text small {
     display: block !important;
     font-size: 0.58rem !important;
-    color: var(--muted) !important;
+    color: var(--gold-dark) !important;
+    font-weight: 700 !important;
     line-height: 1.15 !important;
     margin-top: 1px !important;
   }
