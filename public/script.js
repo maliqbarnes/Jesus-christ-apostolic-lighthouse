@@ -656,8 +656,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const slides = siteContent.carousel.slides;
       if (slideCountEl) slideCountEl.textContent = slides.length;
       if (slides.length > 0) {
-        slidesGrid.innerHTML = slides.map(s => `
-          <div class="admin-slide-card" data-id="${s.id}">
+        slidesGrid.innerHTML = slides.map((s, index) => `
+          <div class="admin-slide-card" data-id="${s.id}" data-index="${index}" draggable="true">
+            <div class="admin-slide-order-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span class="order-badge" style="font-size: 0.76rem; font-weight: 800; color: var(--gold-dark); background: rgba(184, 137, 22, 0.12); padding: 3px 10px; border-radius: 999px;">#${index + 1} Position</span>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn secondary sm move-up-btn" data-id="${s.id}" title="Move Photo Left/Earlier" ${index === 0 ? 'disabled style="opacity:0.35; cursor:not-allowed;"' : ''}>⬅</button>
+                <button class="btn secondary sm move-down-btn" data-id="${s.id}" title="Move Photo Right/Later" ${index === slides.length - 1 ? 'disabled style="opacity:0.35; cursor:not-allowed;"' : ''}>➡</button>
+              </div>
+            </div>
             <img src="${s.image}" class="admin-slide-thumb" alt="${s.title}" />
             <div class="form-group sm">
               <label>Category Tag</label>
@@ -680,12 +687,54 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         `).join('');
 
+        slidesGrid.querySelectorAll('.move-up-btn').forEach(btn => {
+          btn.addEventListener('click', () => moveCarouselSlide(btn.dataset.id, 'up'));
+        });
+
+        slidesGrid.querySelectorAll('.move-down-btn').forEach(btn => {
+          btn.addEventListener('click', () => moveCarouselSlide(btn.dataset.id, 'down'));
+        });
+
         slidesGrid.querySelectorAll('.save-slide-btn').forEach(btn => {
           btn.addEventListener('click', () => saveCarouselSlideEdit(btn.dataset.id));
         });
 
         slidesGrid.querySelectorAll('.del-slide-btn').forEach(btn => {
           btn.addEventListener('click', () => deleteCarouselSlide(btn.dataset.id));
+        });
+
+        // HTML5 Drag and Drop Reordering Handlers
+        let draggedCard = null;
+        slidesGrid.querySelectorAll('.admin-slide-card').forEach(card => {
+          card.addEventListener('dragstart', (e) => {
+            draggedCard = card;
+            e.dataTransfer.effectAllowed = 'move';
+            card.classList.add('dragging');
+          });
+
+          card.addEventListener('dragend', () => {
+            draggedCard = null;
+            card.classList.remove('dragging');
+          });
+
+          card.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+          });
+
+          card.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            if (!draggedCard || draggedCard === card) return;
+            const fromIndex = parseInt(draggedCard.dataset.index, 10);
+            const toIndex = parseInt(card.dataset.index, 10);
+
+            const newSlides = [...siteContent.carousel.slides];
+            const [movedItem] = newSlides.splice(fromIndex, 1);
+            newSlides.splice(toIndex, 0, movedItem);
+
+            const updatedCarousel = { ...(siteContent.carousel || {}), slides: newSlides };
+            await saveContentToServer({ ...siteContent, carousel: updatedCarousel }, 'Photo order updated via drag & drop!');
+          });
         });
       } else {
         slidesGrid.innerHTML = '<p style="color: var(--muted);">No photos in carousel. Click "Upload New Photo" above to add one.</p>';
@@ -1046,6 +1095,23 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       await saveContentToServer({ ...siteContent, giving }, 'Giving options updated successfully!');
     });
+  }
+
+  // Move Carousel Slide Up / Down (Reordering)
+  async function moveCarouselSlide(slideId, direction) {
+    const slides = [...(siteContent.carousel.slides || [])];
+    const index = slides.findIndex(s => s.id === slideId);
+    if (index === -1) return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= slides.length) return;
+
+    const temp = slides[index];
+    slides[index] = slides[targetIndex];
+    slides[targetIndex] = temp;
+
+    const updatedCarousel = { ...(siteContent.carousel || {}), slides };
+    await saveContentToServer({ ...siteContent, carousel: updatedCarousel }, 'Photo order updated!');
   }
 
   // Delete Carousel Slide

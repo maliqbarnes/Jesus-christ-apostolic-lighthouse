@@ -1273,6 +1273,18 @@ main {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  cursor: grab;
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-slide-card:active {
+  cursor: grabbing;
+}
+
+.admin-slide-card.dragging {
+  opacity: 0.4;
+  border: 2px dashed var(--gold);
+  transform: scale(0.96);
 }
 
 .admin-slide-thumb {
