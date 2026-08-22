@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Live Worship Broadcast • JCAL Kingdom Ministries</title>
+  <meta name="description" content="Join the live Sunday worship service, anointed praise, and prayer streaming live from Jesus Christ Apostolic Lighthouse Kingdom Ministries International." />
+
+  <!-- Google Fonts & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="stream.css" />
+</head>
+<body class="stream-body">
+
+  <!-- Header Navigation -->
+  <header class="site-header stream-header">
+    <nav class="nav-shell">
+      <a class="brand" href="index.html" aria-label="JCAL Home">
+        <div class="logo-mark" aria-hidden="true">
+          <img src="images/logo.png" alt="JCAL Logo" />
+        </div>
+        <span class="brand-text">
+          <strong>JCAL LIVE</strong>
+          <small>Worship Broadcast</small>
+        </span>
+      </a>
+
+      <div class="stream-status-pill standby-mode" id="global-status-pill">
+        <span id="global-status-text">⏳ SERVICE STANDBY • NEXT SERVICE SUNDAY AT 11:00 AM CST</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html">Main Website</a>
+        <a href="index.html#giving" class="nav-cta">Give Tithes</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN LIVE STREAM THEATRE CONTAINER -->
+  <main class="stream-container">
+    
+    <!-- LEFT / CENTER: VIDEO PLAYER THEATRE -->
+    <section class="video-theatre-section">
+      <div class="video-viewport-wrapper glass-panel">
+        
+        <!-- FLOATING PRAISE EMOJIS OVERLAY -->
+        <div id="floating-emojis" class="floating-emojis-container"></div>
+
+        <!-- CAMERA LIVE STREAM BROADCAST FEED -->
+        <img id="live-camera-img" class="video-element" style="display: none; width: 100%; height: 100%; object-fit: cover;" alt="JCAL Live Broadcast Feed" />
+        <video id="live-video" class="video-element" autoplay playsinline muted style="display: none;"></video>
+
+        <!-- EMBEDDED IFRAME PLAYER -->
+        <iframe id="live-iframe" class="iframe-element" style="display: none;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+
+        <!-- STANDBY / OFFLINE SCREEN -->
+        <div id="standby-screen" class="standby-screen">
+          <div class="standby-content">
+            <div class="standby-emblem">
+              <img src="images/logo.png" alt="JCAL Emblem" />
+            </div>
+            <h2>JCAL Sunday Live Worship Standby</h2>
+            <p id="standby-message">The broadcast studio is currently in standby mode. Next live worship service begins Sunday at 11:00 AM CST. Live stream and praise chat will activate automatically when the service starts!</p>
+            <div class="standby-actions">
+              <a href="index.html#contact" class="btn primary sm">Submit Prayer Request ✉</a>
+              <a href="index.html#giving" class="btn secondary sm">Support Ministry 💛</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIDEO CONTROLS BAR OVERLAY -->
+        <div class="video-controls-bar" id="public-video-controls" style="display: none;">
+          <div class="ctrl-group">
+            <button id="ctrl-mute-btn" class="ctrl-btn" title="Toggle Mute / Unmute Audio">🔊 Sound On</button>
+            <button id="ctrl-filter-btn" class="ctrl-btn" title="Toggle Video Filter">✨ Filter: Warm</button>
+          </div>
+          <div class="ctrl-group">
+            <span class="viewer-count-pill" id="viewer-count-pill">👥 0 Viewers</span>
+            <button id="ctrl-fullscreen-btn" class="ctrl-btn" title="Full Screen Mode">⛶ Fullscreen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STREAM METADATA HEADER -->
+      <div class="stream-info-card glass-panel">
+        <div class="stream-meta-header">
+          <div>
+            <span class="stream-tag" id="stream-tag-pill">SUNDAY WORSHIP SERVICE</span>
+            <h1 id="stream-sermon-title">Sunday Anointing & Prophetic Praise Service</h1>
+            <p id="stream-sermon-speaker" class="stream-speaker">Ministering: Apostle Dr. Ronnie Ray Stewart Sr.</p>
+          </div>
+          <div class="stream-share-actions">
+            <a href="index.html#giving" class="btn primary sm">Give Tithes & Offering</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: INTERACTIVE EPHEMERAL LIVE CHAT PANEL (ONLY VISIBLE WHEN LIVE) -->
+    <aside id="stream-chat-section" class="stream-chat-section glass-panel" style="display: none;">
+      <div class="chat-header">
+        <div>
+          <h3>Live Fellowship & Prayer 💬</h3>
+          <small>Real-time community prayer</small>
+        </div>
+        <span id="chat-count-badge" class="chat-count-badge">0 Messages</span>
+      </div>
+
+      <!-- PRAISE QUICK REACTION EMOJIS BAR -->
+      <div class="praise-reaction-bar">
+        <button class="praise-btn" data-reaction="🙌" title="Amen">🙌 Amen</button>
+        <button class="praise-btn" data-reaction="❤️" title="Hallelujah">❤️ Hallelujah</button>
+        <button class="praise-btn" data-reaction="🙏" title="Praise God">🙏 Praise God</button>
+        <button class="praise-btn" data-reaction="🔥" title="Glory">🔥 Glory</button>
+      </div>
+
+      <!-- MESSAGES FEED LIST -->
+      <div id="chat-messages-feed" class="chat-messages-feed">
+        <!-- Messages rendered dynamically -->
+      </div>
+
+      <!-- LIVE CHAT INPUT FORM -->
+      <form id="live-chat-form" class="chat-input-form">
+        <div class="form-row-sm">
+          <input type="text" id="chat-author-input" placeholder="Your Name" required class="chat-name-field" />
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-message-input" placeholder="Share a prayer or message..." required class="chat-text-field" />
+          <button type="submit" class="btn primary sm chat-send-btn">Send ✉</button>
+        </div>
+      </form>
+    </aside>
+
+  </main>
+
+  <script src="stream.js"></script>
+</body>
+</html>
