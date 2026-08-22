@@ -2560,13 +2560,22 @@ main {
     padding: 6px 12px;
   }
 
+  .brand-text strong {
+    font-size: 0.82rem;
+    line-height: 1.1;
+    display: block;
+  }
+
   .brand-text small {
-    display: none;
+    display: block !important;
+    font-size: 0.64rem;
+    color: var(--muted);
+    line-height: 1.15;
   }
 
   .nav-links {
     position: fixed;
-    top: 70px;
+    top: 75px;
     left: 12px;
     right: 12px;
     background: rgba(255, 255, 255, 0.98);
@@ -2596,7 +2605,12 @@ main {
     display: inline-flex !important;
   }
 
-  /* Hero Section Mobile */
+  /* Hero & Main Sections Mobile (Prevent Navbar Overlap) */
+  #hero,
+  .hero-section {
+    padding-top: clamp(100px, 15vw, 130px) !important;
+  }
+
   .hero-layout {
     grid-template-columns: 1fr;
     gap: 20px;
