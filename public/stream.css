@@ -332,7 +332,7 @@ body.stream-body {
   100% { transform: translateY(-340px) scale(1.4); opacity: 0; }
 }
 
-/* VIDEO CONTROLS OVERLAY & BUTTONS (ONLY APPEARS ON HOVER / TOUCH) */
+/* VIDEO CONTROLS OVERLAY & BUTTONS (DESKTOP: HOVER ONLY) */
 .video-controls-bar {
   position: absolute;
   bottom: 0;
@@ -352,13 +352,19 @@ body.stream-body {
   gap: 12px;
 }
 
-.video-viewport-wrapper:hover .video-controls-bar,
-.video-viewport-wrapper:focus-within .video-controls-bar,
-.video-controls-bar:hover,
-.video-controls-bar:focus-within {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: translateY(0) !important;
+@media (min-width: 769px) {
+  .video-controls-bar {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(6px) !important;
+  }
+
+  .video-viewport-wrapper:hover .video-controls-bar,
+  .video-controls-bar:hover {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
 }
 
 .ctrl-group {
