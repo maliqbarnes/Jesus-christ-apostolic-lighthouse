@@ -922,23 +922,22 @@ main {
 
 .legacy-outer-layout {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: clamp(36px, 5vw, 64px);
-  align-items: center;
-  max-width: 1440px;
-  width: 96%;
-  margin: 40px auto 0;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(32px, 4vw, 54px);
+  align-items: flex-start;
+  max-width: 1380px;
+  width: 95%;
+  margin: 44px auto 0;
 }
 
 .legacy-card {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 28px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   background: #ffffff;
   border: 1.5px solid rgba(184, 137, 22, 0.28);
   border-radius: 32px;
-  padding: 36px 32px;
+  padding: 36px;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   margin: 0;
@@ -947,25 +946,25 @@ main {
 
 .legacy-card .portrait.large {
   width: 100%;
-  height: 240px;
+  height: 280px;
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(184, 137, 22, 0.3);
   margin-bottom: 0;
 }
 
 .legacy-text-details h3 {
   font-family: "Outfit", system-ui, sans-serif;
-  font-size: 1.55rem;
+  font-size: 1.65rem;
   color: var(--black);
   margin-bottom: 12px;
 }
 
 .legacy-text-details p {
   color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 1.02rem;
+  line-height: 1.65;
   margin: 0;
 }
 
@@ -974,16 +973,17 @@ main {
   width: 100%;
   border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22), 0 0 35px rgba(184, 137, 22, 0.15);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 35px rgba(184, 137, 22, 0.15);
   border: 2.5px solid rgba(184, 137, 22, 0.45);
   background: #090d16;
+  margin-top: 48px; /* Creates diagonal staggered positioning relative to top-left card */
 }
 
 .tribute-video-element {
   width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: 320px;
-  max-height: 480px;
+  min-height: 340px;
+  max-height: 500px;
   object-fit: cover;
   background: #000000;
   display: block;
