@@ -809,19 +809,21 @@
         </div>
       </div>
 
-      <!-- Dashboard Navigation Tabs -->
-      <div class="dashboard-tabs">
-        <button class="dash-tab active" data-tab="tab-broadcast">📹 Live Broadcast Studio</button>
-        <button class="dash-tab" data-tab="tab-events">Events</button>
-        <button class="dash-tab" data-tab="tab-messages">📬 Inbox & Prayer Requests <span id="msg-badge-tab" class="dash-tab-badge" style="display:none;">0</span></button>
-        <button class="dash-tab" data-tab="tab-services">Schedules & Notices</button>
-        <button class="dash-tab" data-tab="tab-giving">Giving Info</button>
-        <button class="dash-tab" data-tab="tab-gallery">Gallery & Music</button>
-        <button class="dash-tab" data-tab="tab-settings">Account Security</button>
-      </div>
+      <!-- Dashboard Main Body Shell with Side Navigation Sidebar -->
+      <div class="dashboard-body-shell">
+        <aside class="dashboard-sidebar">
+          <div class="sidebar-section-label">Management Navigation</div>
+          <button class="dash-tab active" data-tab="tab-broadcast">📹 Broadcast Studio</button>
+          <button class="dash-tab" data-tab="tab-events">📅 Events Manager</button>
+          <button class="dash-tab" data-tab="tab-messages">📬 Inbox & Prayers <span id="msg-badge-tab" class="dash-tab-badge" style="display:none;">0</span></button>
+          <button class="dash-tab" data-tab="tab-services">⏰ Schedules & Notices</button>
+          <button class="dash-tab" data-tab="tab-giving">💳 Giving & Tithes</button>
+          <button class="dash-tab" data-tab="tab-gallery">🖼 Gallery & Audio</button>
+          <button class="dash-tab" data-tab="tab-settings">🔒 Account Security</button>
+        </aside>
 
-      <!-- Dashboard Content Panels -->
-      <div class="dashboard-content">
+        <!-- Dashboard Content Panels -->
+        <div class="dashboard-content">
         <!-- Status Notification Box -->
         <div id="dash-status-alert" class="alert-box success" style="display: none;"></div>
 
@@ -1063,6 +1065,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Floating Admin Quick Dock -->
