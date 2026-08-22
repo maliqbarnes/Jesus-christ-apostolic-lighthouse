@@ -4,21 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jesus Christ Apostolic Lighthouse Kingdom Ministries International</title>
+  <meta name="description" content="Jesus Christ Apostolic Lighthouse Kingdom Ministries International in Westwego / New Orleans, LA. A modern Apostolic lighthouse for worship, discipleship, outreach, and Kingdom purpose." />
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Navigation Header -->
   <header class="site-header" id="top">
     <nav class="nav-shell">
       <a class="brand" href="#top" aria-label="JCAL Home">
-        <span class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 64" role="img"><path d="M29 5h6l7 13v6H22v-6L29 5Z"/><path d="M20 25h24l4 34H16l4-34Z"/><path d="M27 35a5 5 0 0 1 10 0v24H27V35Z"/><path d="M12 20 3 13l9 1 7 5-7 1Zm40 0 9-7-9 1-7 5 7 1Z"/></svg>
+        <div class="logo-mark" aria-hidden="true">
+          <img src="images/logo.png" alt="Jesus Christ Apostolic Lighthouse Official Emblem" />
+        </div>
+        <span class="brand-text">
+          <strong>JCAL</strong>
+          <small>Kingdom Ministries International</small>
         </span>
-        <span><strong>JCAL</strong><small>Kingdom Ministries International</small></span>
       </a>
-      <button class="menu-toggle" aria-label="Open menu">☰</button>
+
+      <button class="menu-toggle" aria-label="Toggle navigation menu">☰</button>
+
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#beliefs">Beliefs</a>
@@ -27,162 +38,1041 @@
         <a href="#media">Media</a>
         <a href="#events">Events</a>
         <a href="#giving" class="nav-cta">Give</a>
+        <button id="admin-portal-btn" class="nav-admin-btn" title="Admin Portal Login">🔑 Portal</button>
       </div>
     </nav>
   </header>
 
+  <!-- Floating Glassmorphic Announcement Modal -->
+  <div id="announcement-modal" class="notice-modal-overlay" style="display: none;">
+    <div class="notice-modal-card glass-panel">
+      <div class="notice-badge">📢 CHURCH ANNOUNCEMENT</div>
+      <h3 class="notice-title">Special Notice from JCAL Ministries</h3>
+      <p id="notice-modal-body" class="notice-body">
+        Welcome to JCAL Ministries! All visitors are welcomed with open arms.
+      </p>
+      <div class="notice-modal-actions">
+        <button id="notice-dismiss-btn" class="btn btn-okay">Okay, Got It! 👍</button>
+      </div>
+    </div>
+  </div>
+
   <main>
+    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-bg"></div>
-      <div class="hero-content">
-        <p class="eyebrow">New Orleans Community •  Kingdom Organization</p>
-        <h1>Jesus Christ Apostolic Lighthouse Kingdom Ministries International</h1>
-        <p class="hero-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. A modern Apostolic lighthouse for worship, discipleship, outreach, young adults, families, and Kingdom purpose.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#visit">Plan Your Visit</a>
-          <a class="btn secondary" href="#media">Join Livestream</a>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-layout">
+        <div class="hero-content glass-panel">
+          <p class="eyebrow">Apostolic • Pentecostal • Kingdom Organization</p>
+          <h1>Jesus Christ Apostolic Lighthouse Kingdom Ministries International</h1>
+          <div class="gold-rule"></div>
+          <p class="hero-copy">A modern Apostolic lighthouse dedicated to passionate worship, biblical discipleship, community outreach, young adults, families, and fulfilling Kingdom purpose in the Greater New Orleans area.</p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#visit">Plan Your Visit</a>
+            <a class="btn secondary" href="#media">Join Livestream</a>
+          </div>
         </div>
-      </div>
-      <div class="hero-card">
-        <h3>Gather With Us</h3>
-        <p><strong>Sunday Worship</strong><br/>00:00 AM / PM</p>
-        <p><strong>Bible Study</strong><br/>Day • 00:00 PM</p>
-        <p><strong>Location</strong><br/>New Orleans Metropolitan Area</p>
+
+        <aside class="hero-card glass-panel" aria-label="Service Schedule & Location">
+          <h3>Gather With Us</h3>
+          <div class="mini-rule"></div>
+
+          <div class="info-item">
+            <span class="info-icon">✦</span>
+            <p><strong>Sunday Worship</strong><br/>11:00 AM Services</p>
+          </div>
+
+          <div class="info-item">
+            <span class="info-icon">◫</span>
+            <p><strong>Bible Study</strong><br/>TUESDAY • 7:00 PM</p>
+          </div>
+
+          <div class="info-item">
+            <span class="info-icon">📢</span>
+            <p><strong>Ministry Notice</strong><br/><span id="hero-announcement">Welcome to JCAL Ministries! All visitors are welcomed with open arms.</span></p>
+          </div>
+
+          <div class="info-item">
+            <span class="info-icon">⌖</span>
+            <p><strong>Location</strong><br/>1001 Victory Dr<br/>Westwego, LA 70094</p>
+          </div>
+
+          <div class="info-item">
+            <span class="info-icon">☎</span>
+            <p><strong>Contact</strong><br/>(504) 367-9557<br/>jcalministriesintl@gmail.com</p>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section id="about" class="section split">
+    <!-- Mission & Intro -->
+    <section id="about" class="section intro-section">
+      <p class="eyebrow centered">Our Mission</p>
+      <h2>A lighthouse for our city. A Kingdom for this generation.</h2>
+      <p>Jesus Christ Apostolic Lighthouse Kingdom Ministries International is a beacon of faith, love, and truth. We exist to empower individuals and families through the Word of God, fervent prayer, and community outreach.</p>
+    </section>
+
+    <section class="section split">
       <div>
         <p class="eyebrow">About the Ministry</p>
-        <h2>A lighthouse for New Orleans and a Kingdom organization for this generation.</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae nunc vel sapien pretium pharetra. Sed feugiat, augue non tempor fermentum, ligula orci bibendum justo, vitae suscipit arcu lorem sed magna.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
+        <h2>Serving New Orleans with Apostolic faith and Kingdom purpose.</h2>
+        <p>Founded on the uncompromised Word of God, JCAL Ministries strives to reach souls across Westwego, New Orleans, and beyond. We cultivate a vibrant community where spiritual growth, authentic fellowship, and servant leadership thrive.</p>
+        <p>Whether you are seeking a spiritual home, looking to deepen your relationship with God, or searching for community, there is a place for you at JCAL.</p>
       </div>
-      <div class="image-placeholder">Image / Church photo</div>
+      <div class="image-placeholder has-image">
+        <img src="images/lighthouse.png" alt="JCAL Logo Emblem" style="width: 100%; height: 100%; object-fit: cover; object-position: left center; border-radius: 24px;" />
+      </div>
     </section>
 
+    <!-- Beliefs Section -->
     <section id="beliefs" class="section gold-panel">
-      <p class="eyebrow">Apostolic Foundation</p>
+      <p class="eyebrow centered">Apostolic Doctrine</p>
       <h2>What We Believe</h2>
-      <div class="cards four">
-        <article><h3>Jesus Christ</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>New Birth</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Holy Ghost</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Kingdom Organization</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
+      <p class="section-subtitle centered">Anchored in the uncompromised Word of God and the Apostolic doctrine.</p>
+      <div class="beliefs-grid">
+        <!-- 1. ONE GOD — JESUS CHRIST -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">✝</span>
+              <h3>One God — Jesus Christ</h3>
+            </div>
+            <p>We believe in one God, revealed as Father in creation, Son in redemption, and Holy Spirit in regeneration. We believe that Jesus Christ is God manifested in the flesh, the fullness of the Godhead bodily, and the only saving name given among men.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">Deuteronomy 6:4</span>
+              <span class="scripture-tag">Isaiah 9:6</span>
+              <span class="scripture-tag">John 1:1, 14</span>
+              <span class="scripture-tag">John 10:30</span>
+              <span class="scripture-tag">Colossians 2:9</span>
+              <span class="scripture-tag">1 Timothy 3:16</span>
+              <span class="scripture-tag">Acts 4:12</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. THE NEW BIRTH -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">🕊</span>
+              <h3>The New Birth</h3>
+            </div>
+            <p>We believe the biblical response to the Gospel is repentance, water baptism by immersion in the name of Jesus Christ for the remission of sins, and receiving the gift of the Holy Ghost according to apostolic doctrine.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">John 3:3–5</span>
+              <span class="scripture-tag">Luke 24:47</span>
+              <span class="scripture-tag">Acts 2:38–39</span>
+              <span class="scripture-tag">Acts 8:12–17</span>
+              <span class="scripture-tag">Acts 10:44–48</span>
+              <span class="scripture-tag">Acts 19:1–6</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. THE HOLY GHOST -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">🔥</span>
+              <h3>The Holy Ghost</h3>
+            </div>
+            <p>We believe in the baptism of the Holy Ghost and in the continuing work of the Spirit in the Church. The Holy Ghost empowers believers for holy living, spiritual gifts, spiritual fruit, and bold witness, with speaking in other tongues as the Spirit gives utterance demonstrated in the apostolic church.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">Joel 2:28–29</span>
+              <span class="scripture-tag">Acts 1:8</span>
+              <span class="scripture-tag">Acts 2:1–4</span>
+              <span class="scripture-tag">Acts 10:44–46</span>
+              <span class="scripture-tag">Acts 19:6</span>
+              <span class="scripture-tag">1 Cor 12:4–11</span>
+              <span class="scripture-tag">Galatians 5:22–23</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. HOLINESS & CHRISTIAN LIVING -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">👑</span>
+              <h3>Holiness & Christian Living</h3>
+            </div>
+            <p>We believe God's people are called to holiness in heart and conduct. The new life in Christ should produce obedience, love, modesty, self-control, separation from sin, and continual growth into the character of Jesus Christ.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">Romans 12:1–2</span>
+              <span class="scripture-tag">1 Cor 6:19–20</span>
+              <span class="scripture-tag">2 Cor 7:1</span>
+              <span class="scripture-tag">Galatians 5:16–25</span>
+              <span class="scripture-tag">Hebrews 12:14</span>
+              <span class="scripture-tag">1 Peter 1:15–16</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. THE CHURCH & MINISTRY -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">🏛</span>
+              <h3>The Church & Ministry</h3>
+            </div>
+            <p>We believe the Church is the body of Christ, called to continue steadfastly in the apostles' doctrine, make disciples, proclaim the Gospel, serve others, demonstrate the power of the Holy Ghost, and equip believers for the work of ministry.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">Matthew 28:19–20</span>
+              <span class="scripture-tag">Mark 16:15–18</span>
+              <span class="scripture-tag">Acts 1:8</span>
+              <span class="scripture-tag">Acts 2:42</span>
+              <span class="scripture-tag">1 Cor 12:27–28</span>
+              <span class="scripture-tag">Ephesians 4:11–13</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. THE SECOND COMING & ETERNITY -->
+        <article class="belief-card">
+          <div>
+            <div class="belief-header">
+              <span class="belief-icon">☁</span>
+              <h3>The Second Coming & Eternity</h3>
+            </div>
+            <p>We believe Jesus Christ will return for His Church. We believe in the resurrection of the dead, final judgment, eternal life for the redeemed, and the fulfillment of God's eternal Kingdom.</p>
+          </div>
+          <div class="scriptures-box">
+            <span class="scriptures-label">Scripture Proof:</span>
+            <div class="scripture-tags">
+              <span class="scripture-tag">John 14:1–3</span>
+              <span class="scripture-tag">Acts 1:9–11</span>
+              <span class="scripture-tag">1 Cor 15:51–52</span>
+              <span class="scripture-tag">1 Thess 4:16–17</span>
+              <span class="scripture-tag">Revelation 20:11–15</span>
+              <span class="scripture-tag">Revelation 21:1–4</span>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
+    <!-- Founding Legacy Section -->
+    <section class="section legacy">
+      <p class="eyebrow centered">Founding Legacy</p>
+      <h2>Honoring Our Founder</h2>
+      <div class="legacy-card">
+        <div class="portrait large has-image">
+          <img src="images/apostle-ronnie.jpg" alt="Founder Legacy" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" />
+        </div>
+        <div>
+          <h3>Apostle Dr. Ronnie Ray Stewart Sr.</h3>
+          <p>In loving tribute to the life, vision, labor, and enduring spiritual legacy of Apostle Dr. Ronnie Ray Stewart Sr., whose dedicated shepherd's heart laid the foundation for Jesus Christ Apostolic Lighthouse Kingdom Ministries International.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leadership Section -->
     <section id="leadership" class="section">
-      <p class="eyebrow">Leadership</p>
+      <p class="eyebrow centered">Leadership</p>
       <h2>Servant Leadership</h2>
       <div class="leadership-grid">
-        <article class="leader featured"><div class="portrait">Photo</div><h3>Apostle Joyce B. Stewart</h3><p>Overseer & Under Shepherd</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Pastor Ronnie Stewart Sr.</h3><p>Pastor</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Pastor Christina Stewart</h3><p>Pastor</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Pastor Scherod Stewart</h3><p>Pastor</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Pastor Lisa Stewart</h3><p>Pastor</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Prophet Tokoebe Myers</h3><p>Prophet</p></article>
-        <article class="leader"><div class="portrait">Photo</div><h3>Prophetess Tashawn Myers</h3><p>Prophetess</p></article>
+        <article class="leader featured">
+          <div class="portrait has-image">
+            <img src="images/logo.png" alt="Apostle Joyce B. Stewart" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" />
+          </div>
+          <h3>Apostle Joyce B. Stewart</h3>
+          <p>Overseer & Under Shepherd</p>
+        </article>
+
+        <article class="leader">
+          <div class="portrait">Leader Photo</div>
+          <h3>Pastor Ronnie Stewart Jr.</h3>
+          <p>Pastor</p>
+        </article>
+
+        <article class="leader">
+          <div class="portrait">Leader Photo</div>
+          <h3>Pastor Christina Stewart</h3>
+          <p>Pastor</p>
+        </article>
+
+        <article class="leader">
+          <div class="portrait">Leader Photo</div>
+          <h3>Pastor Scherod Stewart</h3>
+          <p>Pastor</p>
+        </article>
+
+        <article class="leader">
+          <div class="portrait">Leader Photo</div>
+          <h3>Pastor Lisa Stewart</h3>
+          <p>Pastor</p>
+        </article>
+
       </div>
     </section>
 
+    <!-- Ministries Section -->
     <section id="ministries" class="section soft">
-      <p class="eyebrow">Get Connected</p>
+      <p class="eyebrow centered">Get Connected</p>
       <h2>Ministries</h2>
-      <div class="cards three">
-        <article><h3>Prayer Ministry</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Youth & Young Adults</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>New Orleans Outreach</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Women’s Ministry</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Men’s Ministry</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Music & Worship</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
-        <article><h3>Outreach</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></article>
+      <div class="cards three ministries-grid">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">🙏</span>
+              <h3>Prayer Ministry</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Prayer Ministry</h3>
+              <p>Dedicated intercession and weekly prayer gatherings lifting up our church, community, and nations.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">🔥</span>
+              <h3>Youth & Young Adults</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Youth & Young Adults</h3>
+              <p>Fostering the next generation of Kingdom leaders through fellowship, mentorship, and scripture study.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">🤝</span>
+              <h3>New Orleans Outreach</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>New Orleans Outreach</h3>
+              <p>Demonstrating God's love through practical community service, food distribution, and neighborhood engagement.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">👑</span>
+              <h3>Women's Ministry</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Women's Ministry</h3>
+              <p>Empowering women of faith through spiritual growth, supportive fellowship, and annual conferences.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">⚔️</span>
+              <h3>Men's Ministry</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Men's Ministry</h3>
+              <p>Building strong brothers, husbands, and fathers rooted in biblical integrity and accountability.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <span class="flip-card-icon">🎶</span>
+              <h3>Music & Worship</h3>
+              <p class="flip-hint">Hover to explore ↺</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Music & Worship</h3>
+              <p>Leading the congregation into powerful experiences of God's presence through anointed song and praise.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
+    <!-- Photo Gallery Carousel -->
     <section class="section carousel-section">
-      <p class="eyebrow">Moments at JCAL</p>
-      <h2>Photo Gallery</h2>
-      <div class="carousel" aria-label="Image carousel">
+      <p class="eyebrow centered">Moments at JCAL</p>
+      <h2>Church Family & Ministry Gallery</h2>
+      <p class="section-subtitle centered" style="margin-bottom: 24px;">Celebrating fellowship, Sunday worship, community outreach, and our annual Vacation Bible School.</p>
+      
+      <div class="carousel" aria-label="Church Family & Ministry Photo Carousel">
+        <!-- Floating Audio Mute / Unmute Button -->
+        <button id="carousel-audio-btn" class="audio-toggle-btn" aria-label="Toggle Audio">
+          <span class="audio-icon">🔈</span>
+          <span class="audio-text">Sound: Off</span>
+        </button>
+        <audio id="carousel-audio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=worship-ambient-112197.mp3"></audio>
+
         <button class="car-btn prev" aria-label="Previous image">‹</button>
         <div class="carousel-track">
-          <div class="slide active">Image Placeholder 1</div>
-          <div class="slide">Image Placeholder 2</div>
-          <div class="slide">Image Placeholder 3</div>
+          <!-- General Ministry Moments -->
+          <div class="slide active">
+            <div class="slide-bg" style="background-image: url('images/logo.png');"></div>
+            <img class="slide-img" src="images/logo.png" alt="Anointed Worship & Praise" />
+            <div class="slide-caption"><span class="slide-badge">Sunday Service</span> Anointed Praise & Worship Gathering</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/logo.png');"></div>
+            <img class="slide-img" src="images/logo.png" alt="Community Outreach" />
+            <div class="slide-caption"><span class="slide-badge">Outreach</span> Community Service & Fellowship in Westwego</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/logo.png');"></div>
+            <img class="slide-img" src="images/logo.png" alt="Youth Gathering" />
+            <div class="slide-caption"><span class="slide-badge">Youth Ministry</span> Next Generation Kingdom Leaders</div>
+          </div>
+
+          <!-- Vacation Bible School Highlights -->
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs1.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs1.jpg" alt="Vacation Bible School 1" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Bible Adventure & Praise</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs2.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs2.jpg" alt="Vacation Bible School 2" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Fellowship & Learning</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs3.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs3.jpg" alt="Vacation Bible School 3" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Youth Activity & Bible Lesson</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs4.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs4.jpg" alt="Vacation Bible School 4" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Group Celebration</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs5.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs5.jpg" alt="Vacation Bible School 5" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Praise & Joy</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs6.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs6.jpg" alt="Vacation Bible School 6" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Creative Bible Study</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs7.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs7.jpg" alt="Vacation Bible School 7" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Outdoor Games & Teamwork</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs8.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs8.jpg" alt="Vacation Bible School 8" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Community Gathering</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs9.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs9.jpg" alt="Vacation Bible School 9" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Songs & Worship</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs10.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs10.jpg" alt="Vacation Bible School 10" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Crafts & Mentorship</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs11.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs11.jpg" alt="Vacation Bible School 11" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Ministry Family</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs12.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs12.jpg" alt="Vacation Bible School 12" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Joyful Worship Moment</div>
+          </div>
+          <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/vacation-bible-school/vbs13.jpg');"></div>
+            <img class="slide-img" src="images/vacation-bible-school/vbs13.jpg" alt="Vacation Bible School 13" />
+            <div class="slide-caption"><span class="slide-badge">Vacation Bible School</span> VBS Closing Celebration</div>
+          </div>
         </div>
         <button class="car-btn next" aria-label="Next image">›</button>
       </div>
     </section>
 
-    <section id="media" class="section split reverse">
-      <div class="image-placeholder dark">Livestream / Sermon Embed</div>
-      <div>
-        <p class="eyebrow">Media</p>
-        <h2>Watch sermons, services, and Bible studies.</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Services are streamed live through Zoom and Facebook Live. Add the official Zoom meeting link, Facebook page, and sermon archive here.</p>
-        <div class="media-actions">
-          <a class="btn primary" href="#">Join Zoom Live</a>
-          <a class="btn secondary" href="#">Watch on Facebook</a>
+    <!-- Media Section (Warm Royal Centered Card) -->
+    <section id="media" class="section media-centered-card">
+      <div class="media-header centered">
+        <span id="media-live-badge" class="live-badge-light" style="display: none;">🔴 LIVE SERVICE IN PROGRESS</span>
+        <p class="eyebrow centered" style="margin-top: 14px;">Media & Livestream</p>
+        <h2>Watch services, sermons, and Bible studies online.</h2>
+        <p class="section-subtitle centered">We stream our regular Sunday Worship and mid-week Bible studies live on Zoom and Facebook. Connect with us virtually and be blessed by the uncompromised Word of God.</p>
+      </div>
+
+      <!-- LIVE BROADCAST PREVIEW CONTAINER (Replaces default card ONLY when Admin is Live) -->
+      <div id="homepage-live-preview" class="homepage-live-preview-box" style="display: none;">
+        <div class="live-preview-badge-bar">
+          <span class="live-badge-pulsing">🔴 LIVE BROADCAST IN PROGRESS</span>
+          <span id="preview-viewer-count" class="preview-viewer-count">👥 0 Watching</span>
+        </div>
+        <div class="live-preview-video-container">
+          <img id="preview-camera-img" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.65; display: none;" alt="Live Broadcast Feed" />
+          <img src="images/logo.png" class="preview-emblem-watermark" alt="JCAL Watermark" />
+          <div class="preview-video-details">
+            <span class="preview-tag">NOW STREAMING LIVE</span>
+            <h3 id="preview-sermon-title">Sunday Anointing & Prophetic Praise Service</h3>
+            <p id="preview-sermon-speaker">Ministering: Apostle Dr. Ronnie Ray Stewart Sr.</p>
+            <a href="stream.html" class="btn primary sm watch-now-pulse-btn">▶ JOIN LIVE BROADCAST THEATRE</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEFAULT OFFLINE MEDIA CARD (Shown when stream is offline) -->
+      <div id="media-default-card" class="media-content-centered">
+        <div class="media-emblem-wrapper">
+          <img src="images/logo.png" alt="JCAL Live Broadcast Emblem" class="media-emblem-lg" />
+        </div>
+        <div class="media-broadcast-info">
+          <h3>JCAL Kingdom Live Broadcast</h3>
+          <p>Stream Sunday Worship (11:00 AM) & Wednesday Bible Study (7:00 PM) remotely from anywhere.</p>
+          <div class="media-actions-centered">
+            <a class="btn primary" href="stream.html">Open Live Worship Theatre 🎥</a>
+            <a class="btn secondary" href="#" onclick="alert('Zoom Access Credentials:\nMeeting ID & Password available via Ministry Admin. Use the Contact form below to request access.'); return false;">Join Zoom Live 🎥</a>
+            <a class="btn secondary" href="https://www.facebook.com/JCALMINISTRIES/" target="_blank" rel="noopener noreferrer">Watch on Facebook ↗</a>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- Events Section -->
     <section id="events" class="section soft">
-      <p class="eyebrow">What’s Happening</p>
+      <p class="eyebrow centered">What's Happening</p>
       <h2>Upcoming Events</h2>
       <div class="event-list">
-        <article><span>JAN 01</span><div><h3>Kingdom Worship Service</h3><p>Lorem ipsum dolor sit amet • 00:00 PM</p></div></article>
-        <article><span>JAN 08</span><div><h3>Bible Study Night</h3><p>Lorem ipsum dolor sit amet • 00:00 PM</p></div></article>
-        <article><span>JAN 15</span><div><h3>Community Outreach</h3><p>Lorem ipsum dolor sit amet • 00:00 PM</p></div></article>
+        <article>
+          <span>SUN</span>
+          <div>
+            <h3>Sunday Worship & Word</h3>
+            <p>Join us in person or online for praise, worship, and an empowering word • 10:00 AM</p>
+          </div>
+        </article>
+        <article>
+          <span>WED</span>
+          <div>
+            <h3>Mid-Week Bible Study</h3>
+            <p>Interactive scripture breakdown and prayer session • 7:00 PM</p>
+          </div>
+        </article>
+        <article>
+          <span>SAT</span>
+          <div>
+            <h3>Community Outreach & Fellowship</h3>
+            <p>Serving the Westwego and Greater New Orleans community • 11:00 AM</p>
+          </div>
+        </article>
       </div>
     </section>
 
+    <!-- Giving Section with Links and QR Codes -->
     <section id="giving" class="section giving">
-      <p class="eyebrow">Tithes & Offering</p>
-      <h2>Partner with the vision.</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Online giving is not yet active. Use this section to add official Givelify, Cash App, Zelle, PayPal, mailing address, or QR code links once approved by leadership.</p>
-      <div class="giving-options">
-        <a class="give-card" href="#">Givelify<br><small>Pending setup</small></a>
-        <a class="give-card" href="#">Cash App<br><small>$PendingApproval</small></a>
-        <a class="give-card" href="#">Zelle / PayPal<br><small>Pending setup</small></a>
-        <div class="qr-placeholder">Official QR Code</div>
+      <p class="eyebrow centered">Tithes & Offering</p>
+      <h2>Partner With The Vision</h2>
+      <p class="section-subtitle centered" style="color: rgba(255,255,255,0.85); margin-bottom: 36px;">Thank you for supporting the ministry, outreach programs, and mission of JCAL. Your faithful giving transforms lives across our community.</p>
+
+      <div class="giving-cards-grid">
+        <!-- Givelify -->
+        <article class="giving-card-item">
+          <div class="give-card-header">
+            <span class="give-badge givelify-badge">GIVELIFY</span>
+            <h3>Givelify</h3>
+            <p>Search <strong>"JCAL Ministries"</strong> in the app</p>
+          </div>
+          <div class="qr-container">
+            <img src="images/qr-givelify.svg" alt="Scan to Give via Givelify" class="qr-img" />
+            <span class="qr-caption">📷 Scan QR Code to Give</span>
+          </div>
+          <a href="https://www.givelify.com" target="_blank" rel="noopener noreferrer" class="btn primary full-width">Give on Givelify ↗</a>
+        </article>
+
+        <!-- Cash App -->
+        <article class="giving-card-item">
+          <div class="give-card-header">
+            <span class="give-badge cashapp-badge">CASH APP</span>
+            <h3>Cash App</h3>
+            <p>Cashtag: <strong class="gold-text cashapp-handle">$JoyInv</strong></p>
+          </div>
+          <div class="qr-container">
+            <img src="images/qr-cashapp.svg" alt="Scan to Give via Cash App" class="qr-img" />
+            <span class="qr-caption">📷 Scan QR Code to Give</span>
+          </div>
+          <a href="https://cash.app/$JoyInv" target="_blank" rel="noopener noreferrer" class="btn primary full-width cashapp-btn">Open Cash App ↗</a>
+        </article>
+
+        <!-- Zelle / PayPal -->
+        <article class="giving-card-item">
+          <div class="give-card-header">
+            <span class="give-badge zelle-badge">ZELLE / PAYPAL</span>
+            <h3>Zelle & PayPal</h3>
+            <p>Send to: <strong class="gold-text">jcalministriesintl@gmail.com</strong></p>
+          </div>
+          <div class="qr-container">
+            <img src="images/qr-zelle.svg" alt="Scan for Zelle / PayPal" class="qr-img" />
+            <span class="qr-caption">📷 Scan QR Code for Zelle</span>
+          </div>
+          <a href="mailto:jcalministriesintl@gmail.com?subject=Zelle%20/%20PayPal%20Giving%20Inquiry" class="btn primary full-width">Zelle / PayPal Info ✉</a>
+        </article>
       </div>
     </section>
 
-    <section class="section strategy-note">
-      <p class="eyebrow">Public View</p>
-      <h2>Built for the New Orleans community.</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This area can highlight outreach, community partnerships, college-age discipleship, young adult fellowship, and ways new visitors can connect with the ministry.</p>
+    <!-- Redesigned Contact & Connect Section -->
+    <section id="contact" class="section contact-section">
+      <p class="eyebrow centered">Get In Touch</p>
+      <h2>Contact & Connect With JCAL</h2>
+      <p class="section-subtitle centered">Whether you have a question, need prayer, or want to visit us in Westwego, we are here for you.</p>
+
+      <div class="contact-grid">
+        <!-- Side 1: Interactive Contact & Prayer Form -->
+        <div class="contact-form-box">
+          <h3>Send Us a Message or Prayer Request</h3>
+          <form id="public-contact-form">
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="contact-name">Full Name</label>
+                <input type="text" id="contact-name" placeholder="Your Name" required />
+              </div>
+              <div class="form-group col">
+                <label for="contact-email">Email Address</label>
+                <input type="email" id="contact-email" placeholder="name@example.com" required />
+              </div>
+            </div>
+            <div class="form-row" style="margin-top: 14px;">
+              <div class="form-group col">
+                <label for="contact-phone">Phone Number (Optional)</label>
+                <input type="tel" id="contact-phone" placeholder="(504) 000-0000" />
+              </div>
+              <div class="form-group col">
+                <label for="contact-subject">Subject</label>
+                <select id="contact-subject" required style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);">
+                  <option value="General Inquiry">General Inquiry</option>
+                  <option value="Prayer Request">Prayer Request</option>
+                  <option value="Visiting JCAL">Planning a Visit</option>
+                  <option value="Pastoral Care">Pastoral Care</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top: 14px;">
+              <label for="contact-message">Your Message / Prayer Request</label>
+              <textarea id="contact-message" rows="4" placeholder="How can we pray for you or assist you?" required style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line); resize: vertical;"></textarea>
+            </div>
+            <div id="contact-alert" class="alert-box success" style="display: none; margin-top: 12px; padding: 12px; border-radius: 10px; background: rgba(34, 197, 94, 0.15); color: #15803d; font-weight: 600;"></div>
+            <button type="submit" class="btn primary full-width" style="margin-top: 16px;">Send Message ✉</button>
+          </form>
+        </div>
+
+        <!-- Side 2: Location, Contact Details & Service Times -->
+        <div class="contact-info-box">
+          <div class="contact-info-card">
+            <span class="contact-icon">📍</span>
+            <div>
+              <h4>Location & Worship Center</h4>
+              <p>1001 Victory Dr, Westwego, LA 70094</p>
+              <a href="https://www.google.com/maps?q=1001+Victory+Dr+Westwego+LA+70094" target="_blank" rel="noopener noreferrer" class="link-btn">Open in Google Maps ↗</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <span class="contact-icon">📞</span>
+            <div>
+              <h4>Phone & Telecommunications</h4>
+              <p>(504) 367-9557</p>
+              <a href="tel:5043679557" class="link-btn">Call Ministry Now 📞</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <span class="contact-icon">✉️</span>
+            <div>
+              <h4>Email Communications</h4>
+              <p>jcalministriesintl@gmail.com</p>
+              <a href="mailto:jcalministriesintl@gmail.com" class="link-btn">Send Email ✉</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card service-times-card">
+            <span class="contact-icon">🕒</span>
+            <div>
+              <h4>Service Times & Gatherings</h4>
+              <p><strong>Sunday Worship:</strong> 11:00 AM</p>
+              <p><strong>Bible Study:</strong> Tuesday • 7:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="visit" class="section visit-card">
-      <div>
-        <p class="eyebrow">Visit Us</p>
-        <h2>We would be honored to worship with you.</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Add address, parking details, service expectations, and contact information here.</p>
-      </div>
-      <a class="btn primary" href="mailto:example@example.com">Contact the Ministry</a>
+    <!-- Google Map Embed -->
+    <section class="section map-section" style="margin-top: 40px;">
+      <iframe
+        src="https://www.google.com/maps?q=1001+Victory+Dr+Westwego+LA+70094&output=embed"
+        width="100%"
+        height="400"
+        style="border:0; border-radius:24px; box-shadow: 0 14px 40px rgba(0,0,0,0.08);"
+        allowfullscreen=""
+        loading="lazy"
+        title="Google Map location of JCAL Ministries">
+      </iframe>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <h3>Jesus Christ Apostolic Lighthouse Kingdom Ministries International</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem;">Jesus Christ Apostolic Lighthouse Kingdom Ministries International</h3>
+        <p>1001 Victory Dr<br/>Westwego, LA 70094</p>
+        <p>Phone: (504) 367-9557<br/>Email: jcalministriesintl@gmail.com</p>
+        <p><a href="https://www.facebook.com/JCALMINISTRIES/" target="_blank" rel="noopener noreferrer" style="color: var(--gold-dark); font-weight: 700; text-decoration: underline;">Facebook Page</a></p>
       </div>
       <div>
         <h4>Quick Links</h4>
-        <a href="#about">About</a><a href="#leadership">Leadership</a><a href="#giving">Give</a><a href="#visit">Visit</a>
+        <a href="#about">About Us</a>
+        <a href="#beliefs">Our Beliefs</a>
+        <a href="#leadership">Leadership</a>
+        <a href="#ministries">Ministries</a>
+        <a href="#giving">Tithes & Giving</a>
+        <a href="#visit">Plan Your Visit</a>
       </div>
       <div class="tribute">
         <h4>In Loving Tribute</h4>
-        <p>Honoring the life, labor, and legacy of Apostle, Dr. Ronnie Ray Stewart Sr.</p>
+        <p>Honoring the life, labor, and spiritual legacy of Apostle, Dr. Ronnie Ray Stewart Sr.</p>
       </div>
     </div>
     <p class="copyright">© <span id="year"></span> Jesus Christ Apostolic Lighthouse Kingdom Ministries International. All rights reserved.</p>
   </footer>
 
+  <!-- Admin Login Modal -->
+  <div id="admin-login-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-card glass-panel">
+      <button class="modal-close" id="close-login-modal" aria-label="Close modal">×</button>
+      <div class="modal-header">
+        <h3>Admin Portal Login</h3>
+        <p>Enter your administrator credentials to access the management portal.</p>
+      </div>
+      <form id="admin-login-form">
+        <div id="login-error-alert" class="alert-box error" style="display: none;"></div>
+        <div class="form-group">
+          <label for="admin-username">Username</label>
+          <input type="text" id="admin-username" placeholder="Username" required />
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" placeholder="Password" required />
+        </div>
+        <button type="submit" class="btn primary full-width">Log In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin GUI Management System Overlay -->
+  <div id="admin-dashboard-overlay" class="dashboard-overlay" style="display: none;">
+    <div class="dashboard-container glass-panel">
+      <!-- Dashboard Top Header Bar -->
+      <div class="dashboard-topbar">
+        <div class="dashboard-brand">
+          <div>
+            <h2>JCAL Admin Portal</h2>
+            <small id="admin-session-info">Logged in as <strong id="current-admin-user">admin</strong></small>
+          </div>
+        </div>
+        <div class="dashboard-top-actions">
+          <button id="view-live-site-btn" class="btn secondary sm">View Live Site</button>
+          <button id="admin-logout-btn" class="btn danger sm">Log Out</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Navigation Tabs -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab active" data-tab="tab-broadcast">📹 Live Broadcast Studio</button>
+        <button class="dash-tab" data-tab="tab-events">Events</button>
+        <button class="dash-tab" data-tab="tab-messages">📬 Inbox & Prayer Requests <span id="msg-badge-tab" class="dash-tab-badge" style="display:none;">0</span></button>
+        <button class="dash-tab" data-tab="tab-services">Schedules & Notices</button>
+        <button class="dash-tab" data-tab="tab-giving">Giving Info</button>
+        <button class="dash-tab" data-tab="tab-gallery">Gallery & Music</button>
+        <button class="dash-tab" data-tab="tab-settings">Account Security</button>
+      </div>
+
+      <!-- Dashboard Content Panels -->
+      <div class="dashboard-content">
+        <!-- Status Notification Box -->
+        <div id="dash-status-alert" class="alert-box success" style="display: none;"></div>
+
+        <!-- TAB: LIVE BROADCAST STUDIO (ADMIN LAUNCHER) -->
+        <div id="tab-broadcast" class="dash-panel active">
+          <div class="dash-panel-header">
+            <div>
+              <h3>📹 Admin Broadcast Studio & Control Center</h3>
+              <p>Launch the dedicated full-screen Broadcaster Studio for camera configuration, audio devices, real-time viewer stats, and live stream triggers.</p>
+            </div>
+            <div id="cms-live-status-pill" class="stream-status-pill standby-mode">
+              <span id="cms-live-status-text">⏳ STANDBY / OFFLINE</span>
+            </div>
+          </div>
+
+          <div class="form-box" style="margin-top: 16px; padding: 30px; text-align: center; background: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(255, 255, 255, 0.98)); border: 2px solid rgba(14, 165, 233, 0.3); border-radius: 24px;">
+            <span style="font-size: 3.5rem; display: block; margin-bottom: 12px;">📡</span>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--black); margin-bottom: 8px;">Full Broadcaster Studio & HD Control Center</h3>
+            <p style="color: var(--muted); font-size: 0.98rem; max-width: 600px; margin: 0 auto 24px auto;">To configure camera inputs, test microphone audio, view real-time viewer analytics, moderate live chat, and trigger Go Live, launch the dedicated Admin Studio below.</p>
+            
+            <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+              <a href="admin-studio.html" class="btn primary lg" style="background: linear-gradient(135deg, #0284c7, #0369a1); font-weight: 800; padding: 14px 28px;">🚀 Open Dedicated Admin Broadcast Studio & Control Center ↗</a>
+              <a href="stream.html" target="_blank" class="btn secondary lg">Preview Public Stream ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: INBOX & PRAYER REQUESTS -->
+        <div id="tab-messages" class="dash-panel">
+          <div class="dash-panel-header">
+            <div>
+              <h3>Incoming Prayer Requests & Messages <span id="msg-badge-header" class="header-badge-count">0 Active</span></h3>
+              <p>View, filter, archive, or delete prayer requests and contact form inquiries sent from the website.</p>
+            </div>
+            <button id="clear-all-messages-btn" class="btn secondary sm">Clear Inbox</button>
+          </div>
+
+          <!-- Message Sub-Tab Filters -->
+          <div class="sub-tabs message-filter-tabs" style="margin-top: 14px; margin-bottom: 20px;">
+            <button class="sub-tab msg-filter-btn active" data-filter="active">📥 Active Inbox (<span id="msg-count-active">0</span>)</button>
+            <button class="sub-tab msg-filter-btn" data-filter="prayer">🙏 Prayer Requests (<span id="msg-count-prayer">0</span>)</button>
+            <button class="sub-tab msg-filter-btn" data-filter="archived">📦 Archived (<span id="msg-count-archived">0</span>)</button>
+            <button class="sub-tab msg-filter-btn" data-filter="all">📋 All Messages (<span id="msg-count-all">0</span>)</button>
+          </div>
+
+          <div id="admin-messages-list" class="admin-messages-list">
+            <!-- Messages rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- TAB 1: EVENTS MANAGER -->
+        <div id="tab-events" class="dash-panel active">
+          <div class="dash-panel-header">
+            <div>
+              <h3>Upcoming Events</h3>
+              <p>Add, edit, or remove church events shown on the homepage.</p>
+            </div>
+            <button id="add-new-event-btn" class="btn primary sm">+ Add New Event</button>
+          </div>
+
+          <!-- Event Form Modal / Inline Editor -->
+          <div id="event-edit-form-box" class="form-box" style="display: none;">
+            <h4 id="event-edit-title">Add New Event</h4>
+            <form id="event-editor-form">
+              <input type="hidden" id="evt-id" />
+              <div class="form-row">
+                <div class="form-group col">
+                  <label for="evt-tag">Tag (e.g. SUN, WED, SAT)</label>
+                  <input type="text" id="evt-tag" placeholder="SUN" required />
+                </div>
+                <div class="form-group col">
+                  <label for="evt-time">Time (e.g. 10:00 AM)</label>
+                  <input type="text" id="evt-time" placeholder="10:00 AM" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="evt-name">Event Title</label>
+                <input type="text" id="evt-name" placeholder="Sunday Worship Service" required />
+              </div>
+              <div class="form-group">
+                <label for="evt-desc">Description</label>
+                <input type="text" id="evt-desc" placeholder="Event details and instructions" required />
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn primary sm">Save Event</button>
+                <button type="button" id="cancel-event-btn" class="btn secondary sm">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="admin-events-list" class="dash-cards-grid">
+            <!-- Dynamically populated events -->
+          </div>
+        </div>
+
+        <!-- TAB 2: SERVICE SCHEDULE & ANNOUNCEMENTS -->
+        <div id="tab-services" class="dash-panel">
+          <div class="dash-panel-header">
+            <h3>Service Schedule & Announcements</h3>
+            <p>Update Sunday/Wednesday worship service times and notices.</p>
+          </div>
+          <form id="admin-services-form" class="dash-form">
+            <div class="form-group">
+              <label for="cfg-sunday-service">Sunday Service Schedule</label>
+              <input type="text" id="cfg-sunday-service" required />
+            </div>
+            <div class="form-group">
+              <label for="cfg-wednesday-service">Wednesday Bible Study Schedule</label>
+              <input type="text" id="cfg-wednesday-service" required />
+            </div>
+            <div class="form-group">
+              <label for="cfg-announcement">Homepage Announcement Notice</label>
+              <textarea id="cfg-announcement" rows="3" required></textarea>
+            </div>
+            <div class="form-group" style="background: rgba(184, 137, 22, 0.08); padding: 14px 18px; border-radius: 14px; border: 1px solid rgba(184, 137, 22, 0.25); margin-bottom: 16px;">
+              <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 700; color: var(--navy-dark); font-size: 0.95rem;">
+                <input type="checkbox" id="cfg-announcement-active" style="width: 20px; height: 20px; accent-color: var(--gold-dark); cursor: pointer;" />
+                Enable Floating Announcement Popup on Site Load / Refresh
+              </label>
+              <p style="font-size: 0.83rem; color: var(--muted); margin-top: 6px; margin-left: 32px; line-height: 1.4;">
+                When enabled (checked), visitors will see a blurred glassmorphic announcement banner with a green "Okay" button upon loading or refreshing the site. Uncheck to turn off.
+              </p>
+            </div>
+            <button type="submit" class="btn primary">Save Schedule & Notice</button>
+          </form>
+        </div>
+
+        <!-- TAB 3: TITHES & GIVING INFO -->
+        <div id="tab-giving" class="dash-panel">
+          <div class="dash-panel-header">
+            <h3>Tithes & Giving Options</h3>
+            <p>Update Cash App, Givelify, and Zelle payment details.</p>
+          </div>
+          <form id="admin-giving-form" class="dash-form">
+            <div class="form-group">
+              <label for="cfg-givelify">Givelify Search Term</label>
+              <input type="text" id="cfg-givelify" required />
+            </div>
+            <div class="form-group">
+              <label for="cfg-cashapp">Cash App Handle</label>
+              <input type="text" id="cfg-cashapp" required />
+            </div>
+            <div class="form-group">
+              <label for="cfg-zelle">Zelle / PayPal Email</label>
+              <input type="email" id="cfg-zelle" required />
+            </div>
+            <button type="submit" class="btn primary">Save Giving Info</button>
+          </form>
+        </div>
+
+        <!-- TAB 4: GALLERY & MUSIC MANAGER -->
+        <div id="tab-gallery" class="dash-panel">
+          <div class="dash-panel-header">
+            <div>
+              <h3>Gallery Photos & Background Music</h3>
+              <p>Organize carousel photos, edit captions & category tags, upload images, and choose music.</p>
+            </div>
+          </div>
+
+          <!-- Sub-Tabs Navigation -->
+          <div class="sub-tabs">
+            <button class="sub-tab active" data-subtab="subtab-manage-photos">🖼️ Manage & Edit Photos (<span id="slide-count">0</span>)</button>
+            <button class="sub-tab" data-subtab="subtab-upload-photo">➕ Upload New Photo</button>
+            <button class="sub-tab" data-subtab="subtab-music">🎵 Background Music</button>
+          </div>
+
+          <!-- SUB-TAB 1: MANAGE & EDIT PHOTOS -->
+          <div id="subtab-manage-photos" class="sub-panel active">
+            <div id="admin-slides-grid" class="admin-slides-grid"></div>
+          </div>
+
+          <!-- SUB-TAB 2: UPLOAD NEW PHOTO -->
+          <div id="subtab-upload-photo" class="sub-panel">
+            <div class="form-box">
+              <h4 style="margin-bottom: 12px; font-family: 'Outfit', sans-serif;">Upload & Add New Carousel Photo</h4>
+              <form id="admin-photo-form">
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="upload-photo-file">Select Image File (.jpg, .png, .webp)</label>
+                    <input type="file" id="upload-photo-file" accept="image/*" required />
+                  </div>
+                  <div class="form-group col">
+                    <label for="photo-badge">Category Badge</label>
+                    <select id="photo-badge" required>
+                      <option value="VACATION BIBLE SCHOOL">VACATION BIBLE SCHOOL</option>
+                      <option value="SUNDAY SERVICE">SUNDAY SERVICE</option>
+                      <option value="OUTREACH">OUTREACH</option>
+                      <option value="YOUTH MINISTRY">YOUTH MINISTRY</option>
+                      <option value="COMMUNITY">COMMUNITY</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="photo-title">Photo Caption / Description</label>
+                  <input type="text" id="photo-title" placeholder="e.g. Worship Gathering or VBS Activity" required />
+                </div>
+                <button type="submit" class="btn primary">Upload & Add Photo to Carousel</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- SUB-TAB 3: BACKGROUND MUSIC -->
+          <div id="subtab-music" class="sub-panel">
+            <div class="form-box">
+              <h4 style="margin-bottom: 12px; font-family: 'Outfit', sans-serif;">🎵 Background Audio Manager</h4>
+              <form id="admin-audio-form">
+                <div class="form-group">
+                  <label for="cfg-audio-url">Active Music File Path / URL</label>
+                  <input type="text" id="cfg-audio-url" placeholder="e.g. audio/worship.mp3 or https://..." required />
+                </div>
+                <div class="form-group">
+                  <label for="upload-audio-file">Upload New Music File (.mp3, .wav, .m4a)</label>
+                  <input type="file" id="upload-audio-file" accept="audio/*" />
+                  <small style="color: var(--muted); display: block; margin-top: 4px;">Selecting a music file will upload it directly to the server and update your active music URL.</small>
+                </div>
+                <button type="submit" class="btn primary">Save Music Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: ACCOUNT SETTINGS -->
+        <div id="tab-settings" class="dash-panel">
+          <div class="dash-panel-header">
+            <h3>Admin Account Security</h3>
+            <p>Update administrator password for CMS access.</p>
+          </div>
+          <form id="admin-password-form" class="dash-form">
+            <div class="form-group">
+              <label for="pwd-current">Current Password</label>
+              <input type="password" id="pwd-current" required />
+            </div>
+            <div class="form-group">
+              <label for="pwd-new">New Password (Min. 6 characters)</label>
+              <input type="password" id="pwd-new" minlength="6" required />
+            </div>
+            <button type="submit" class="btn primary">Update Password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Admin Quick Dock -->
+  <div id="admin-floating-dock" class="admin-dock" style="display: none;">
+    <span>⚡ Admin Active</span>
+    <button id="dock-open-dash-btn" class="btn primary sm">Open CMS</button>
+    <button id="dock-logout-btn" class="btn secondary sm">Log Out</button>
+  </div>
+
+  <!-- Unified Script -->
   <script src="script.js"></script>
 </body>
 </html>
