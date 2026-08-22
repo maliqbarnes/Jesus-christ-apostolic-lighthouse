@@ -1,0 +1,129 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "jcalministries2026!"
+  },
+  "events": [
+    {
+      "id": "evt-2",
+      "tag": "WED",
+      "title": "Mid-Week Bible Study",
+      "time": "7:00 PM",
+      "description": "Interactive scripture breakdown and prayer session."
+    }
+  ],
+  "services": {
+    "sunday": "Sunday Worship • 11:00 AM",
+    "wednesday": "Bible Study • Tuesday • 7:00 PM",
+    "announcement": "Welcome to JCAL!",
+    "announcementActive": false
+  },
+  "giving": {
+    "givelify": "JCAL Ministries",
+    "cashapp": "$JoyInv",
+    "zelle": "jcalministriesintl@gmail.com"
+  },
+  "carousel": {
+    "audioUrl": "/audio/8553940285143159747.m4a",
+    "slides": [
+      {
+        "id": "slide-1",
+        "badge": "SUNDAY SERVICE",
+        "title": "Anointed Praise & Worship Gathering",
+        "image": "images/logo.png"
+      },
+      {
+        "id": "slide-2",
+        "badge": "OUTREACH",
+        "title": "Community Service & Fellowship in Westwego",
+        "image": "images/logo.png"
+      },
+      {
+        "id": "slide-3",
+        "badge": "YOUTH MINISTRY",
+        "title": "Next Generation Kingdom Leaders",
+        "image": "images/logo.png"
+      },
+      {
+        "id": "slide-vbs1",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Bible Adventure & Praise",
+        "image": "images/vacation-bible-school/vbs1.jpg"
+      },
+      {
+        "id": "slide-vbs2",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Fellowship & Learning",
+        "image": "images/vacation-bible-school/vbs2.jpg"
+      },
+      {
+        "id": "slide-vbs3",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Youth Activity & Bible Lesson",
+        "image": "images/vacation-bible-school/vbs3.jpg"
+      },
+      {
+        "id": "slide-vbs4",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Group Celebration",
+        "image": "images/vacation-bible-school/vbs4.jpg"
+      },
+      {
+        "id": "slide-vbs5",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Praise & Joy",
+        "image": "images/vacation-bible-school/vbs5.jpg"
+      },
+      {
+        "id": "slide-vbs6",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Creative Bible Study",
+        "image": "images/vacation-bible-school/vbs6.jpg"
+      },
+      {
+        "id": "slide-vbs7",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Outdoor Games & Teamwork",
+        "image": "images/vacation-bible-school/vbs7.jpg"
+      },
+      {
+        "id": "slide-vbs8",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Community Gathering",
+        "image": "images/vacation-bible-school/vbs8.jpg"
+      },
+      {
+        "id": "slide-vbs9",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Songs & Worship",
+        "image": "images/vacation-bible-school/vbs9.jpg"
+      },
+      {
+        "id": "slide-vbs10",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Crafts & Mentorship",
+        "image": "images/vacation-bible-school/vbs10.jpg"
+      },
+      {
+        "id": "slide-vbs11",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Ministry Family",
+        "image": "images/vacation-bible-school/vbs11.jpg"
+      },
+      {
+        "id": "slide-vbs12",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Joyful Worship Moment",
+        "image": "images/vacation-bible-school/vbs12.jpg"
+      },
+      {
+        "id": "slide-vbs13",
+        "badge": "VACATION BIBLE SCHOOL",
+        "title": "VBS Closing Celebration",
+        "image": "images/vacation-bible-school/vbs13.jpg"
+      }
+    ],
+    "audioMode": "file"
+  },
+  "messages": []
+}
