@@ -219,7 +219,7 @@ body.stream-body {
   filter: brightness(1.08) contrast(1.1) saturate(1.25);
 }
 
-/* STANDBY SCREEN */
+/* STANDBY SCREEN (ALWAYS FITS PERFECTLY INSIDE FRAME) */
 .standby-screen {
   position: absolute;
   inset: 0;
@@ -228,44 +228,56 @@ body.stream-body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 32px;
+  padding: clamp(12px, 3vw, 28px);
   z-index: 10;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .standby-content {
-  max-width: 500px;
+  max-width: 480px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 14px);
+  margin: auto;
 }
 
 .standby-emblem img {
-  width: 90px;
+  width: clamp(48px, 10vw, 76px);
   height: auto;
   filter: drop-shadow(0 4px 16px rgba(234, 179, 8, 0.5));
 }
 
 .standby-screen h2 {
   font-family: 'Cinzel', serif;
-  font-size: 1.7rem;
+  font-size: clamp(1.05rem, 3.2vw, 1.55rem);
   color: #fef08a;
   margin: 0;
+  line-height: 1.25;
 }
 
 .standby-screen p {
   color: #cbd5e1;
-  font-size: 0.98rem;
-  line-height: 1.55;
+  font-size: clamp(0.78rem, 2.2vw, 0.92rem);
+  line-height: 1.45;
   margin: 0;
+  max-width: 440px;
 }
 
 .standby-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 4px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.standby-actions .btn {
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
 }
 
 /* FLOATING PRAISE EMOJIS OVERLAY */

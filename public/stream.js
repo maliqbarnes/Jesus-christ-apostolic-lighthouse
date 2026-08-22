@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // ⏳ STANDBY MODE: Hide Chat Section Completely & Show Standby Banner
       if (globalStatusPill) {
         globalStatusPill.className = 'stream-status-pill standby-mode';
-        globalStatusPill.innerHTML = '<span>⏳ SERVICE STANDBY • NEXT SERVICE SUNDAY AT 11:00 AM CST</span>';
+        globalStatusPill.innerHTML = '<span>⏳ SERVICE STANDBY</span>';
       }
 
       stopFetchingLiveFrames();
