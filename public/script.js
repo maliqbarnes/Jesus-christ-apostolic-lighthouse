@@ -1326,7 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (defaultMediaCard) defaultMediaCard.style.display = 'none';
           if (mediaLiveBadge) {
             mediaLiveBadge.style.display = 'inline-block';
-            mediaLiveBadge.textContent = '🔴 LIVE SERVICE IN PROGRESS';
+            mediaLiveBadge.textContent = 'LIVE SERVICE IN PROGRESS';
           }
 
           if (document.getElementById('preview-sermon-title')) {
@@ -1336,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('preview-sermon-speaker').textContent = `Ministering: ${state.speaker || 'JCAL Ministries'}`;
           }
           if (document.getElementById('preview-viewer-count')) {
-            document.getElementById('preview-viewer-count').textContent = `👥 ${state.viewerCount || 0} Watching`;
+            document.getElementById('preview-viewer-count').textContent = `${state.viewerCount || 0} Watching`;
           }
 
           // Fetch Live Camera Frame for Preview Box

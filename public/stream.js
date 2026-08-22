@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       standbyScreen.style.display = 'none';
       liveIframe.style.display = 'none';
       isCameraActive = true;
-      if (btnToggleCam) btnToggleCam.textContent = '⏹ Stop Camera & Mic';
+      if (btnToggleCam) btnToggleCam.textContent = 'Stop Camera & Mic';
       return true;
     } catch (err) {
       console.error('Camera access error:', err);
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     liveVideo.srcObject = null;
     liveVideo.style.display = 'none';
     isCameraActive = false;
-    if (btnToggleCam) btnToggleCam.textContent = '📷 Start Camera & Mic';
+    if (btnToggleCam) btnToggleCam.textContent = 'Start Camera & Mic';
   }
 
   if (btnToggleCam) {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctrlMuteBtn.addEventListener('click', () => {
       isMuted = !isMuted;
       liveVideo.muted = isMuted;
-      ctrlMuteBtn.textContent = isMuted ? '🔇 Sound Off' : '🔊 Sound On';
+      ctrlMuteBtn.textContent = isMuted ? 'Sound Off' : 'Sound On';
     });
   }
 
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctrlFilterBtn.addEventListener('click', () => {
       currentFilterIndex = (currentFilterIndex + 1) % filterClasses.length;
       liveVideo.className = 'video-element ' + filterClasses[currentFilterIndex];
-      ctrlFilterBtn.textContent = `✨ Filter: ${filterNames[currentFilterIndex]}`;
+      ctrlFilterBtn.textContent = `Filter: ${filterNames[currentFilterIndex]}`;
     });
   }
 
@@ -223,13 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (streamSermonTitle) streamSermonTitle.textContent = state.title || 'Sunday Worship Service';
     if (streamSermonSpeaker) streamSermonSpeaker.textContent = `Ministering: ${state.speaker || 'JCAL Ministries'}`;
-    if (viewerCountPill) viewerCountPill.textContent = `👥 ${state.viewerCount || 0} Viewers`;
+    if (viewerCountPill) viewerCountPill.textContent = `${state.viewerCount || 0} Viewers`;
 
     if (state.isLive) {
-      // 🔴 LIVE MODE: Show Live Stream, Chat Section & Controls
+      // LIVE MODE: Show Live Stream, Chat Section & Controls
       if (globalStatusPill) {
         globalStatusPill.className = 'stream-status-pill live-mode';
-        globalStatusPill.innerHTML = '<span class="live-pulse-dot"></span><span>🔴 LIVE SERVICE IN PROGRESS</span>';
+        globalStatusPill.innerHTML = '<span class="live-pulse-dot"></span><span>LIVE SERVICE IN PROGRESS</span>';
       }
 
       // Show Chat Section & adjust grid layout
@@ -264,10 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } else {
-      // ⏳ STANDBY MODE: Hide Chat Section Completely & Show Standby Banner
+      // STANDBY MODE: Hide Chat Section Completely & Show Standby Banner
       if (globalStatusPill) {
         globalStatusPill.className = 'stream-status-pill standby-mode';
-        globalStatusPill.innerHTML = '<span>⏳ SERVICE STANDBY</span>';
+        globalStatusPill.innerHTML = '<span>SERVICE STANDBY</span>';
       }
 
       stopFetchingLiveFrames();
