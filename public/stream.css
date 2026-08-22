@@ -50,6 +50,13 @@ body.stream-body {
   color: var(--navy-dark);
 }
 
+.stream-status-bar-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .stream-status-pill {
   display: inline-flex;
   align-items: center;
@@ -706,16 +713,24 @@ body.stream-body {
     margin-top: 1px !important;
   }
 
-  /* Align Service Standby Tag aligned inside navbar row */
+  .stream-status-bar-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-bottom: 12px !important;
+  }
+
   .stream-status-pill {
-    font-size: 0.64rem !important;
-    padding: 3px 8px !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
+    font-size: 0.7rem !important;
+    padding: 5px 12px !important;
+    white-space: normal !important;
+    text-align: center !important;
+    margin: 0 auto !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    flex-shrink: 1 !important;
+    max-width: 95% !important;
   }
 
   .stream-header .nav-links {
