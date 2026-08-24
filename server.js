@@ -248,6 +248,63 @@ app.get('/api/stream/provider-config', (_req, res) => {
   res.json(getProviderConfig());
 });
 
+// Safe Public Playback Endpoint with Cache-Control: no-store
+app.get('/api/stream/playback', (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  const playbackUrl = getPlaybackUrl(streamState);
+  res.json({
+    status: streamState.isLive ? 'live' : 'offline',
+    isLive: !!streamState.isLive,
+    provider: process.env.STREAM_PROVIDER || 'livepeer',
+    playbackUrl,
+    playbackId: process.env.LIVEPEER_PLAYBACK_ID || process.env.MUX_PLAYBACK_ID || '',
+    title: streamState.title || 'Sunday Worship Service',
+    speaker: streamState.speaker || 'Apostle Joyce B. Stewart',
+    startedAt: streamState.startTime || null,
+    viewerCount: getActiveViewerCount()
+  });
+});
+
+// Livepeer Webhook Ingest Status Handler (Provider-Confirmed Live Status)
+app.post('/api/stream/webhook/livepeer', (req, res) => {
+  const { getStreamProvider } = require('./src/services/StreamProvider');
+  const provider = getStreamProvider();
+  
+  if (!provider.verifyWebhook(req)) {
+    return res.status(401).json({ error: 'Invalid Livepeer webhook signature' });
+  }
+
+  const event = req.body || {};
+  const eventId = event.id || ('evt_' + Date.now());
+  const eventType = event.event || 'stream.started';
+  const isLive = eventType.includes('started') || eventType.includes('active');
+
+  if (isLive) {
+    streamState.isLive = true;
+    if (!streamState.startTime) streamState.startTime = Date.now();
+  } else if (eventType.includes('idle') || eventType.includes('ended')) {
+    // 30-second reconnect grace period
+    setTimeout(() => {
+      streamState.isLive = false;
+      streamState.startTime = null;
+      broadcastStreamState({
+        ...streamState,
+        playbackUrl: getPlaybackUrl(streamState),
+        viewerCount: getActiveViewerCount()
+      });
+    }, 30000);
+  }
+
+  const fullState = {
+    ...streamState,
+    playbackUrl: getPlaybackUrl(streamState),
+    viewerCount: getActiveViewerCount()
+  };
+
+  broadcastStreamState(fullState);
+  return res.json({ success: true, eventId });
+});
+
 app.get('/api/stream/state', (_req, res) => {
   res.json({
     ...streamState,

@@ -1334,18 +1334,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Fetch Stream State for Homepage Live Preview Box
-  async function checkHomepageStreamPreview() {
+  async function fetchStreamPreviewState() {
     const previewBox = document.getElementById('homepage-live-preview');
     const defaultMediaCard = document.getElementById('media-default-card');
     const mediaLiveBadge = document.getElementById('media-live-badge');
     const previewCameraImg = document.getElementById('preview-camera-img');
-
     try {
-      const res = await fetch('/api/stream/state');
+      const res = await fetch('/api/stream/playback');
       if (res.ok) {
         const state = await res.json();
-        if (state.isLive) {
-          if (previewBox) previewBox.style.display = 'block';
+        if (state && state.isLive) {
+          if (previewBox) previewBox.style.display = 'flex';
           if (defaultMediaCard) defaultMediaCard.style.display = 'none';
           if (mediaLiveBadge) {
             mediaLiveBadge.style.display = 'inline-block';
@@ -1360,22 +1359,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (document.getElementById('preview-viewer-count')) {
             document.getElementById('preview-viewer-count').textContent = `${state.viewerCount || 0} Watching`;
-          }
-
-          // Fetch Live Camera Frame for Preview Box
-          if (previewCameraImg) {
-            try {
-              const frameRes = await fetch('/api/stream/frame');
-              if (frameRes.status === 200) {
-                const frameData = await frameRes.json();
-                if (frameData.frame) {
-                  previewCameraImg.src = frameData.frame;
-                  previewCameraImg.style.display = 'block';
-                }
-              }
-            } catch (err) {
-              console.error('Preview frame fetch error:', err);
-            }
           }
         } else {
           if (previewBox) previewBox.style.display = 'none';
