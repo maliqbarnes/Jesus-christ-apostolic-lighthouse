@@ -131,8 +131,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStream.getTracks().forEach(track => track.stop());
       }
       const constraints = {
-        video: selectCamera.value ? { deviceId: { exact: selectCamera.value } } : true,
-        audio: selectMic.value ? { deviceId: { exact: selectMic.value } } : true
+        video: {
+          width: { ideal: 1920, max: 1920 },
+          height: { ideal: 1080, max: 1080 },
+          frameRate: { ideal: 30 },
+          ...(selectCamera.value && selectCamera.value !== 'default' ? { deviceId: { exact: selectCamera.value } } : {})
+        },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          ...(selectMic.value && selectMic.value !== 'default' ? { deviceId: { exact: selectMic.value } } : {})
+        }
       };
       localStream = await navigator.mediaDevices.getUserMedia(constraints);
       studioVideo.srcObject = localStream;
@@ -202,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Canvas Frame Broadcasting Loop (Ultra Low Latency)
+  // Canvas Frame Broadcasting Loop (Ultra Low Latency - 720p HD Quality)
   const hiddenCanvas = document.createElement('canvas');
   const hiddenCtx = hiddenCanvas.getContext('2d');
   let frameBroadcastInterval = null;
@@ -213,10 +223,10 @@ document.addEventListener('DOMContentLoaded', () => {
     frameBroadcastInterval = setInterval(async () => {
       if (isSendingFrame) return; // Skip tick if previous POST is still in flight
       if (isCamActive && studioVideo && (studioVideo.readyState >= 2 || studioVideo.videoWidth > 0 || studioVideo.srcObject) && currentStreamState && currentStreamState.isLive) {
-        hiddenCanvas.width = 480;
-        hiddenCanvas.height = 270;
-        hiddenCtx.drawImage(studioVideo, 0, 0, 480, 270);
-        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.45);
+        hiddenCanvas.width = 1280;
+        hiddenCanvas.height = 720;
+        hiddenCtx.drawImage(studioVideo, 0, 0, 1280, 720);
+        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.78);
         const token = getToken();
 
         if (token && frameData) {

@@ -1461,7 +1461,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cmsBtnCam.textContent = '📷 Start Camera & Mic';
       } else {
         try {
-          cmsLocalStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          cmsLocalStream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 1920, max: 1920 }, height: { ideal: 1080, max: 1080 }, frameRate: { ideal: 30 } },
+            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+          });
           if (cmsLiveVideo) {
             cmsLiveVideo.srcObject = cmsLocalStream;
             cmsLiveVideo.style.display = 'block';
@@ -1477,7 +1480,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // CMS Frame Broadcasting Loop
+  // CMS Frame Broadcasting Loop (720p HD Quality)
   const cmsCanvas = document.createElement('canvas');
   const cmsCtx = cmsCanvas.getContext('2d');
   let cmsFrameInterval = null;
@@ -1487,11 +1490,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cmsFrameInterval) return;
     cmsFrameInterval = setInterval(async () => {
       if (isCmsSendingFrame) return;
-      if (isCmsCamActive && cmsLiveVideo && cmsLiveVideo.videoWidth > 0 && cmsStreamState && cmsStreamState.isLive) {
-        cmsCanvas.width = 480;
-        cmsCanvas.height = 270;
-        cmsCtx.drawImage(cmsLiveVideo, 0, 0, 480, 270);
-        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.45);
+      if (isCmsCamActive && cmsLiveVideo && (cmsLiveVideo.readyState >= 2 || cmsLiveVideo.videoWidth > 0 || cmsLiveVideo.srcObject) && cmsStreamState && cmsStreamState.isLive) {
+        cmsCanvas.width = 1280;
+        cmsCanvas.height = 720;
+        cmsCtx.drawImage(cmsLiveVideo, 0, 0, 1280, 720);
+        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.78);
         const token = getToken();
 
         if (token && frameData) {
