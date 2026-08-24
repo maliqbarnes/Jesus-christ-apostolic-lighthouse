@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (frameBroadcastInterval) return;
     frameBroadcastInterval = setInterval(async () => {
       if (isSendingFrame) return; // Skip tick if previous POST is still in flight
-      if (isCamActive && studioVideo && studioVideo.videoWidth > 0 && currentStreamState && currentStreamState.isLive) {
+      if (isCamActive && studioVideo && (studioVideo.readyState >= 2 || studioVideo.videoWidth > 0 || studioVideo.srcObject) && currentStreamState && currentStreamState.isLive) {
         hiddenCanvas.width = 480;
         hiddenCanvas.height = 270;
         hiddenCtx.drawImage(studioVideo, 0, 0, 480, 270);

@@ -188,8 +188,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let frameFetchInterval = null;
   let isFetchingFrame = false;
 
+  function hideStandbyScreen() {
+    if (standbyScreen) {
+      standbyScreen.classList.add('hidden');
+      standbyScreen.style.setProperty('display', 'none', 'important');
+    }
+  }
+
+  function showStandbyScreen() {
+    if (standbyScreen) {
+      standbyScreen.classList.remove('hidden');
+      standbyScreen.style.display = 'flex';
+    }
+  }
+
   function startFetchingLiveFrames() {
-    if (standbyScreen) standbyScreen.style.display = 'none';
+    hideStandbyScreen();
     if (frameFetchInterval) return;
     frameFetchInterval = setInterval(async () => {
       if (isFetchingFrame) return; // Skip tick if previous GET request is still in flight
@@ -202,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.frame && liveCameraImg) {
               liveCameraImg.src = data.frame;
               liveCameraImg.style.display = 'block';
-              if (standbyScreen) standbyScreen.style.display = 'none';
+              hideStandbyScreen();
             }
           }
         } catch (err) {
@@ -238,6 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         globalStatusPill.innerHTML = '<span class="live-pulse-dot"></span><span>LIVE SERVICE IN PROGRESS</span>';
       }
 
+      hideStandbyScreen();
+
       // Show Chat Section & adjust grid layout
       if (streamChatSection) streamChatSection.style.display = 'flex';
       if (streamContainer && window.innerWidth > 1024) {
@@ -259,11 +275,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (state.streamType === 'webrtc') {
         liveIframe.style.display = 'none';
-        if (standbyScreen) standbyScreen.style.display = 'none';
+        hideStandbyScreen();
         startFetchingLiveFrames();
       } else if (state.streamType === 'embed' || state.streamType === 'youtube') {
         stopFetchingLiveFrames();
-        if (standbyScreen) standbyScreen.style.display = 'none';
+        hideStandbyScreen();
         if (liveVideo) liveVideo.style.display = 'none';
         if (liveIframe) liveIframe.style.display = 'block';
         if (state.embedUrl && liveIframe.src !== state.embedUrl) {
@@ -285,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (publicVideoControls) publicVideoControls.style.display = 'none';
 
       // Show Standby Overlay & Hide Video Elements
-      if (standbyScreen) standbyScreen.style.display = 'flex';
+      showStandbyScreen();
       if (liveVideo) liveVideo.style.display = 'none';
       if (liveIframe) liveIframe.style.display = 'none';
 
