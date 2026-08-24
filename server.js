@@ -364,4 +364,8 @@ function startServer(port) {
   });
 }
 
-startServer(DEFAULT_PORT);
+if (!process.env.VERCEL && require.main === module) {
+  startServer(DEFAULT_PORT);
+}
+
+module.exports = app;

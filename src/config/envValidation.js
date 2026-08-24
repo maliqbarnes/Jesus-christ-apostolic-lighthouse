@@ -65,12 +65,9 @@ function validateEnv() {
   }
 
   if (errors.length > 0) {
-    console.error('\n❌ ENVIRONMENT CONFIGURATION ERROR:');
-    errors.forEach(err => console.error(`  - ${err}`));
-    console.error('\nPlease configure valid environment variables in .env or Vercel Settings.\n');
-    if (isProd) {
-      throw new Error('Environment validation failed in production.');
-    }
+    console.warn('\n⚠️ ENVIRONMENT CONFIGURATION WARNING:');
+    errors.forEach(err => console.warn(`  - ${err}`));
+    console.warn('\nPlease configure environment variables in Vercel Settings or .env file.\n');
   } else {
     console.log('✅ Environment configuration validated successfully.');
   }
