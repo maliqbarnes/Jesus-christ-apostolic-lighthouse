@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isFetchingFrame = false;
 
   function startFetchingLiveFrames() {
+    if (standbyScreen) standbyScreen.style.display = 'none';
     if (frameFetchInterval) return;
     frameFetchInterval = setInterval(async () => {
       if (isFetchingFrame) return; // Skip tick if previous GET request is still in flight
@@ -258,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (state.streamType === 'webrtc') {
         liveIframe.style.display = 'none';
+        if (standbyScreen) standbyScreen.style.display = 'none';
         startFetchingLiveFrames();
       } else if (state.streamType === 'embed' || state.streamType === 'youtube') {
         stopFetchingLiveFrames();
