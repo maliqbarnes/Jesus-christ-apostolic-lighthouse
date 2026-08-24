@@ -45,12 +45,35 @@
         <div id="floating-emojis" class="floating-emojis-container"></div>
 
         <!-- HLS / MANAGED LIVE STREAM VIDEO PLAYER WITH FULL AUDIO -->
-        <video id="live-hls-player" class="video-element" controls autoplay playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+        <video id="live-hls-player" class="video-element" autoplay playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
         <img id="live-camera-img" class="video-element" style="display: none; width: 100%; height: 100%; object-fit: cover;" alt="JCAL Live Broadcast Feed" />
         <video id="live-video" class="video-element" autoplay playsinline muted style="display: none;"></video>
 
         <!-- EMBEDDED IFRAME PLAYER -->
         <iframe id="live-iframe" class="iframe-element" style="display: none;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+
+        <!-- GLASSMOPRHIC INTEGRATED VIDEO CONTROL BAR & TELEMETRY BADGE -->
+        <div id="public-video-controls" class="public-video-controls-bar" style="display: none;">
+          <div class="vctrl-left">
+            <button id="vctrl-play-btn" class="vctrl-btn" title="Play / Pause">▶</button>
+            <button id="vctrl-mute-btn" class="vctrl-btn" title="Mute / Unmute">🔊</button>
+            <input type="range" id="vctrl-volume-slider" min="0" max="1" step="0.1" value="1" class="vctrl-slider" />
+          </div>
+          <div class="vctrl-right">
+            <span id="telemetry-badge" class="telemetry-badge">1080p • 30 FPS • AAC Audio</span>
+            <div class="quality-select-wrapper">
+              <select id="quality-selector" class="vctrl-select" title="Quality Selector">
+                <option value="-1">Auto (Adaptive)</option>
+                <option value="0">1080p HD</option>
+                <option value="1">720p HD</option>
+                <option value="2">480p SD</option>
+                <option value="3">360p Mobile</option>
+              </select>
+            </div>
+            <button id="vctrl-pip-btn" class="vctrl-btn" title="Picture in Picture">📺</button>
+            <button id="vctrl-fullscreen-btn" class="vctrl-btn" title="Fullscreen">⛶</button>
+          </div>
+        </div>
 
         <!-- STANDBY / OFFLINE SCREEN -->
         <div id="standby-screen" class="standby-screen">

@@ -1,13 +1,34 @@
 /**
  * Automated System Test Suite for JCAL Ministries Platform
+ * Spawns server instance on port 3001 and executes full acceptance test suite.
  */
 
 const http = require('http');
+const { spawn } = require('child_process');
+
+let serverProcess = null;
+
+function startServer() {
+  return new Promise((resolve) => {
+    process.env.PORT = '3001';
+    serverProcess = spawn('node', ['server.js'], {
+      env: { ...process.env, PORT: '3001', SESSION_SECRET: 'c03dfa1059f518e244b76c8c4a161eb31a833501a357591e1d08e5e6e8e894c2' }
+    });
+
+    serverProcess.stdout.on('data', (data) => {
+      if (data.toString().includes('JCAL Ministries Website') || data.toString().includes('3001')) {
+        setTimeout(resolve, 800);
+      }
+    });
+
+    setTimeout(resolve, 2000);
+  });
+}
 
 function makeRequest(path, method = 'GET', body = null, headers = {}) {
   return new Promise((resolve, reject) => {
     const options = {
-      hostname: 'localhost',
+      hostname: '127.0.0.1',
       port: 3001,
       path,
       method,
@@ -34,6 +55,9 @@ function makeRequest(path, method = 'GET', body = null, headers = {}) {
 }
 
 async function runTests() {
+  console.log('🚀 Starting test server process on port 3001...');
+  await startServer();
+
   console.log('🧪 Starting JCAL Platform Automated Test Suite...\n');
   let passed = 0;
   let total = 0;
@@ -87,9 +111,12 @@ async function runTests() {
     console.log(`  Test Results: ${passed} / ${total} Passed`);
     console.log(`==================================================\n`);
 
+    if (serverProcess) serverProcess.kill();
     if (passed < total) process.exit(1);
+    process.exit(0);
   } catch (err) {
     console.error('Test execution error:', err);
+    if (serverProcess) serverProcess.kill();
     process.exit(1);
   }
 }

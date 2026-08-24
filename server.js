@@ -1,6 +1,9 @@
 // Production Server for Jesus Christ Apostolic Lighthouse Kingdom Ministries International
 require('dotenv').config();
 
+const { validateEnv } = require('./src/config/envValidation');
+validateEnv();
+
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -11,7 +14,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
 const { initSocketServer, broadcastStreamState, getActiveViewerCount } = require('./src/realtime/socketServer');
-const { getProviderConfig, getPlaybackUrl, verifyProviderIngest } = require('./src/services/streamProvider');
+const { getProviderConfig, getPlaybackUrl, verifyProviderIngest } = require('./src/services/StreamProvider');
 
 const app = express();
 const server = http.createServer(app);

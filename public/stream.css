@@ -857,3 +857,88 @@ body.stream-body {
     font-size: 0.78rem;
   }
 }
+
+/* GLASSMORPHIC INTEGRATED VIDEO CONTROL BAR & TELEMETRY STYLES */
+.public-video-controls-bar {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 120;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.vctrl-left,
+.vctrl-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vctrl-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vctrl-btn:hover {
+  background: rgba(184, 137, 22, 0.85);
+  border-color: #fef08a;
+  transform: translateY(-1px);
+}
+
+.vctrl-slider {
+  width: 70px;
+  accent-color: #b45309;
+  cursor: pointer;
+}
+
+.telemetry-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fef08a;
+  background: rgba(184, 137, 22, 0.2);
+  border: 1px solid rgba(184, 137, 22, 0.4);
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.vctrl-select {
+  background: rgba(15, 23, 42, 0.9);
+  color: #ffffff;
+  border: 1px solid rgba(184, 137, 22, 0.4);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vctrl-select option {
+  background: #0f172a;
+  color: #ffffff;
+}
