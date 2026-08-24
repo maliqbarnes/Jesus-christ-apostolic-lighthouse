@@ -40,11 +40,45 @@ document.addEventListener('DOMContentLoaded', () => {
     return localStorage.getItem('jcal_admin_token');
   }
 
+  async function ensureValidToken() {
+    let token = getToken();
+    if (token) {
+      try {
+        const res = await fetch('/api/check-auth', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.authenticated) return token;
+      } catch (err) {}
+    }
+
+    const pass = prompt('Admin authentication required. Please enter Admin Password to Go Live:');
+    if (!pass) return null;
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'admin', password: pass })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem('jcal_admin_token', data.token);
+        return data.token;
+      } else {
+        alert(data.error || 'Incorrect password.');
+        return null;
+      }
+    } catch (err) {
+      alert('Authentication error. Please check your connection.');
+      return null;
+    }
+  }
+
   function checkAdminAccess() {
     const token = getToken();
     if (!token) {
-      alert('Admin access required. Please log into the Admin Portal first.');
-      window.location.href = 'index.html#admin';
+      console.warn('Admin token missing on studio init.');
     }
   }
   checkAdminAccess();
@@ -260,8 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Master Live Trigger (Requires active camera & microphone)
   if (studioBtnMasterLive) {
     studioBtnMasterLive.addEventListener('click', async () => {
-      const token = getToken();
-      if (!token) return alert('Admin authentication required.');
+      const token = await ensureValidToken();
+      if (!token) return;
 
       const newLiveState = !(currentStreamState && currentStreamState.isLive);
 
@@ -300,6 +334,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         if (res.ok && data.success) {
           fetchStreamState();
+        } else if (res.status === 401) {
+          alert('Session expired. Please click GO LIVE again to authenticate.');
         }
       } catch (err) {
         console.error('Master live toggle error:', err);
@@ -310,8 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Save Stream Info
   if (studioBtnSaveMeta) {
     studioBtnSaveMeta.addEventListener('click', async () => {
-      const token = getToken();
-      if (!token) return alert('Admin authentication required.');
+      const token = await ensureValidToken();
+      if (!token) return;
 
       const title = studioSermonTitle.value.trim();
       const speaker = studioSermonSpeaker.value.trim();
