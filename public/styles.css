@@ -444,9 +444,9 @@ main {
 
 .info-item {
   display: grid;
-  grid-template-columns: 44px 1fr;
+  grid-template-columns: 40px 1fr;
   gap: 16px;
-  align-items: start;
+  align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid rgba(184, 137, 22, 0.18);
 }
@@ -458,13 +458,16 @@ main {
 .info-icon {
   width: 40px;
   height: 40px;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   background: linear-gradient(135deg, var(--gold-dark), var(--gold));
   border-radius: 50%;
   font-weight: 800;
   font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(184, 137, 22, 0.25);
+  flex-shrink: 0;
 }
 
 .info-item p {
@@ -2013,7 +2016,13 @@ a[href^="tel"] {
 
   .info-item {
     grid-template-columns: 36px 1fr;
-    gap: 14px;
+    gap: 12px;
+  }
+
+  .info-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
   }
 
   .footer-grid {
