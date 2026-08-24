@@ -32,8 +32,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser(process.env.SESSION_SECRET || 'jcal_kingdom_ministries_secret_key_2026'));
 
+const PUBLIC_DIR = path.join(process.cwd(), 'public');
+
 // Static File Serving with CDN & Cache Controls
-app.use(express.static(path.join(__dirname, 'public'), {
+app.use(express.static(PUBLIC_DIR, {
   setHeaders: (res, filePath) => {
     // Cache static images/css/js for 1 hour, HTML and API revalidate
     if (filePath.endsWith('.html')) {
@@ -342,7 +344,7 @@ app.post('/api/stream/state', requireAuth, (req, res) => {
 
 // Catch-all route serving index.html
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
 
 function startServer(port) {
