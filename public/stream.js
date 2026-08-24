@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const liveCameraImg = document.getElementById('live-camera-img');
   let frameFetchInterval = null;
   let isFetchingFrame = false;
+  let consecutiveFrameFailures = 0;
 
   function hideStandbyScreen() {
     if (standbyScreen) {
@@ -217,15 +218,32 @@ document.addEventListener('DOMContentLoaded', () => {
               liveCameraImg.src = data.frame;
               liveCameraImg.style.display = 'block';
               hideStandbyScreen();
+              consecutiveFrameFailures = 0;
+            }
+          } else {
+            consecutiveFrameFailures++;
+            // If frame loss is brief (< 15 attempts / ~20s grace period), keep last frame on screen
+            if (consecutiveFrameFailures < 15) {
+              hideStandbyScreen();
+            } else {
+              showStandbyScreen();
             }
           }
         } catch (err) {
-          console.error('Frame fetch error:', err);
+          consecutiveFrameFailures++;
+          if (consecutiveFrameFailures < 15) {
+            hideStandbyScreen();
+          } else {
+            showStandbyScreen();
+          }
         } finally {
           isFetchingFrame = false;
         }
+      } else {
+        showStandbyScreen();
+        consecutiveFrameFailures = 0;
       }
-    }, 75);
+    }, 120);
   }
 
   function stopFetchingLiveFrames() {

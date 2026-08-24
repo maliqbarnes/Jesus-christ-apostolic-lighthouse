@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 4. Exact Broadcast Duration Timer
+    // 4. Exact Broadcast Duration Timer & Auto-Recovery on Refresh
     if (state.isLive) {
       if (studioLivePill) {
         studioLivePill.className = 'stream-status-pill live-mode';
@@ -295,7 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
         studioBtnMasterLive.className = 'btn danger';
       }
 
-      startFrameBroadcasting();
+      // Auto-recover camera if page was refreshed mid-broadcast
+      if (!isCamActive && !localStream) {
+        startCamera().then(started => {
+          if (started) startFrameBroadcasting();
+        });
+      } else {
+        startFrameBroadcasting();
+      }
 
       if (state.startTime) {
         const elapsedSecs = Math.max(0, Math.floor((Date.now() - state.startTime) / 1000));
@@ -325,6 +332,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!token) return;
 
       const newLiveState = !(currentStreamState && currentStreamState.isLive);
+
+      // Confirm before ending active broadcast
+      if (!newLiveState) {
+        if (!confirm('Are you sure you want to end the live broadcast service? This will switch public viewers back to standby mode.')) {
+          return;
+        }
+      }
 
       if (newLiveState) {
         // Automatically start camera if not active
