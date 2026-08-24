@@ -117,6 +117,30 @@
           </div>
         </div>
       </div>
+
+      <!-- AUTOMATED EXTERNAL PROVIDER INGEST TELEMETRY CARD -->
+      <div class="studio-card-box" style="border: 1px solid rgba(184, 137, 22, 0.4); background: rgba(184, 137, 22, 0.04);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="margin: 0; color: var(--gold-glow);">📡 Automated Managed Provider Ingest</h3>
+          <span id="provider-auto-status" class="pill standby">📡 WAITING FOR OBS INGEST</span>
+        </div>
+        <div class="form-row" style="margin-bottom: 12px;">
+          <div class="form-group col">
+            <small style="color: var(--muted); display: block; margin-bottom: 4px;">RTMPS Ingest Server</small>
+            <code id="provider-ingest-server" style="background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; color: #fef08a; display: block;">rtmps://livepeer.studio/live</code>
+          </div>
+          <div class="form-group col">
+            <small style="color: var(--muted); display: block; margin-bottom: 4px;">Provider Ingest Health</small>
+            <div id="provider-health-text" style="font-weight: 600; color: #ffffff; padding: 8px 0;">1080p Full HD • 30 FPS • AAC 48kHz</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+          <input type="checkbox" id="auto-activate-toggle" checked style="width: 18px; height: 18px; accent-color: var(--gold-glow);" />
+          <label for="auto-activate-toggle" style="font-size: 0.9rem; color: #ffffff; cursor: pointer;">
+            <strong>Automated Stream Activation</strong> (Automatically broadcast public live player when OBS connects to Livepeer)
+          </label>
+        </div>
+      </div>
     </section>
 
     <!-- RIGHT: BROADCAST METADATA & LIVE CHAT MODERATION CONSOLE -->
