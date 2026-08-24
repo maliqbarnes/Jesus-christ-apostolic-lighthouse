@@ -151,33 +151,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Canvas Frame Broadcasting Loop
+  // Canvas Frame Broadcasting Loop (Ultra Low Latency)
   const hiddenCanvas = document.createElement('canvas');
   const hiddenCtx = hiddenCanvas.getContext('2d');
   let frameBroadcastInterval = null;
+  let isSendingFrame = false;
 
   function startFrameBroadcasting() {
     if (frameBroadcastInterval) return;
-    frameBroadcastInterval = setInterval(() => {
+    frameBroadcastInterval = setInterval(async () => {
+      if (isSendingFrame) return; // Skip tick if previous POST is still in flight
       if (isCamActive && studioVideo && studioVideo.videoWidth > 0 && currentStreamState && currentStreamState.isLive) {
-        hiddenCanvas.width = 640;
-        hiddenCanvas.height = 360;
-        hiddenCtx.drawImage(studioVideo, 0, 0, 640, 360);
-        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.65);
+        hiddenCanvas.width = 480;
+        hiddenCanvas.height = 270;
+        hiddenCtx.drawImage(studioVideo, 0, 0, 480, 270);
+        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.45);
         const token = getToken();
 
         if (token && frameData) {
-          fetch('/api/stream/frame', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ frame: frameData })
-          }).catch(() => {});
+          isSendingFrame = true;
+          try {
+            await fetch('/api/stream/frame', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ frame: frameData })
+            });
+          } catch (err) {
+            console.error('Frame send error:', err);
+          } finally {
+            isSendingFrame = false;
+          }
         }
       }
-    }, 120);
+    }, 80);
   }
 
   function stopFrameBroadcasting() {

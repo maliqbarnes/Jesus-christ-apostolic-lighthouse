@@ -27,23 +27,23 @@ body.stream-body {
   overflow-x: hidden;
 }
 
-/* Bright Glass Floating Header (Matching Main Website) */
+/* Desktop Header (Full-Width Relative Header) */
 .stream-header {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 92%;
-  max-width: 1240px;
-  border-radius: 999px;
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: none;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(184, 137, 22, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(184, 137, 22, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   box-sizing: border-box;
-  z-index: 1000;
   margin-bottom: 0;
+  z-index: 100;
 }
 
 .stream-header .brand-text strong {
@@ -181,8 +181,8 @@ body.stream-body {
 /* MAIN STREAM CONTAINER GRID */
 .stream-container {
   max-width: 1440px;
-  margin: 0 auto;
-  padding: 100px 24px 24px 24px;
+  margin: 24px auto;
+  padding: 0 24px;
   display: grid;
   grid-template-columns: 1fr 390px;
   gap: 24px;
@@ -699,9 +699,8 @@ body.stream-body {
   .stream-header .nav-shell {
     flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    padding: 4px 8px !important;
-    gap: 6px !important;
+    justify-content: center !important;
+    padding: 6px 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -709,22 +708,31 @@ body.stream-body {
   .stream-header .brand {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    text-decoration: none !important;
   }
 
   .stream-header .brand-text strong {
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
     display: block !important;
     line-height: 1.1 !important;
   }
 
   .stream-header .brand-text small {
     display: block !important;
-    font-size: 0.58rem !important;
+    font-size: 0.6rem !important;
     color: var(--gold-dark) !important;
     font-weight: 700 !important;
     line-height: 1.15 !important;
     margin-top: 1px !important;
+  }
+
+  /* Hide Main button on mobile as requested (clicking logo returns to main page) */
+  .stream-header .nav-links {
+    display: none !important;
   }
 
   .stream-status-bar-wrapper {
@@ -745,24 +753,6 @@ body.stream-body {
     align-items: center !important;
     justify-content: center !important;
     max-width: 95% !important;
-  }
-
-  .stream-header .nav-links {
-    display: flex !important;
-    position: static !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    gap: 4px !important;
-    flex-direction: row !important;
-    align-items: center !important;
-  }
-
-  .stream-header .nav-links a {
-    font-size: 0.74rem !important;
-    padding: 4px 8px !important;
-    font-weight: 700 !important;
   }
 
   .stream-container {

@@ -186,11 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const liveCameraImg = document.getElementById('live-camera-img');
   let frameFetchInterval = null;
+  let isFetchingFrame = false;
 
   function startFetchingLiveFrames() {
     if (frameFetchInterval) return;
     frameFetchInterval = setInterval(async () => {
+      if (isFetchingFrame) return; // Skip tick if previous GET request is still in flight
       if (currentStreamState && currentStreamState.isLive) {
+        isFetchingFrame = true;
         try {
           const res = await fetch('/api/stream/frame');
           if (res.status === 200) {
@@ -203,9 +206,11 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } catch (err) {
           console.error('Frame fetch error:', err);
+        } finally {
+          isFetchingFrame = false;
         }
       }
-    }, 150);
+    }, 75);
   }
 
   function stopFetchingLiveFrames() {

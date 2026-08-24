@@ -1454,6 +1454,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // CMS Frame Broadcasting Loop
+  const cmsCanvas = document.createElement('canvas');
+  const cmsCtx = cmsCanvas.getContext('2d');
+  let cmsFrameInterval = null;
+  let isCmsSendingFrame = false;
+
+  function startCmsFrameBroadcasting() {
+    if (cmsFrameInterval) return;
+    cmsFrameInterval = setInterval(async () => {
+      if (isCmsSendingFrame) return;
+      if (isCmsCamActive && cmsLiveVideo && cmsLiveVideo.videoWidth > 0 && cmsStreamState && cmsStreamState.isLive) {
+        cmsCanvas.width = 480;
+        cmsCanvas.height = 270;
+        cmsCtx.drawImage(cmsLiveVideo, 0, 0, 480, 270);
+        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.45);
+        const token = getToken();
+
+        if (token && frameData) {
+          isCmsSendingFrame = true;
+          try {
+            await fetch('/api/stream/frame', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ frame: frameData })
+            });
+          } catch (err) {
+            console.error('CMS Frame send error:', err);
+          } finally {
+            isCmsSendingFrame = false;
+          }
+        }
+      }
+    }, 80);
+  }
+
+  function stopCmsFrameBroadcasting() {
+    if (cmsFrameInterval) {
+      clearInterval(cmsFrameInterval);
+      cmsFrameInterval = null;
+    }
+  }
+
   // Toggle Live Broadcast inside CMS
   if (cmsBtnLive) {
     cmsBtnLive.addEventListener('click', async () => {
@@ -1475,6 +1520,11 @@ document.addEventListener('DOMContentLoaded', () => {
           showDashStatus(newLiveState ? '🔴 Broadcast is NOW LIVE on website!' : '⏹ Broadcast has ended. Site switched to standby.');
           fetchCmsStreamState();
           checkHomepageStreamPreview();
+          if (newLiveState) {
+            startCmsFrameBroadcasting();
+          } else {
+            stopCmsFrameBroadcasting();
+          }
         }
       } catch (err) {
         console.error('CMS toggle live error:', err);

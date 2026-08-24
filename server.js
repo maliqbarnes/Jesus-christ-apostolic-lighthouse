@@ -52,35 +52,28 @@ function saveData(data) {
   }
 }
 
-// Helper to read active sessions
-function getTokens() {
-  try {
-    if (fs.existsSync(SESSIONS_FILE)) {
-      const raw = fs.readFileSync(SESSIONS_FILE, 'utf8');
-      return new Set(JSON.parse(raw));
-    }
-  } catch (err) {
-    console.error('Error reading sessions.json:', err);
-  }
-  return new Set();
+const crypto = require('crypto');
+const JWT_SECRET = process.env.JWT_SECRET || 'jcal_kingdom_ministries_secret_key_2026';
+
+function generateAuthToken(username, password) {
+  const payload = `${username}:${password}:${JWT_SECRET}`;
+  const hash = crypto.createHmac('sha256', JWT_SECRET).update(payload).digest('hex');
+  return `jcal_signed_${hash}`;
 }
 
-// Helper to write active sessions
-function saveTokens(tokensSet) {
-  try {
-    fs.mkdirSync(path.dirname(SESSIONS_FILE), { recursive: true });
-    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(Array.from(tokensSet)), 'utf8');
-  } catch (err) {
-    console.error('Error saving sessions.json:', err);
-  }
+function verifyAuthToken(token) {
+  if (!token) return false;
+  const data = getData();
+  if (!data || !data.admin) return false;
+  const validToken = generateAuthToken(data.admin.username, data.admin.password);
+  return token === validToken;
 }
 
 // Auth Middleware
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace('Bearer ', '').trim();
-  const activeTokens = getTokens();
-  if (token && activeTokens.has(token)) {
+  if (verifyAuthToken(token)) {
     return next();
   }
   return res.status(401).json({ error: 'Session expired or unauthorized. Please log in again.' });
@@ -96,10 +89,7 @@ app.post('/api/login', (req, res) => {
   }
 
   if (username === data.admin.username && password === data.admin.password) {
-    const token = 'jcal_token_' + Date.now() + '_' + Math.random().toString(36).substring(2);
-    const activeTokens = getTokens();
-    activeTokens.add(token);
-    saveTokens(activeTokens);
+    const token = generateAuthToken(username, password);
     return res.json({ success: true, token, username: data.admin.username });
   }
 
@@ -107,21 +97,13 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '').trim();
-  if (token) {
-    const activeTokens = getTokens();
-    activeTokens.delete(token);
-    saveTokens(activeTokens);
-  }
   return res.json({ success: true });
 });
 
 app.get('/api/check-auth', (req, res) => {
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace('Bearer ', '').trim();
-  const activeTokens = getTokens();
-  if (token && activeTokens.has(token)) {
+  if (verifyAuthToken(token)) {
     return res.json({ authenticated: true });
   }
   return res.json({ authenticated: false });
