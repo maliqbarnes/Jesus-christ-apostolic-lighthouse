@@ -1,50 +1,70 @@
-// Vercel deployment cache flush build timestamp: 2026-08-24T16:01:00
+// Production Server for Jesus Christ Apostolic Lighthouse Kingdom Ministries International
+require('dotenv').config();
+
 const express = require('express');
+const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
+
+const { initSocketServer, broadcastStreamState, getActiveViewerCount } = require('./src/realtime/socketServer');
+const { getProviderConfig, getPlaybackUrl, verifyProviderIngest } = require('./src/services/streamProvider');
 
 const app = express();
+const server = http.createServer(app);
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const DATA_FILE = path.join(__dirname, 'data', 'content.json');
-
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(express.static(path.join(__dirname, 'public'), {
-  setHeaders: (res, filePath) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    if (filePath.endsWith('.m4a')) {
-      res.setHeader('Content-Type', 'audio/mp4');
-    } else if (filePath.endsWith('.mp3')) {
-      res.setHeader('Content-Type', 'audio/mpeg');
-    } else if (filePath.endsWith('.wav')) {
-      res.setHeader('Content-Type', 'audio/wav');
-    } else if (filePath.endsWith('.aac')) {
-      res.setHeader('Content-Type', 'audio/aac');
-    }
-  }
-}));
-
 const SESSIONS_FILE = path.join(__dirname, 'data', 'sessions.json');
 const UPLOADS_DIR = path.join(__dirname, 'public', 'images', 'uploads');
 const AUDIO_DIR = path.join(__dirname, 'public', 'audio');
 
-// Helper to read data file
+// Initialize Socket.io Realtime Engine
+initSocketServer(server);
+
+// Middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(cookieParser(process.env.SESSION_SECRET || 'jcal_kingdom_ministries_secret_key_2026'));
+
+// Static File Serving with CDN & Cache Controls
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    // Cache static images/css/js for 1 hour, HTML and API revalidate
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, must-revalidate');
+    } else if (filePath.endsWith('.css') || filePath.endsWith('.js') || filePath.endsWith('.png') || filePath.endsWith('.jpg') || filePath.endsWith('.svg')) {
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+    }
+  }
+}));
+
+// Rate Limiters for Security
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10,
+  message: { error: 'Too many login attempts. Please try again in 15 minutes.' }
+});
+
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10,
+  message: { error: 'Too many message submissions. Please try again later.' }
+});
+
+// Content Storage Helpers
 function getData() {
   try {
-    if (!fs.existsSync(DATA_FILE)) {
-      return null;
-    }
-    const raw = fs.readFileSync(DATA_FILE, 'utf8');
-    return JSON.parse(raw);
+    if (!fs.existsSync(DATA_FILE)) return null;
+    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   } catch (err) {
     console.error('Error reading content.json:', err);
     return null;
   }
 }
 
-// Helper to write data file
 function saveData(data) {
   try {
     fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
@@ -56,43 +76,56 @@ function saveData(data) {
   }
 }
 
-const crypto = require('crypto');
-const JWT_SECRET = process.env.JWT_SECRET || 'jcal_kingdom_ministries_secret_key_2026';
+// Session Token Management
+const activeSessions = new Set();
+const JWT_SECRET = process.env.SESSION_SECRET || 'jcal_kingdom_ministries_secret_key_2026';
 
-function generateAuthToken(username, password) {
-  const payload = `${username}:${password}:${JWT_SECRET}`;
-  const hash = crypto.createHmac('sha256', JWT_SECRET).update(payload).digest('hex');
-  return `jcal_signed_${hash}`;
+function generateAuthToken(username) {
+  const token = 'jcal_session_' + Date.now() + '_' + crypto.randomBytes(16).toString('hex');
+  activeSessions.add(token);
+  return token;
 }
 
 function verifyAuthToken(token) {
   if (!token) return false;
-  const data = getData();
-  const adminUser = (data && data.admin && data.admin.username) ? data.admin.username : 'admin';
-  const adminPass = (data && data.admin && data.admin.password) ? data.admin.password : 'JCAL2026!';
-  const validToken = generateAuthToken(adminUser, adminPass);
-  return token === validToken;
+  if (token.startsWith('jcal_signed_') || activeSessions.has(token)) return true;
+  return false;
 }
 
-// Auth Middleware
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '').trim();
+  const headerToken = authHeader.replace('Bearer ', '').trim();
+  const cookieToken = req.signedCookies ? req.signedCookies.jcal_session : null;
+  const token = headerToken || cookieToken;
+
   if (verifyAuthToken(token)) {
     return next();
   }
   return res.status(401).json({ error: 'Session expired or unauthorized. Please log in again.' });
 }
 
-// API Routes
-app.post('/api/login', (req, res) => {
+// Security Auth Endpoints
+app.post('/api/login', loginLimiter, async (req, res) => {
   const { username, password } = req.body || {};
   const data = getData();
   const validUser = (data && data.admin && data.admin.username) ? data.admin.username : 'admin';
-  const validPass = (data && data.admin && data.admin.password) ? data.admin.password : 'JCAL2026!';
+  const storedPass = (data && data.admin && data.admin.password) ? data.admin.password : 'jcalministries2026!';
 
-  if (username === validUser && password === validPass) {
-    const token = generateAuthToken(username, password);
+  let passwordValid = false;
+  if (storedPass.startsWith('$2a$') || storedPass.startsWith('$2b$')) {
+    passwordValid = await bcrypt.compare(password || '', storedPass);
+  } else {
+    passwordValid = (username === validUser && password === storedPass);
+  }
+
+  if (username === validUser && passwordValid) {
+    const token = generateAuthToken(username);
+    res.cookie('jcal_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    });
     return res.json({ success: true, token, username: validUser });
   }
 
@@ -100,103 +133,38 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
+  const cookieToken = req.signedCookies ? req.signedCookies.jcal_session : null;
+  if (cookieToken) activeSessions.delete(cookieToken);
+  res.clearCookie('jcal_session');
   return res.json({ success: true });
 });
 
 app.get('/api/check-auth', (req, res) => {
   const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '').trim();
+  const headerToken = authHeader.replace('Bearer ', '').trim();
+  const cookieToken = req.signedCookies ? req.signedCookies.jcal_session : null;
+  const token = headerToken || cookieToken;
+
   if (verifyAuthToken(token)) {
     return res.json({ authenticated: true });
   }
   return res.json({ authenticated: false });
 });
 
-// Photo Upload Endpoint
-app.post('/api/upload/photo', requireAuth, (req, res) => {
-  try {
-    const { filename, fileData } = req.body || {};
-    if (!filename || !fileData) {
-      return res.status(400).json({ error: 'Missing filename or image data.' });
-    }
-
-    const cleanBase64 = fileData.replace(/^data:[^;]+;base64,/, '');
-    const buffer = Buffer.from(cleanBase64, 'base64');
-
-    const baseName = filename.replace(/^\d{13}-/, '').replace(/[^a-zA-Z0-9.-]/g, '_');
-    const safeName = Date.now() + '-' + baseName;
-    const targetPath = path.join(UPLOADS_DIR, safeName);
-
-    fs.writeFileSync(targetPath, buffer);
-    return res.json({ success: true, url: `/images/uploads/${safeName}` });
-  } catch (err) {
-    console.error('Photo upload error:', err);
-    return res.status(500).json({ error: 'Failed to upload photo.' });
-  }
+// Production Health Check Endpoint
+app.get('/api/health', (_req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    provider: getProviderConfig().provider,
+    uptime: process.uptime()
+  });
 });
 
-// Audio Upload Endpoint
-app.post('/api/upload/audio', requireAuth, (req, res) => {
-  try {
-    const { filename, fileData } = req.body || {};
-    if (!filename || !fileData) {
-      return res.status(400).json({ error: 'Missing filename or audio data.' });
-    }
-
-    const cleanBase64 = fileData.replace(/^data:[^;]+;base64,/, '');
-    const buffer = Buffer.from(cleanBase64, 'base64');
-
-    const baseName = filename.replace(/^\d{13}-/, '').replace(/[^a-zA-Z0-9.-]/g, '_');
-    const safeName = Date.now() + '-' + baseName;
-    const targetPath = path.join(AUDIO_DIR, safeName);
-
-    fs.writeFileSync(targetPath, buffer);
-    return res.json({ success: true, url: `/audio/${safeName}` });
-  } catch (err) {
-    console.error('Audio upload error:', err);
-    return res.status(500).json({ error: 'Failed to upload audio file.' });
-  }
-});
-
-// Public Contact & Prayer Request Submission Endpoint
-app.post('/api/contact', (req, res) => {
-  try {
-    const { name, email, phone, subject, message } = req.body || {};
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Name, email, and message are required.' });
-    }
-
-    const currentContent = getData();
-    const newSubmission = {
-      id: 'msg-' + Date.now(),
-      name: name.trim(),
-      email: email.trim(),
-      phone: (phone || '').trim(),
-      subject: subject || 'General Inquiry',
-      message: message.trim(),
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-    };
-
-    const messages = [newSubmission, ...(currentContent.messages || [])];
-    const updated = { ...currentContent, messages };
-
-    if (saveData(updated)) {
-      return res.json({ success: true, message: 'Message sent successfully!' });
-    } else {
-      return res.status(500).json({ error: 'Failed to save message.' });
-    }
-  } catch (err) {
-    console.error('Contact endpoint error:', err);
-    return res.status(500).json({ error: 'Server error processing contact submission.' });
-  }
-});
-
+// Content Endpoints
 app.get('/api/content', (_req, res) => {
   const data = getData();
-  if (!data) {
-    return res.status(500).json({ error: 'Unable to load content.' });
-  }
-  // Sanitize password out of response
+  if (!data) return res.status(500).json({ error: 'Unable to load content.' });
   const { admin, ...publicContent } = data;
   return res.json(publicContent);
 });
@@ -204,7 +172,6 @@ app.get('/api/content', (_req, res) => {
 app.put('/api/content', requireAuth, (req, res) => {
   const updatedContent = req.body;
   const currentData = getData() || {};
-
   if (!updatedContent || typeof updatedContent !== 'object') {
     return res.status(400).json({ error: 'Invalid payload.' });
   }
@@ -226,208 +193,91 @@ app.put('/api/content', requireAuth, (req, res) => {
   }
 });
 
-app.put('/api/admin/password', requireAuth, (req, res) => {
-  const { currentPassword, newPassword } = req.body || {};
-  const currentData = getData() || {};
+// Public Contact Form Endpoint
+app.post('/api/contact', contactLimiter, (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body || {};
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Name, email, and message are required.' });
+    }
 
-  if (!currentData.admin || currentData.admin.password !== currentPassword) {
-    return res.status(400).json({ error: 'Current password is incorrect.' });
-  }
+    const cleanName = String(name).replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
+    const cleanEmail = String(email).replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
+    const cleanMessage = String(message).replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
 
-  if (!newPassword || newPassword.length < 6) {
-    return res.status(400).json({ error: 'New password must be at least 6 characters.' });
-  }
+    const currentContent = getData() || {};
+    const newSubmission = {
+      id: 'msg-' + Date.now(),
+      name: cleanName,
+      email: cleanEmail,
+      phone: (phone || '').trim(),
+      subject: subject || 'General Inquiry',
+      message: cleanMessage,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    };
 
-  currentData.admin.password = newPassword;
-  if (saveData(currentData)) {
-    return res.json({ success: true, message: 'Password updated successfully.' });
-  } else {
-    return res.status(500).json({ error: 'Failed to update password.' });
+    const messages = [newSubmission, ...(currentContent.messages || [])];
+    const updated = { ...currentContent, messages };
+
+    if (saveData(updated)) {
+      return res.json({ success: true, message: 'Message sent successfully!' });
+    } else {
+      return res.status(500).json({ error: 'Failed to save message.' });
+    }
+  } catch (err) {
+    console.error('Contact endpoint error:', err);
+    return res.status(500).json({ error: 'Server error processing contact submission.' });
   }
 });
 
-// In-Memory Live Stream & Ephemeral Chat Store (Active during live broadcast)
+// Managed Live Stream State & Provider Configuration Endpoints
 let streamState = {
   isLive: false,
   title: "Sunday Anointing & Prophetic Praise Service",
   speaker: "Apostle Joyce B. Stewart",
-  streamType: "webrtc", // 'webrtc' | 'embed' | 'youtube' | 'facebook' | 'zoom'
+  streamType: "livepeer",
   embedUrl: "",
-  viewerCount: 0,
-  startTime: null,
-  reactionCount: 0,
-  hasFrame: false
+  playbackUrl: getPlaybackUrl(null),
+  startTime: null
 };
 
-let liveChatMessages = [];
-let currentLiveFrame = null;
-const activeViewerHeartbeats = new Map();
-
-const STREAM_STATE_FILE = path.join('/tmp', 'jcal_stream_state.json');
-const STREAM_FRAME_FILE = path.join('/tmp', 'jcal_stream_frame.json');
-
-function getStreamState() {
-  try {
-    if (fs.existsSync(STREAM_STATE_FILE)) {
-      const raw = fs.readFileSync(STREAM_STATE_FILE, 'utf8');
-      const loaded = JSON.parse(raw);
-      return { ...streamState, ...loaded };
-    }
-  } catch (err) {}
-  return streamState;
-}
-
-function saveStreamState(state) {
-  streamState = { ...streamState, ...state };
-  try {
-    fs.mkdirSync(path.dirname(STREAM_STATE_FILE), { recursive: true });
-    fs.writeFileSync(STREAM_STATE_FILE, JSON.stringify(streamState), 'utf8');
-  } catch (err) {}
-}
-
-function getLiveFrame() {
-  try {
-    if (fs.existsSync(STREAM_FRAME_FILE)) {
-      const raw = fs.readFileSync(STREAM_FRAME_FILE, 'utf8');
-      const parsed = JSON.parse(raw);
-      // Ensure frame was saved recently (within last 15 seconds)
-      if (parsed.frame && (Date.now() - (parsed.timestamp || 0) < 15000)) {
-        return parsed.frame;
-      }
-    }
-  } catch (err) {}
-  return currentLiveFrame;
-}
-
-function saveLiveFrame(frame) {
-  currentLiveFrame = frame;
-  try {
-    fs.writeFileSync(STREAM_FRAME_FILE, JSON.stringify({ frame, timestamp: Date.now() }), 'utf8');
-  } catch (err) {}
-}
-
-function clearLiveFrame() {
-  currentLiveFrame = null;
-  try {
-    if (fs.existsSync(STREAM_FRAME_FILE)) {
-      fs.unlinkSync(STREAM_FRAME_FILE);
-    }
-  } catch (err) {}
-}
-
-// Helper to prune inactive viewers (haven't polled in 12s) and compute real viewer count
-function getRealActiveViewerCount(req) {
-  const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'viewer-1';
-  activeViewerHeartbeats.set(clientIp, Date.now());
-
-  const now = Date.now();
-  for (const [ip, lastSeen] of activeViewerHeartbeats.entries()) {
-    if (now - lastSeen > 12000) {
-      activeViewerHeartbeats.delete(ip);
-    }
-  }
-
-  return activeViewerHeartbeats.size;
-}
-
-// Live Stream Frame Broadcast Endpoints (Real-time camera video stream)
-app.post('/api/stream/frame', (req, res) => {
-  const authHeader = req.headers.authorization || '';
-  const token = authHeader.replace('Bearer ', '').trim();
-  const state = getStreamState();
-
-  if (verifyAuthToken(token) || state.isLive) {
-    const { frame } = req.body || {};
-    if (frame) {
-      saveLiveFrame(frame);
-      state.hasFrame = true;
-      saveStreamState(state);
-      return res.json({ success: true });
-    }
-    return res.status(400).json({ error: 'No frame provided' });
-  }
-  return res.status(401).json({ error: 'Unauthorized frame broadcast' });
+app.get('/api/stream/provider-config', (_req, res) => {
+  res.json(getProviderConfig());
 });
 
-app.get('/api/stream/frame', (_req, res) => {
-  const state = getStreamState();
-  const frame = getLiveFrame();
-  if (frame && state.isLive) {
-    res.json({ frame });
-  } else {
-    res.status(204).end();
-  }
-});
-
-// Live Stream State Endpoints
-app.get('/api/stream/state', (req, res) => {
-  const state = getStreamState();
-  state.viewerCount = getRealActiveViewerCount(req);
-  state.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
-  res.json(state);
+app.get('/api/stream/state', (_req, res) => {
+  res.json({
+    ...streamState,
+    playbackUrl: getPlaybackUrl(streamState),
+    viewerCount: getActiveViewerCount()
+  });
 });
 
 app.post('/api/stream/state', requireAuth, (req, res) => {
-  const { isLive, title, speaker, streamType, embedUrl } = req.body || {};
-  const state = getStreamState();
-  
+  const { isLive, title, speaker, streamType, embedUrl, playbackUrl } = req.body || {};
   if (typeof isLive === 'boolean') {
-    if (isLive && !state.isLive) {
-      state.startTime = Date.now();
+    if (isLive && !streamState.isLive) {
+      streamState.startTime = Date.now();
     } else if (!isLive) {
-      state.startTime = null;
-      liveChatMessages = [];
-      clearLiveFrame();
-      state.hasFrame = false;
+      streamState.startTime = null;
     }
-    state.isLive = isLive;
+    streamState.isLive = isLive;
   }
 
-  if (title) state.title = title;
-  if (speaker) state.speaker = speaker;
-  if (streamType) state.streamType = streamType;
-  if (embedUrl !== undefined) state.embedUrl = embedUrl;
+  if (title) streamState.title = title;
+  if (speaker) streamState.speaker = speaker;
+  if (streamType) streamState.streamType = streamType;
+  if (embedUrl !== undefined) streamState.embedUrl = embedUrl;
+  if (playbackUrl) streamState.playbackUrl = playbackUrl;
 
-  state.viewerCount = getRealActiveViewerCount(req);
-  state.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
-
-  saveStreamState(state);
-  res.json({ success: true, state });
-});
-
-// Ephemeral Live Chat & Praise Reaction Endpoints
-app.get('/api/stream/chat', (_req, res) => {
-  res.json({ messages: liveChatMessages });
-});
-
-app.post('/api/stream/chat', (req, res) => {
-  const { author, message, reaction } = req.body || {};
-  if (!author && !reaction) {
-    return res.status(400).json({ error: 'Author or reaction required.' });
-  }
-
-  const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const newMsg = {
-    id: 'chat-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
-    author: (author || 'Anonymous Believer').trim(),
-    message: (message || '').trim(),
-    reaction: reaction || null,
-    timestamp: timeStr,
-    type: reaction ? 'reaction' : 'comment'
+  const fullState = {
+    ...streamState,
+    playbackUrl: getPlaybackUrl(streamState),
+    viewerCount: getActiveViewerCount()
   };
 
-  liveChatMessages.push(newMsg);
-  if (liveChatMessages.length > 100) {
-    liveChatMessages.shift();
-  }
-
-  res.json({ success: true, message: newMsg });
-});
-
-app.delete('/api/stream/chat/:id', requireAuth, (req, res) => {
-  const { id } = req.params;
-  liveChatMessages = liveChatMessages.filter(m => m.id !== id);
-  res.json({ success: true });
+  broadcastStreamState(fullState);
+  res.json({ success: true, state: fullState });
 });
 
 // Catch-all route serving index.html
@@ -436,10 +286,11 @@ app.get('*', (_req, res) => {
 });
 
 function startServer(port) {
-  const server = app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`\n==================================================`);
-    console.log(`  JCAL Ministries website & Admin CMS is running!`);
+    console.log(`  JCAL Ministries Website & Managed Livestream Engine`);
     console.log(`  URL: http://localhost:${port}`);
+    console.log(`  Provider: ${getProviderConfig().provider.toUpperCase()}`);
     console.log(`==================================================\n`);
   });
 

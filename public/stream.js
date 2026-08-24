@@ -184,10 +184,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const liveCameraImg = document.getElementById('live-camera-img');
-  let frameFetchInterval = null;
-  let isFetchingFrame = false;
-  let consecutiveFrameFailures = 0;
+  // Production HLS Video Player & Socket.io Integration
+  const hlsVideoPlayer = document.getElementById('live-hls-player');
+  let hlsEngine = null;
+  let socket = null;
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
 
   function hideStandbyScreen() {
     if (standbyScreen) {
@@ -203,51 +213,133 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function startFetchingLiveFrames() {
+  function startHlsPlayback(hlsUrl) {
+    if (!hlsUrl || !hlsVideoPlayer) return;
     hideStandbyScreen();
-    if (frameFetchInterval) return;
-    frameFetchInterval = setInterval(async () => {
-      if (isFetchingFrame) return; // Skip tick if previous GET request is still in flight
-      if (currentStreamState && currentStreamState.isLive) {
-        isFetchingFrame = true;
-        try {
-          const res = await fetch('/api/stream/frame');
-          if (res.status === 200) {
-            const data = await res.json();
-            if (data.frame && liveCameraImg) {
-              const imgPreloader = new Image();
-              imgPreloader.onload = () => {
-                liveCameraImg.src = data.frame;
-                liveCameraImg.style.display = 'block';
-                hideStandbyScreen();
-              };
-              imgPreloader.src = data.frame;
-              consecutiveFrameFailures = 0;
-            }
-          } else {
-            consecutiveFrameFailures++;
-            // If frame loss is brief (< 15 attempts / ~20s grace period), keep last frame on screen
-            if (consecutiveFrameFailures < 15) {
-              hideStandbyScreen();
-            } else {
-              showStandbyScreen();
-            }
+    hlsVideoPlayer.style.display = 'block';
+
+    if (Hls && Hls.isSupported()) {
+      if (hlsEngine) hlsEngine.destroy();
+      hlsEngine = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+        backBufferLength: 90
+      });
+      hlsEngine.loadSource(hlsUrl);
+      hlsEngine.attachMedia(hlsVideoPlayer);
+      hlsEngine.on(Hls.Events.MANIFEST_PARSED, () => {
+        hlsVideoPlayer.play().catch(() => {});
+      });
+      hlsEngine.on(Hls.Events.ERROR, (_event, data) => {
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              hlsEngine.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              hlsEngine.recoverMediaError();
+              break;
+            default:
+              hlsEngine.destroy();
+              break;
           }
-        } catch (err) {
-          consecutiveFrameFailures++;
-          if (consecutiveFrameFailures < 15) {
-            hideStandbyScreen();
-          } else {
-            showStandbyScreen();
-          }
-        } finally {
-          isFetchingFrame = false;
         }
-      } else {
-        showStandbyScreen();
-        consecutiveFrameFailures = 0;
+      });
+    } else if (hlsVideoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+      hlsVideoPlayer.src = hlsUrl;
+      hlsVideoPlayer.play().catch(() => {});
+    }
+  }
+
+  function stopHlsPlayback() {
+    if (hlsEngine) {
+      hlsEngine.destroy();
+      hlsEngine = null;
+    }
+    if (hlsVideoPlayer) {
+      hlsVideoPlayer.pause();
+      hlsVideoPlayer.style.display = 'none';
+    }
+    showStandbyScreen();
+  }
+
+  // Socket.io Client Setup
+  if (typeof io !== 'undefined') {
+    socket = io();
+
+    socket.on('viewerCount', (data) => {
+      if (viewerCountPill && data && data.count !== undefined) {
+        viewerCountPill.textContent = `${data.count} Watching`;
       }
-    }, 150);
+    });
+
+    socket.on('streamStateChanged', (state) => {
+      if (state) {
+        currentStreamState = state;
+        renderStreamState(state);
+      }
+    });
+
+    socket.on('chatHistory', (data) => {
+      if (data && data.messages && chatMessagesFeed) {
+        chatMessagesFeed.innerHTML = '';
+        data.messages.forEach(msg => appendChatMessage(msg));
+      }
+    });
+
+    socket.on('newChatMessage', (msg) => {
+      appendChatMessage(msg);
+    });
+
+    socket.on('newReaction', (data) => {
+      if (data && data.reaction) {
+        spawnFloatingEmoji(data.reaction);
+      }
+    });
+
+    socket.on('messageDeleted', (data) => {
+      if (data && data.id) {
+        const msgElem = document.getElementById(data.id);
+        if (msgElem) msgElem.remove();
+      }
+    });
+  }
+
+  function appendChatMessage(msg) {
+    if (!chatMessagesFeed || !msg) return;
+    const msgDiv = document.createElement('div');
+    msgDiv.id = msg.id || ('chat-' + Date.now());
+    msgDiv.className = 'chat-message-item';
+
+    const safeAuthor = escapeHTML(msg.author || 'Anonymous Believer');
+    const safeMessage = escapeHTML(msg.message || '');
+    const safeTime = escapeHTML(msg.timestamp || '');
+
+    msgDiv.innerHTML = `
+      <div class="chat-meta">
+        <strong class="chat-author">${safeAuthor}</strong>
+        <span class="chat-time">${safeTime}</span>
+      </div>
+      <p class="chat-text">${safeMessage}</p>
+    `;
+
+    chatMessagesFeed.appendChild(msgDiv);
+    chatMessagesFeed.scrollTop = chatMessagesFeed.scrollHeight;
+
+    if (chatCountBadge) {
+      const count = chatMessagesFeed.querySelectorAll('.chat-message-item').length;
+      chatCountBadge.textContent = String(count);
+    }
+  }
+
+  function spawnFloatingEmoji(emoji) {
+    if (!floatingEmojisContainer) return;
+    const el = document.createElement('span');
+    el.className = 'floating-emoji';
+    el.textContent = emoji || '🙌';
+    el.style.left = `${Math.floor(Math.random() * 80) + 10}%`;
+    floatingEmojisContainer.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
   }
 
   function stopFetchingLiveFrames() {
@@ -295,18 +387,16 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.cursor = 'pointer';
       });
 
-      if (state.streamType === 'webrtc') {
-        liveIframe.style.display = 'none';
+      if (state.streamType === 'embed' || state.streamType === 'youtube') {
+        stopHlsPlayback();
         hideStandbyScreen();
-        startFetchingLiveFrames();
-      } else if (state.streamType === 'embed' || state.streamType === 'youtube') {
-        stopFetchingLiveFrames();
-        hideStandbyScreen();
-        if (liveVideo) liveVideo.style.display = 'none';
         if (liveIframe) liveIframe.style.display = 'block';
         if (state.embedUrl && liveIframe.src !== state.embedUrl) {
           liveIframe.src = state.embedUrl;
         }
+      } else {
+        if (liveIframe) liveIframe.style.display = 'none';
+        startHlsPlayback(state.playbackUrl || state.hlsUrl);
       }
     } else {
       // STANDBY MODE: Hide Chat Section Completely & Show Standby Banner
@@ -315,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
         globalStatusPill.innerHTML = '<span>SERVICE STANDBY</span>';
       }
 
-      stopFetchingLiveFrames();
+      stopHlsPlayback();
 
       // Hide Chat Panel & Public Video Controls when Stream is Offline
       if (streamChatSection) streamChatSection.style.display = 'none';
@@ -324,8 +414,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Show Standby Overlay & Hide Video Elements
       showStandbyScreen();
-      if (liveVideo) liveVideo.style.display = 'none';
       if (liveIframe) liveIframe.style.display = 'none';
+      if (liveCameraImg) liveCameraImg.style.display = 'none';
+    }
+  }
 
       // Lock Chat & Praise Reaction Buttons when Offline / Standby
       if (chatMessageInput) {
@@ -469,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (liveChatForm) {
-    liveChatForm.addEventListener('submit', async (e) => {
+    liveChatForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const author = chatAuthorInput.value.trim();
       const message = chatMessageInput.value.trim();
@@ -477,41 +569,33 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!author || !message) return;
       localStorage.setItem('jcal_chat_author', author);
 
-      try {
-        const res = await fetch('/api/stream/chat', {
+      if (socket) {
+        socket.emit('sendChatMessage', { author, message });
+        chatMessageInput.value = '';
+      } else {
+        fetch('/api/stream/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ author, message })
-        });
-        const data = await res.json();
-        if (res.ok && data.success) {
+        }).then(() => {
           chatMessageInput.value = '';
           fetchLiveChat();
-        }
-      } catch (err) {
-        console.error('Send chat message error:', err);
+        }).catch(err => console.error('Chat error:', err));
       }
     });
   }
 
   // Praise Reaction Buttons & Floating Animations
   praiseBtns.forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const reaction = btn.dataset.reaction;
-      const author = chatAuthorInput.value.trim() || 'Believer';
+    btn.addEventListener('click', () => {
+      const emoji = btn.dataset.emoji || btn.textContent.trim();
+      const author = chatAuthorInput.value.trim() || 'Anonymous Believer';
 
-      spawnFloatingEmoji(reaction);
-
-      try {
-        await fetch('/api/stream/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ author, reaction })
-        });
-        fetchLiveChat();
-      } catch (err) {
-        console.error('Reaction send error:', err);
+      if (socket) {
+        socket.emit('sendReaction', { reaction: emoji });
       }
+
+      spawnFloatingEmoji(emoji);
     });
   });
 

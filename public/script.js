@@ -1480,48 +1480,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // CMS Frame Broadcasting Loop (720p HD Quality)
-  const cmsCanvas = document.createElement('canvas');
-  const cmsCtx = cmsCanvas.getContext('2d');
-  let cmsFrameInterval = null;
-  let isCmsSendingFrame = false;
-
-  function startCmsFrameBroadcasting() {
-    if (cmsFrameInterval) return;
-    cmsFrameInterval = setInterval(async () => {
-      if (isCmsSendingFrame) return;
-      if (isCmsCamActive && cmsLiveVideo && (cmsLiveVideo.readyState >= 2 || cmsLiveVideo.videoWidth > 0 || cmsLiveVideo.srcObject) && cmsStreamState && cmsStreamState.isLive) {
-        cmsCanvas.width = 1280;
-        cmsCanvas.height = 720;
-        cmsCtx.drawImage(cmsLiveVideo, 0, 0, 1280, 720);
-        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.65);
-        const token = getToken();
-
-        if (token && frameData) {
-          isCmsSendingFrame = true;
-          try {
-            await fetch('/api/stream/frame', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({ frame: frameData })
-            });
-          } catch (err) {
-            console.error('CMS Frame send error:', err);
-          } finally {
-            isCmsSendingFrame = false;
-          }
-        }
+  // Homepage Stream State Fetcher
+  async function fetchCmsStreamState() {
+    try {
+      const res = await fetch('/api/stream/state');
+      if (res.ok) {
+        cmsStreamState = await res.json();
+        renderCmsStreamState(cmsStreamState);
       }
-    }, 150);
-  }
-
-  function stopCmsFrameBroadcasting() {
-    if (cmsFrameInterval) {
-      clearInterval(cmsFrameInterval);
-      cmsFrameInterval = null;
+    } catch (err) {
+      console.error('Error fetching CMS stream state:', err);
     }
   }
 

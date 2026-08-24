@@ -44,7 +44,8 @@
         <!-- FLOATING PRAISE EMOJIS OVERLAY -->
         <div id="floating-emojis" class="floating-emojis-container"></div>
 
-        <!-- CAMERA LIVE STREAM BROADCAST FEED -->
+        <!-- HLS / MANAGED LIVE STREAM VIDEO PLAYER WITH FULL AUDIO -->
+        <video id="live-hls-player" class="video-element" controls autoplay playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
         <img id="live-camera-img" class="video-element" style="display: none; width: 100%; height: 100%; object-fit: cover;" alt="JCAL Live Broadcast Feed" />
         <video id="live-video" class="video-element" autoplay playsinline muted style="display: none;"></video>
 
@@ -132,6 +133,8 @@
 
   </main>
 
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="stream.js"></script>
 </body>
 </html>

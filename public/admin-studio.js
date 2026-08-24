@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Stream State Handlers & Polling
+  // Provider Stream State Handlers & Polling
   async function fetchStreamState() {
     try {
       const res = await fetch('/api/stream/state');
@@ -209,51 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) {
       console.error('Fetch stream state error:', err);
-    }
-  }
-
-  // Canvas Frame Broadcasting Loop (Ultra Low Latency - 720p HD Quality)
-  const hiddenCanvas = document.createElement('canvas');
-  const hiddenCtx = hiddenCanvas.getContext('2d');
-  let frameBroadcastInterval = null;
-  let isSendingFrame = false;
-
-  function startFrameBroadcasting() {
-    if (frameBroadcastInterval) return;
-    frameBroadcastInterval = setInterval(async () => {
-      if (isSendingFrame) return; // Skip tick if previous POST is still in flight
-      if (isCamActive && studioVideo && (studioVideo.readyState >= 2 || studioVideo.videoWidth > 0 || studioVideo.srcObject) && currentStreamState && currentStreamState.isLive) {
-        hiddenCanvas.width = 1280;
-        hiddenCanvas.height = 720;
-        hiddenCtx.drawImage(studioVideo, 0, 0, 1280, 720);
-        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.65);
-        const token = getToken();
-
-        if (token && frameData) {
-          isSendingFrame = true;
-          try {
-            await fetch('/api/stream/frame', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({ frame: frameData })
-            });
-          } catch (err) {
-            console.error('Frame send error:', err);
-          } finally {
-            isSendingFrame = false;
-          }
-        }
-      }
-    }, 150);
-  }
-
-  function stopFrameBroadcasting() {
-    if (frameBroadcastInterval) {
-      clearInterval(frameBroadcastInterval);
-      frameBroadcastInterval = null;
     }
   }
 

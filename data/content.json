@@ -13,8 +13,8 @@
     }
   ],
   "services": {
-    "sunday": "Sunday Worship • 11:00 AM",
-    "wednesday": "Bible Study • Tuesday • 7:00 PM",
+    "sunday": "11:00 AM",
+    "wednesday": "Tuesday • 7:00 PM",
     "announcement": "Welcome to JCAL!",
     "announcementActive": false
   },
@@ -26,18 +26,6 @@
   "carousel": {
     "audioUrl": "/audio/8553940285143159747.m4a",
     "slides": [
-      {
-        "id": "slide-1",
-        "badge": "SUNDAY SERVICE",
-        "title": "Anointed Praise & Worship Gathering",
-        "image": "images/logo.png"
-      },
-      {
-        "id": "slide-2",
-        "badge": "OUTREACH",
-        "title": "Community Service & Fellowship in Westwego",
-        "image": "images/logo.png"
-      },
       {
         "id": "slide-3",
         "badge": "YOUTH MINISTRY",
@@ -125,5 +113,15 @@
     ],
     "audioMode": "file"
   },
-  "messages": []
+  "messages": [
+    {
+      "id": "msg-1787604231964",
+      "name": "&lt;script&gt;alert(1)&lt;/script&gt;Test Believer",
+      "email": "test@example.com",
+      "phone": "",
+      "subject": "General Inquiry",
+      "message": "Hello JCAL!",
+      "date": "Aug 24, 2026, 04:43 PM"
+    }
+  ]
 }
