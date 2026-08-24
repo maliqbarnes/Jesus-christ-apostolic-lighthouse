@@ -259,7 +259,7 @@ let liveChatMessages = [];
 let currentLiveFrame = null;
 const activeViewerHeartbeats = new Map();
 
-const STREAM_STATE_FILE = path.join(__dirname, 'data', 'stream_state.json');
+const STREAM_STATE_FILE = path.join('/tmp', 'jcal_stream_state.json');
 const STREAM_FRAME_FILE = path.join('/tmp', 'jcal_stream_frame.json');
 
 function getStreamState() {

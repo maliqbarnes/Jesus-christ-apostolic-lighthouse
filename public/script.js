@@ -1569,10 +1569,13 @@ document.addEventListener('DOMContentLoaded', () => {
   checkHomepageStreamPreview();
   fetchCmsStreamState();
 
-  // Automatic Background Polling for Live Message & Stream Updates (Every 5 Seconds)
+  // Automatic Background Polling for Live Message & Stream Updates
+  setInterval(() => {
+    checkHomepageStreamPreview();
+  }, 2500);
+
   setInterval(() => {
     fetchSiteContent();
-    checkHomepageStreamPreview();
     fetchCmsStreamState();
   }, 5000);
 });
