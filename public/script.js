@@ -32,6 +32,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const tributeMuteIcon = document.getElementById('tribute-mute-icon');
   const tributeMuteText = document.getElementById('tribute-mute-text');
 
+  if (tributeVideo) {
+    tributeVideo.muted = true;
+    tributeVideo.loop = true;
+    tributeVideo.play().catch(() => {});
+
+    // Restart video when finished
+    tributeVideo.addEventListener('ended', () => {
+      tributeVideo.currentTime = 0;
+      tributeVideo.play().catch(() => {});
+    });
+
+    // Fallback trigger if browser blocked autoplay before user click
+    const startPlayOnUserTouch = () => {
+      if (tributeVideo.paused) {
+        tributeVideo.play().catch(() => {});
+      }
+      document.removeEventListener('click', startPlayOnUserTouch);
+      document.removeEventListener('touchstart', startPlayOnUserTouch);
+    };
+    document.addEventListener('click', startPlayOnUserTouch);
+    document.addEventListener('touchstart', startPlayOnUserTouch);
+  }
+
   if (tributeMuteBtn && tributeVideo) {
     tributeMuteBtn.onclick = () => {
       tributeVideo.muted = !tributeVideo.muted;

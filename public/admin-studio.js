@@ -75,11 +75,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function checkAdminAccess() {
+  async function checkAdminAccess() {
     const token = getToken();
     if (!token) {
-      console.warn('Admin token missing on studio init.');
+      alert('🔒 Access Denied: You must log into the CMS Admin Portal before accessing the Broadcast Manager.');
+      window.location.href = 'index.html#admin';
+      return false;
     }
+    try {
+      const res = await fetch('/api/check-auth', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!data.authenticated) {
+        alert('🔒 Session expired. Please log into the CMS Admin Portal.');
+        localStorage.removeItem('jcal_admin_token');
+        window.location.href = 'index.html#admin';
+        return false;
+      }
+    } catch (err) {
+      console.error('Check auth error:', err);
+    }
+    return true;
   }
   checkAdminAccess();
 
@@ -291,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Master Live Trigger (Requires active camera & microphone)
+  // Master Live Trigger (Starts camera automatically if needed and toggles live status)
   if (studioBtnMasterLive) {
     studioBtnMasterLive.addEventListener('click', async () => {
       const token = await ensureValidToken();
@@ -300,25 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const newLiveState = !(currentStreamState && currentStreamState.isLive);
 
       if (newLiveState) {
-        // 1. Ensure camera & mic are started
+        // Automatically start camera if not active
         if (!isCamActive || !localStream) {
           const started = await startCamera();
           if (!started || !localStream) {
-            alert('⚠️ Camera and Microphone must be enabled and allowed in your browser before you can go live!');
+            alert('⚠️ Please allow camera access in your browser to start broadcasting!');
             return;
           }
-        }
-
-        // 2. Verify active video and audio tracks exist and are enabled
-        const videoTracks = localStream.getVideoTracks();
-        const audioTracks = localStream.getAudioTracks();
-
-        const hasVideo = videoTracks.some(t => t.enabled && t.readyState === 'live');
-        const hasAudio = audioTracks.some(t => t.enabled && t.readyState === 'live');
-
-        if (!hasVideo || !hasAudio) {
-          alert('⚠️ Both Camera (video) and Microphone (audio) must be enabled and active to go live!');
-          return;
         }
       }
 
@@ -333,12 +338,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await res.json();
         if (res.ok && data.success) {
+          if (data.state) {
+            currentStreamState = data.state;
+            renderStreamState(currentStreamState);
+          }
           fetchStreamState();
         } else if (res.status === 401) {
-          alert('Session expired. Please click GO LIVE again to authenticate.');
+          alert('Session expired. Please re-authenticate to go live.');
         }
       } catch (err) {
         console.error('Master live toggle error:', err);
+        alert('Network error when toggling live broadcast.');
       }
     });
   }
