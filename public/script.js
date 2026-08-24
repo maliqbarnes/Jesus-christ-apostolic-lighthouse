@@ -589,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <span class="msg-date">• ${msg.date}</span>
                 </div>
                 <div class="msg-contact-info">
-                  ✉️ <a href="mailto:${msg.email}" style="color: var(--gold-dark); text-decoration: underline;">${msg.email}</a> ${msg.phone ? `• 📞 ${msg.phone}` : ''}
+                  <a href="mailto:${msg.email}" style="color: var(--gold-dark); text-decoration: underline;">${msg.email}</a> ${msg.phone ? `• Phone: ${msg.phone}` : ''}
                 </div>
                 <div class="admin-message-body">${msg.message}</div>
               </div>
