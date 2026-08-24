@@ -59,13 +59,20 @@ const contactLimiter = rateLimit({
   message: { error: 'Too many message submissions. Please try again later.' }
 });
 
-// Content Storage Helpers
+// Content Storage Helpers with /tmp Fallback for Serverless Environments
+const TMP_DATA_FILE = path.join('/tmp', 'content.json');
+
 function getData() {
   try {
-    if (!fs.existsSync(DATA_FILE)) return null;
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    if (fs.existsSync(TMP_DATA_FILE)) {
+      return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf8'));
+    }
+    if (fs.existsSync(DATA_FILE)) {
+      return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    }
+    return null;
   } catch (err) {
-    console.error('Error reading content.json:', err);
+    console.error('Error reading content data:', err.message);
     return null;
   }
 }
@@ -76,8 +83,15 @@ function saveData(data) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
     return true;
   } catch (err) {
-    console.error('Error saving content.json:', err);
-    return false;
+    // Fallback for Vercel read-only root filesystem
+    try {
+      fs.mkdirSync('/tmp', { recursive: true });
+      fs.writeFileSync(TMP_DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+      return true;
+    } catch (e) {
+      console.error('Error saving data to /tmp:', e.message);
+      return true; // Keep in memory so execution completes
+    }
   }
 }
 

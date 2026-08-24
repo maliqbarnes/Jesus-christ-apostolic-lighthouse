@@ -10,14 +10,16 @@ let activeViewerCount = 0;
 let liveChatHistory = [];
 
 function initSocketServer(server) {
-  io = socketIo(server, {
-    cors: {
-      origin: '*',
-      methods: ['GET', 'POST']
-    }
-  });
+  if (!server) return null;
+  try {
+    io = socketIo(server, {
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    });
 
-  io.on('connection', (socket) => {
+    io.on('connection', (socket) => {
     activeViewerCount++;
     io.emit('viewerCount', { count: activeViewerCount });
 
@@ -67,6 +69,10 @@ function initSocketServer(server) {
   });
 
   return io;
+  } catch (err) {
+    console.warn('Socket.io not supported in stateless serverless runtime:', err.message);
+    return null;
+  }
 }
 
 function broadcastStreamState(state) {
