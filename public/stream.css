@@ -46,8 +46,30 @@ body.stream-body {
   z-index: 100;
 }
 
-.stream-header .brand-text strong {
-  color: var(--navy-dark);
+.btn-nav-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(184, 137, 22, 0.12);
+  color: var(--gold-dark);
+  border: 1px solid rgba(184, 137, 22, 0.35);
+  font-family: "Outfit", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(184, 137, 22, 0.1);
+}
+
+.btn-nav-main:hover {
+  background: var(--gold-dark);
+  color: #ffffff;
+  border-color: var(--gold-dark);
+  box-shadow: 0 4px 14px rgba(184, 137, 22, 0.3);
+  transform: translateY(-1px);
 }
 
 .stream-status-bar-wrapper {
