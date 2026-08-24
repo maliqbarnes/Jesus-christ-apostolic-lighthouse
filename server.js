@@ -260,6 +260,58 @@ let liveChatMessages = [];
 let currentLiveFrame = null;
 const activeViewerHeartbeats = new Map();
 
+const STREAM_STATE_FILE = path.join(__dirname, 'data', 'stream_state.json');
+const STREAM_FRAME_FILE = path.join('/tmp', 'jcal_stream_frame.json');
+
+function getStreamState() {
+  try {
+    if (fs.existsSync(STREAM_STATE_FILE)) {
+      const raw = fs.readFileSync(STREAM_STATE_FILE, 'utf8');
+      const loaded = JSON.parse(raw);
+      return { ...streamState, ...loaded };
+    }
+  } catch (err) {}
+  return streamState;
+}
+
+function saveStreamState(state) {
+  streamState = { ...streamState, ...state };
+  try {
+    fs.mkdirSync(path.dirname(STREAM_STATE_FILE), { recursive: true });
+    fs.writeFileSync(STREAM_STATE_FILE, JSON.stringify(streamState), 'utf8');
+  } catch (err) {}
+}
+
+function getLiveFrame() {
+  try {
+    if (fs.existsSync(STREAM_FRAME_FILE)) {
+      const raw = fs.readFileSync(STREAM_FRAME_FILE, 'utf8');
+      const parsed = JSON.parse(raw);
+      // Ensure frame was saved recently (within last 15 seconds)
+      if (parsed.frame && (Date.now() - (parsed.timestamp || 0) < 15000)) {
+        return parsed.frame;
+      }
+    }
+  } catch (err) {}
+  return currentLiveFrame;
+}
+
+function saveLiveFrame(frame) {
+  currentLiveFrame = frame;
+  try {
+    fs.writeFileSync(STREAM_FRAME_FILE, JSON.stringify({ frame, timestamp: Date.now() }), 'utf8');
+  } catch (err) {}
+}
+
+function clearLiveFrame() {
+  currentLiveFrame = null;
+  try {
+    if (fs.existsSync(STREAM_FRAME_FILE)) {
+      fs.unlinkSync(STREAM_FRAME_FILE);
+    }
+  } catch (err) {}
+}
+
 // Helper to prune inactive viewers (haven't polled in 12s) and compute real viewer count
 function getRealActiveViewerCount(req) {
   const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'viewer-1';
@@ -279,8 +331,10 @@ function getRealActiveViewerCount(req) {
 app.post('/api/stream/frame', requireAuth, (req, res) => {
   const { frame } = req.body || {};
   if (frame) {
-    currentLiveFrame = frame;
-    streamState.hasFrame = true;
+    saveLiveFrame(frame);
+    const state = getStreamState();
+    state.hasFrame = true;
+    saveStreamState(state);
     res.json({ success: true });
   } else {
     res.status(400).json({ error: 'No frame provided' });
@@ -288,8 +342,10 @@ app.post('/api/stream/frame', requireAuth, (req, res) => {
 });
 
 app.get('/api/stream/frame', (_req, res) => {
-  if (currentLiveFrame && streamState.isLive) {
-    res.json({ frame: currentLiveFrame });
+  const state = getStreamState();
+  const frame = getLiveFrame();
+  if (frame && state.isLive) {
+    res.json({ frame });
   } else {
     res.status(204).end();
   }
@@ -297,35 +353,38 @@ app.get('/api/stream/frame', (_req, res) => {
 
 // Live Stream State Endpoints
 app.get('/api/stream/state', (req, res) => {
-  streamState.viewerCount = getRealActiveViewerCount(req);
-  streamState.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
-  res.json(streamState);
+  const state = getStreamState();
+  state.viewerCount = getRealActiveViewerCount(req);
+  state.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
+  res.json(state);
 });
 
 app.post('/api/stream/state', requireAuth, (req, res) => {
   const { isLive, title, speaker, streamType, embedUrl } = req.body || {};
+  const state = getStreamState();
   
   if (typeof isLive === 'boolean') {
-    if (isLive && !streamState.isLive) {
-      streamState.startTime = Date.now();
+    if (isLive && !state.isLive) {
+      state.startTime = Date.now();
     } else if (!isLive) {
-      streamState.startTime = null;
+      state.startTime = null;
       liveChatMessages = [];
-      currentLiveFrame = null;
-      streamState.hasFrame = false;
+      clearLiveFrame();
+      state.hasFrame = false;
     }
-    streamState.isLive = isLive;
+    state.isLive = isLive;
   }
 
-  if (title) streamState.title = title;
-  if (speaker) streamState.speaker = speaker;
-  if (streamType) streamState.streamType = streamType;
-  if (embedUrl !== undefined) streamState.embedUrl = embedUrl;
+  if (title) state.title = title;
+  if (speaker) state.speaker = speaker;
+  if (streamType) state.streamType = streamType;
+  if (embedUrl !== undefined) state.embedUrl = embedUrl;
 
-  streamState.viewerCount = getRealActiveViewerCount(req);
-  streamState.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
+  state.viewerCount = getRealActiveViewerCount(req);
+  state.reactionCount = liveChatMessages.filter(m => m.type === 'reaction').length;
 
-  res.json({ success: true, state: streamState });
+  saveStreamState(state);
+  res.json({ success: true, state });
 });
 
 // Ephemeral Live Chat & Praise Reaction Endpoints
