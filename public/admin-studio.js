@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hiddenCanvas.width = 1280;
         hiddenCanvas.height = 720;
         hiddenCtx.drawImage(studioVideo, 0, 0, 1280, 720);
-        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.78);
+        const frameData = hiddenCanvas.toDataURL('image/jpeg', 0.65);
         const token = getToken();
 
         if (token && frameData) {
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
-    }, 80);
+    }, 150);
   }
 
   function stopFrameBroadcasting() {

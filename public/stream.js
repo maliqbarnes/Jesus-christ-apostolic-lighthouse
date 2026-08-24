@@ -215,9 +215,13 @@ document.addEventListener('DOMContentLoaded', () => {
           if (res.status === 200) {
             const data = await res.json();
             if (data.frame && liveCameraImg) {
-              liveCameraImg.src = data.frame;
-              liveCameraImg.style.display = 'block';
-              hideStandbyScreen();
+              const imgPreloader = new Image();
+              imgPreloader.onload = () => {
+                liveCameraImg.src = data.frame;
+                liveCameraImg.style.display = 'block';
+                hideStandbyScreen();
+              };
+              imgPreloader.src = data.frame;
               consecutiveFrameFailures = 0;
             }
           } else {
@@ -243,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showStandbyScreen();
         consecutiveFrameFailures = 0;
       }
-    }, 120);
+    }, 150);
   }
 
   function stopFetchingLiveFrames() {

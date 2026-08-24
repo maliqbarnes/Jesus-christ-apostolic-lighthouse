@@ -1494,7 +1494,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cmsCanvas.width = 1280;
         cmsCanvas.height = 720;
         cmsCtx.drawImage(cmsLiveVideo, 0, 0, 1280, 720);
-        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.78);
+        const frameData = cmsCanvas.toDataURL('image/jpeg', 0.65);
         const token = getToken();
 
         if (token && frameData) {
@@ -1515,7 +1515,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
-    }, 80);
+    }, 150);
   }
 
   function stopCmsFrameBroadcasting() {
