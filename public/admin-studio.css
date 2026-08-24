@@ -67,6 +67,24 @@ body.admin-studio-body {
   gap: 24px;
 }
 
+/* BROADCASTER TOP ACTION BAR (UNDER NAV BAR ABOVE CAMERA PREVIEW) */
+.studio-top-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.studio-top-actions .btn {
+  font-weight: 700;
+  border-radius: 999px !important;
+  padding: 8px 20px !important;
+  font-size: 0.85rem !important;
+}
+
 /* STATS ANALYTICS BAR */
 .studio-stats-bar {
   grid-column: 1 / -1;
