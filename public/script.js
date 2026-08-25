@@ -157,6 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
     '1 Cor 6:19–20': 'What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God\'s.',
     '2 Cor 7:1': 'Having therefore these promises, dearly beloved, let us cleanse ourselves from all filthiness of the flesh and spirit, perfecting holiness in the fear of God.',
     'Galatians 5:16–25': 'This I say then, Walk in the Spirit, and ye shall not fulfil the lust of the flesh... If we live in the Spirit, let us also walk in the Spirit.',
+    'Hebrews 12:14': 'Follow peace with all men, and holiness, without which no man shall see the Lord.',
+    '1 Peter 1:15–16': 'But as he which hath called you is holy, so be ye holy in all manner of conversation; Because it is written, Be ye holy; for I am holy.',
+    'Matthew 28:19–20': 'Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen.',
+    'Mark 16:15–18': 'And he said unto them, Go ye into all the world, and preach the gospel to every creature. He that believeth and is baptized shall be saved... And these signs shall follow them that believe; In my name shall they cast out devils; they shall speak with new tongues.',
+    'Acts 2:42': 'And they continued stedfastly in the apostles\' doctrine and fellowship, and in breaking of bread, and in prayers.',
+    '1 Cor 12:27–28': 'Now ye are the body of Christ, and members in particular. And God hath set some in the church, first apostles, secondarily prophets, thirdly teachers, after that miracles, then gifts of healings, helps, governments, diversities of tongues.',
     'Ephesians 4:11–13': 'And he gave some, apostles; and some, prophets; and some, evangelists; and some, pastors and teachers; For the perfecting of the saints, for the work of the ministry, for the edifying of the body of Christ.',
     '1 Peter 2:9': 'But ye are a chosen generation, a royal priesthood, an holy nation, a peculiar people; that ye should shew forth the praises of him who hath called you out of darkness into his marvellous light.',
     'Hebrews 10:25': 'Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.',
@@ -171,28 +177,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const scriptureCloseBtn = document.getElementById('scripture-modal-close');
   const scriptureOkBtn = document.getElementById('scripture-modal-ok-btn');
 
-  function openScriptureModal(refText) {
-    if (!scriptureModal) return;
-    const cleanRef = refText.trim();
-    const verseText = SCRIPTURE_TEXTS[cleanRef] || SCRIPTURE_TEXTS[cleanRef.replace(/-/g, '–')] || `Holy Scripture Proof for ${cleanRef}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
+  function getScriptureVerse(ref) {
+    const raw = (ref || '').trim();
+    if (SCRIPTURE_TEXTS[raw]) return SCRIPTURE_TEXTS[raw];
+    const norm = raw.replace(/[\u2013\u2014-]/g, '-').toLowerCase();
+    for (const [k, v] of Object.entries(SCRIPTURE_TEXTS)) {
+      if (k.replace(/[\u2013\u2014-]/g, '-').toLowerCase() === norm) {
+        return v;
+      }
+    }
+    return `Holy Scripture Proof for ${raw}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
+  }
 
-    if (scriptureRefEl) scriptureRefEl.textContent = cleanRef;
-    if (scriptureTextEl) scriptureTextEl.textContent = verseText;
+  function openScriptureModal(refText) {
+    const modal = document.getElementById('scripture-modal');
+    const refEl = document.getElementById('scripture-modal-ref');
+    const textEl = document.getElementById('scripture-modal-text');
+    if (!modal) return;
+
+    const rawRef = (refText || '').trim();
+    const verseText = getScriptureVerse(rawRef);
+
+    if (refEl) refEl.textContent = rawRef;
+    if (textEl) textEl.textContent = verseText;
 
     // Reset zoom animation for instant spring pop effect
-    const cardEl = scriptureModal.querySelector('.scripture-modal-card');
+    const cardEl = modal.querySelector('.scripture-modal-card');
     if (cardEl) {
       cardEl.style.animation = 'none';
       void cardEl.offsetWidth;
       cardEl.style.animation = 'scriptureZoomIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
     }
 
-    scriptureModal.style.display = 'flex';
+    modal.setAttribute('style', 'display: flex !important;');
   }
 
   function closeScriptureModal() {
-    if (scriptureModal) scriptureModal.style.display = 'none';
+    const modal = document.getElementById('scripture-modal');
+    if (modal) modal.setAttribute('style', 'display: none !important;');
   }
+
+  window.openScriptureModalDirect = function(el) {
+    const text = el.dataset.scripture || el.textContent;
+    openScriptureModal(text);
+  };
 
   // Global Event Delegation for Scripture Tag Taps (Works 100% on Mobile & Desktop)
   document.addEventListener('click', (e) => {
@@ -200,7 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tag) {
       e.preventDefault();
       e.stopPropagation();
-      openScriptureModal(tag.textContent);
+      const text = tag.dataset.scripture || tag.textContent;
+      openScriptureModal(text);
     }
   });
 
