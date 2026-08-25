@@ -477,12 +477,14 @@ main {
   font-size: 0.95rem;
 }
 
-.info-item strong {
-  display: inline-block;
+.info-item strong,
+.service-times-card strong {
+  display: block;
+  width: 100%;
   color: var(--black);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 /* ==========================================
