@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return `Holy Scripture Proof for ${raw}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
   }
 
-  function openScriptureModal(refText) {
+  window.openScriptureModal = function(refText) {
     const modal = document.getElementById('scripture-modal');
     const refEl = document.getElementById('scripture-modal-ref');
     const textEl = document.getElementById('scripture-modal-text');
@@ -213,28 +213,28 @@ document.addEventListener('DOMContentLoaded', () => {
       cardEl.style.animation = 'scriptureZoomIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
     }
 
-    modal.setAttribute('style', 'display: flex !important;');
-  }
+    modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
+  };
 
-  function closeScriptureModal() {
+  window.closeScriptureModal = function() {
     const modal = document.getElementById('scripture-modal');
-    if (modal) modal.setAttribute('style', 'display: none !important;');
-  }
+    if (modal) modal.style.cssText = 'display: none !important;';
+  };
 
   window.openScriptureModalDirect = function(el) {
     const text = el.dataset.scripture || el.textContent;
-    openScriptureModal(text);
+    window.openScriptureModal(text);
   };
 
   // Desktop Keyboard Accessibility & Shortcuts
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      closeScriptureModal();
+      window.closeScriptureModal();
     }
     if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('scripture-tag')) {
       e.preventDefault();
       const text = document.activeElement.dataset.scripture || document.activeElement.textContent;
-      openScriptureModal(text);
+      window.openScriptureModal(text);
     }
   });
 
@@ -245,16 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       e.stopPropagation();
       const text = tag.dataset.scripture || tag.textContent;
-      openScriptureModal(text);
+      window.openScriptureModal(text);
     }
   });
 
-  if (scriptureCloseBtn) scriptureCloseBtn.addEventListener('click', closeScriptureModal);
-  if (scriptureOkBtn) scriptureOkBtn.addEventListener('click', closeScriptureModal);
+  if (scriptureCloseBtn) scriptureCloseBtn.addEventListener('click', () => window.closeScriptureModal());
+  if (scriptureOkBtn) scriptureOkBtn.addEventListener('click', () => window.closeScriptureModal());
 
   if (scriptureModal) {
     scriptureModal.addEventListener('click', (e) => {
-      if (e.target === scriptureModal) closeScriptureModal();
+      if (e.target === scriptureModal) window.closeScriptureModal();
     });
   }
 
