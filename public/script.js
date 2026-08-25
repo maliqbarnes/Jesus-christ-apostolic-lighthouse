@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Admin CMS Mobile Hamburger Toggle
   const cmsMenuToggle = document.getElementById('cms-menu-toggle');
   const dashSidebar = document.querySelector('.dashboard-sidebar');
+  const cmsActiveTabTitle = document.getElementById('cms-active-tab-title');
 
   if (cmsMenuToggle && dashSidebar) {
     cmsMenuToggle.addEventListener('click', (e) => {
@@ -116,7 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.addEventListener('click', () => {
         cmsMenuToggle.classList.remove('active');
         dashSidebar.classList.remove('open');
+        if (cmsActiveTabTitle) {
+          // Extract tab title text cleanly
+          const tabText = tab.textContent.replace(/0+$/, '').trim();
+          cmsActiveTabTitle.textContent = tabText;
+        }
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (dashSidebar && cmsMenuToggle && !dashSidebar.contains(e.target) && !cmsMenuToggle.contains(e.target)) {
+        cmsMenuToggle.classList.remove('active');
+        dashSidebar.classList.remove('open');
+      }
     });
   }
 
