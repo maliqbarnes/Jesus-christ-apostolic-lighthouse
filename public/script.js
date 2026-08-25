@@ -221,42 +221,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modal) modal.style.cssText = 'display: none !important;';
   };
 
-  window.openScriptureModalDirect = function(el) {
-    const text = el.dataset.scripture || el.textContent;
-    window.openScriptureModal(text);
-  };
-
-  // Desktop Keyboard Accessibility & Shortcuts
+  // Keyboard Accessibility: Escape key closes modal, Enter/Space opens focused scripture tag
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       window.closeScriptureModal();
     }
     if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('scripture-tag')) {
       e.preventDefault();
-      const text = document.activeElement.dataset.scripture || document.activeElement.textContent;
+      const text = document.activeElement.getAttribute('data-scripture') || document.activeElement.textContent;
       window.openScriptureModal(text);
     }
   });
 
-  // Global Event Delegation for Scripture Tag Taps (Desktop & Mobile)
+  // Global Event Delegation for Scripture Tag Clicks (Desktop & Mobile)
   document.addEventListener('click', (e) => {
     const tag = e.target.closest('.scripture-tag');
     if (tag) {
       e.preventDefault();
       e.stopPropagation();
-      const text = tag.dataset.scripture || tag.textContent;
+      const text = tag.getAttribute('data-scripture') || tag.textContent;
       window.openScriptureModal(text);
     }
   });
-
-  if (scriptureCloseBtn) scriptureCloseBtn.addEventListener('click', () => window.closeScriptureModal());
-  if (scriptureOkBtn) scriptureOkBtn.addEventListener('click', () => window.closeScriptureModal());
-
-  if (scriptureModal) {
-    scriptureModal.addEventListener('click', (e) => {
-      if (e.target === scriptureModal) window.closeScriptureModal();
-    });
-  }
 
   // Active Link Scroll Highlight
   const sections = document.querySelectorAll('section[id]');
