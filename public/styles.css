@@ -1965,53 +1965,94 @@ a[href^="tel"] {
   margin-left: 8px;
 }
 
+/* Modern Poppins Styling for Admin Inbox & Prayer Request Sub-Tabs & Cards */
+.message-filter-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.message-filter-tabs .sub-tab {
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif !important;
+  font-size: 0.86rem !important;
+  font-weight: 600 !important;
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  background: rgba(241, 245, 249, 0.9) !important;
+  color: #475569 !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.message-filter-tabs .sub-tab:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  transform: translateY(-1px) !important;
+}
+
+.message-filter-tabs .sub-tab.active {
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22) !important;
+}
+
 /* Distinct Colored Tags for Messages & Prayer Requests */
 .msg-tag-prayer-request,
 .msg-tag-prayer {
-  background: rgba(34, 197, 94, 0.15) !important;
-  color: #15803d !important;
-  border: 1px solid rgba(34, 197, 94, 0.4) !important;
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 999px;
+  background: rgba(5, 150, 105, 0.12) !important;
+  color: #047857 !important;
+  border: 1px solid rgba(5, 150, 105, 0.35) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.74rem !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
 }
 
 .msg-tag-general-inquiry,
 .msg-tag-inquiry {
-  background: rgba(59, 130, 246, 0.15) !important;
+  background: rgba(37, 99, 235, 0.12) !important;
   color: #1d4ed8 !important;
-  border: 1px solid rgba(59, 130, 246, 0.4) !important;
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.35) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.74rem !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
 }
 
 .msg-tag-planning-a-visit,
 .msg-tag-visiting {
-  background: rgba(245, 158, 11, 0.15) !important;
+  background: rgba(217, 119, 6, 0.12) !important;
   color: #b45309 !important;
-  border: 1px solid rgba(245, 158, 11, 0.4) !important;
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 999px;
+  border: 1px solid rgba(217, 119, 6, 0.35) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.74rem !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
 }
 
 .msg-tag-pastoral-care {
-  background: rgba(168, 85, 247, 0.15) !important;
+  background: rgba(147, 51, 234, 0.12) !important;
   color: #7e22ce !important;
-  border: 1px solid rgba(168, 85, 247, 0.4) !important;
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 3px 10px;
-  border-radius: 999px;
-}
-
-.admin-message-card.archived-card {
-  opacity: 0.75;
-  background: #f8f8fb;
+  border: 1px solid rgba(147, 51, 234, 0.35) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.74rem !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
 }
 
 /* Admin Inbox & Prayer Request Cards */
@@ -2024,14 +2065,29 @@ a[href^="tel"] {
 
 .admin-message-card {
   background: #ffffff;
-  border: 1px solid rgba(184, 137, 22, 0.2);
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  border: 1.5px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  padding: 22px 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-message-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.09);
+  border-color: rgba(5, 150, 105, 0.35);
+}
+
+.admin-message-card.archived-card {
+  background: rgba(241, 245, 249, 0.7);
+  border: 1.5px dashed rgba(203, 213, 225, 0.8);
+  opacity: 0.82;
+  box-shadow: none;
 }
 
 .admin-message-meta {
@@ -2045,39 +2101,49 @@ a[href^="tel"] {
 .msg-subject-tag {
   background: rgba(184, 137, 22, 0.15);
   color: var(--gold-dark);
-  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
   font-size: 0.74rem;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 999px;
   text-transform: uppercase;
 }
 
 .admin-message-card h4 {
   margin: 0;
-  font-family: "Outfit", system-ui, sans-serif;
-  font-size: 1.1rem;
-  color: var(--black);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .admin-message-card .msg-date {
-  font-size: 0.8rem;
-  color: var(--muted);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #64748b;
 }
 
 .admin-message-card .msg-contact-info {
-  font-size: 0.85rem;
-  color: var(--muted);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #475569;
   margin-bottom: 12px;
 }
 
 .admin-message-body {
-  background: #fcfbf7;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
-  padding: 14px 16px;
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-left: 4px solid #059669;
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   font-size: 0.95rem;
-  color: #33333e;
-  line-height: 1.5;
+  line-height: 1.65;
+  color: #1e293b;
+  font-weight: 450;
+  margin-top: 10px;
 }
 
 .giving-options {
