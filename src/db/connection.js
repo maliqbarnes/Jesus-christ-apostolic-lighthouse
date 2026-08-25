@@ -1,13 +1,19 @@
 /**
  * Serverless-optimized MongoDB Atlas Connection Pool Helper
- * Caches database connection across warm Vercel serverless function invocations.
+ * Evaluates ENABLE_MONGODB feature flag before attempting connection.
  */
 
 const mongoose = require('mongoose');
+const { getFeatureFlag } = require('../config/featureFlags');
 
 let cachedConnection = null;
 
 async function connectToDatabase() {
+  // Feature flag check: If ENABLE_MONGODB is false, use local data/content.json gracefully
+  if (!getFeatureFlag('ENABLE_MONGODB')) {
+    return null;
+  }
+
   const mongoUri = process.env.MONGO_URI;
   if (!mongoUri) {
     return null;
@@ -29,7 +35,7 @@ async function connectToDatabase() {
     console.log('✅ Connected to MongoDB Atlas pool.');
     return cachedConnection;
   } catch (err) {
-    console.error('❌ MongoDB Atlas connection error:', err);
+    console.warn('⚠️ MongoDB Atlas connection skipped:', err.message);
     return null;
   }
 }

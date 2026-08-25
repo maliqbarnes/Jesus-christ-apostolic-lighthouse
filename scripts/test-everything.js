@@ -1,11 +1,14 @@
 /**
  * Full End-to-End System Test Verification Script
- * Validates Environment, Data Migration, MongoDB Schemas, Stream Adapters,
+ * Validates Feature Flags, Environment Startup, Standalone Fallbacks, Stream Adapters,
  * Media Storage Adapters, HTTP Endpoints, Webhook Signatures, and WebSockets.
  */
 
 const http = require('http');
 const { spawn } = require('child_process');
+process.env.ENABLE_LIVEPEER = 'true';
+process.env.ENABLE_CLOUDINARY = 'true';
+
 const { validateEnv } = require('../src/config/envValidation');
 const { getStreamProvider, getProviderConfig, getPlaybackUrl } = require('../src/services/StreamProvider');
 const { getMediaStorage } = require('../src/services/MediaStorage');
@@ -28,7 +31,7 @@ async function testEverything() {
     }
   }
 
-  // 1. Test Environment Validation
+  // 1. Test Environment Validation & Feature Flags
   try {
     validateEnv();
     assert(true, 'Environment Startup Validation passed without errors');
@@ -64,7 +67,7 @@ async function testEverything() {
   process.env.SESSION_SECRET = 'c03dfa1059f518e244b76c8c4a161eb31a833501a357591e1d08e5e6e8e894c2';
 
   const serverProc = spawn('node', ['server.js'], {
-    env: { ...process.env, PORT: '3005' }
+    env: { ...process.env, PORT: '3005', ENABLE_LIVEPEER: 'true', ENABLE_CLOUDINARY: 'true' }
   });
 
   await new Promise(r => setTimeout(r, 1500));

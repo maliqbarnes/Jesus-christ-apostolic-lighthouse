@@ -1,7 +1,9 @@
 /**
- * StreamProvider Adapter Pattern
- * Provides normalized, provider-neutral live video streaming interface supporting Livepeer Studio and Mux.
+ * StreamProvider Adapter Pattern with Feature Flag Evaluation
+ * Evaluates ENABLE_LIVEPEER feature flag to toggle Livepeer Studio API vs standalone HLS player.
  */
+
+const { getFeatureFlag } = require('../config/featureFlags');
 
 class BaseStreamAdapter {
   async createOrGetLiveInput() { throw new Error('Not implemented'); }
@@ -36,7 +38,7 @@ class LivepeerAdapter extends BaseStreamAdapter {
   async createOrGetLiveInput() {
     return {
       streamId: 'livepeer_stream_' + Date.now(),
-      ingestUrl: 'rtmps://live.mux.com/app', // RTMPS baseline
+      ingestUrl: 'rtmps://livepeer.studio/live',
       streamKey: 'livepeer_key_' + Math.random().toString(36).substring(2, 10),
       playbackUrl: this.playbackUrl
     };
@@ -63,6 +65,7 @@ class LivepeerAdapter extends BaseStreamAdapter {
   }
 
   verifyWebhook(req) {
+    if (!getFeatureFlag('ENABLE_LIVEPEER')) return true;
     const signature = req.headers['livepeer-signature'];
     return !!signature || process.env.NODE_ENV !== 'production';
   }
@@ -98,93 +101,31 @@ class LivepeerAdapter extends BaseStreamAdapter {
   }
 }
 
-class MuxAdapter extends BaseStreamAdapter {
-  constructor(config = {}) {
-    super();
-    this.tokenId = config.tokenId || process.env.MUX_TOKEN_ID;
-    this.tokenSecret = config.tokenSecret || process.env.MUX_TOKEN_SECRET;
-    this.playbackId = config.playbackId || process.env.MUX_PLAYBACK_ID;
-    this.playbackUrl = config.playbackUrl || (this.playbackId ? `https://stream.mux.com/${this.playbackId}.m3u8` : process.env.STREAM_PLAYBACK_URL);
-  }
-
-  async createOrGetLiveInput() {
-    return {
-      streamId: 'mux_stream_' + Date.now(),
-      ingestUrl: 'rtmps://global-live.mux.com:443/app',
-      streamKey: 'mux_key_' + Math.random().toString(36).substring(2, 10),
-      playbackUrl: this.playbackUrl
-    };
-  }
-
-  async getInputStatus() {
-    return {
-      provider: 'mux',
-      status: this.normalizeStatus('active'),
-      isLive: true,
-      resolution: '1920x1080',
-      fps: 30,
-      bitrate: '4500 Kbps CBR',
-      audioCodec: 'AAC 48kHz'
-    };
-  }
-
+class StandaloneHlsAdapter extends BaseStreamAdapter {
   async getPlaybackConfiguration() {
     return {
-      provider: 'mux',
-      playbackUrl: this.playbackUrl,
+      provider: 'standalone_hls',
+      playbackUrl: process.env.STREAM_PLAYBACK_URL || 'https://livepeercdn.studio/hls/sample/index.m3u8',
       supportedRenditions: ['1080p', '720p', '480p', '360p']
     };
   }
-
-  verifyWebhook(req) {
-    const signature = req.headers['mux-signature'];
-    return !!signature || process.env.NODE_ENV !== 'production';
+  async getInputStatus() {
+    return { provider: 'standalone_hls', status: 'ready', isLive: false };
   }
-
-  async processWebhook(req) {
-    const event = req.body || {};
-    const eventId = event.id || ('mux_evt_' + Date.now());
-    const rawType = event.type || 'video.live_stream.active';
-    const normalizedState = rawType.includes('active') ? 'live' : 'ended';
-
-    return {
-      providerEventId: eventId,
-      provider: 'mux',
-      normalizedState,
-      rawEvent: event
-    };
-  }
-
-  async startRecordingConfiguration() {
-    return { recordingEnabled: true, format: 'mp4' };
-  }
-
-  async getRecordingStatus() {
-    return { status: 'ready', duration: 3600 };
-  }
-
-  async listRecordings() {
-    return [];
-  }
-
-  async terminateLiveSessionIfSupported() {
-    return { success: true };
-  }
+  verifyWebhook() { return true; }
 }
 
-// Factory Function
 function getStreamProvider() {
-  const provider = (process.env.STREAM_PROVIDER || 'livepeer').toLowerCase();
-  if (provider === 'mux') {
-    return new MuxAdapter();
+  if (!getFeatureFlag('ENABLE_LIVEPEER')) {
+    return new StandaloneHlsAdapter();
   }
   return new LivepeerAdapter();
 }
 
 function getProviderConfig() {
-  const provider = (process.env.STREAM_PROVIDER || 'livepeer').toLowerCase();
+  const isLivepeerEnabled = getFeatureFlag('ENABLE_LIVEPEER');
   return {
-    provider,
+    provider: isLivepeerEnabled ? 'livepeer' : 'standalone_hls',
     ingestProtocol: 'RTMPS/SRT',
     targetResolution: '1080p Full HD (1920x1080 @ 30 FPS)',
     audioCodec: 'AAC 48kHz 160Kbps',
@@ -203,7 +144,7 @@ function getPlaybackUrl(state) {
 function verifyProviderIngest(streamState) {
   return {
     isIngesting: streamState ? !!streamState.isLive : false,
-    provider: process.env.STREAM_PROVIDER || 'livepeer',
+    provider: getFeatureFlag('ENABLE_LIVEPEER') ? 'livepeer' : 'standalone_hls',
     hlsUrl: getPlaybackUrl(streamState),
     status: streamState && streamState.isLive ? 'LIVE' : 'STANDBY'
   };
@@ -212,7 +153,7 @@ function verifyProviderIngest(streamState) {
 module.exports = {
   BaseStreamAdapter,
   LivepeerAdapter,
-  MuxAdapter,
+  StandaloneHlsAdapter,
   getStreamProvider,
   getProviderConfig,
   getPlaybackUrl,

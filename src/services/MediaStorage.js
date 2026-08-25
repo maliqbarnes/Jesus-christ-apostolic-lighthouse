@@ -1,7 +1,9 @@
 /**
- * MediaStorage Adapter Pattern
- * Provides normalized, provider-neutral media object storage supporting Cloudinary and AWS S3.
+ * MediaStorage Adapter Pattern with Feature Flag Evaluation
+ * Evaluates ENABLE_CLOUDINARY feature flag to toggle Cloudinary API vs local static media storage.
  */
+
+const { getFeatureFlag } = require('../config/featureFlags');
 
 class BaseStorageAdapter {
   async createSignedUpload() { throw new Error('Not implemented'); }
@@ -11,6 +13,45 @@ class BaseStorageAdapter {
   async deleteAsset() { throw new Error('Not implemented'); }
   createImageTransformation() { throw new Error('Not implemented'); }
   createVideoTransformationIfSupported() { throw new Error('Not implemented'); }
+}
+
+class LocalStorageAdapter extends BaseStorageAdapter {
+  async createSignedUpload(options = {}) {
+    return {
+      provider: 'local',
+      uploadUrl: '/api/content/upload',
+      filename: options.filename || 'asset.jpg'
+    };
+  }
+
+  async finalizeUpload(options = {}) {
+    return {
+      success: true,
+      url: `/images/uploads/${options.filename || 'asset.jpg'}`
+    };
+  }
+
+  getPublicUrl(assetPath) {
+    if (!assetPath) return '';
+    if (assetPath.startsWith('http://') || assetPath.startsWith('https://')) return assetPath;
+    return assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
+  }
+
+  async getMetadata(assetId) {
+    return { assetId, provider: 'local' };
+  }
+
+  async deleteAsset(assetId) {
+    return { success: true, assetId };
+  }
+
+  createImageTransformation(assetPath) {
+    return this.getPublicUrl(assetPath);
+  }
+
+  createVideoTransformationIfSupported(assetPath) {
+    return this.getPublicUrl(assetPath);
+  }
 }
 
 class CloudinaryAdapter extends BaseStorageAdapter {
@@ -69,67 +110,16 @@ class CloudinaryAdapter extends BaseStorageAdapter {
   }
 }
 
-class S3Adapter extends BaseStorageAdapter {
-  constructor(config = {}) {
-    super();
-    this.bucket = config.bucket || process.env.AWS_S3_BUCKET;
-    this.region = config.region || process.env.AWS_REGION || 'us-east-1';
-    this.cloudfrontUrl = config.cloudfrontUrl || process.env.AWS_CLOUDFRONT_URL;
-  }
-
-  async createSignedUpload(options = {}) {
-    const key = `uploads/${Date.now()}_${options.filename || 'asset.jpg'}`;
-    return {
-      provider: 's3',
-      uploadUrl: `https://${this.bucket}.s3.${this.region}.amazonaws.com/${key}`,
-      key,
-      headers: { 'x-amz-acl': 'public-read' }
-    };
-  }
-
-  async finalizeUpload(options = {}) {
-    return {
-      success: true,
-      key: options.key,
-      url: this.getPublicUrl(options.key)
-    };
-  }
-
-  getPublicUrl(key) {
-    if (!key) return '';
-    if (key.startsWith('http://') || key.startsWith('https://')) return key;
-    if (this.cloudfrontUrl) return `${this.cloudfrontUrl}/${key.replace(/^\//, '')}`;
-    return `https://${this.bucket}.s3.${this.region}.amazonaws.com/${key.replace(/^\//, '')}`;
-  }
-
-  async getMetadata(key) {
-    return { key, provider: 's3', bucket: this.bucket };
-  }
-
-  async deleteAsset(key) {
-    return { success: true, key, deletedAt: new Date() };
-  }
-
-  createImageTransformation(key) {
-    return this.getPublicUrl(key);
-  }
-
-  createVideoTransformationIfSupported(key) {
-    return this.getPublicUrl(key);
-  }
-}
-
 function getMediaStorage() {
-  const provider = (process.env.STORAGE_PROVIDER || 'cloudinary').toLowerCase();
-  if (provider === 's3') {
-    return new S3Adapter();
+  if (!getFeatureFlag('ENABLE_CLOUDINARY')) {
+    return new LocalStorageAdapter();
   }
   return new CloudinaryAdapter();
 }
 
 module.exports = {
   BaseStorageAdapter,
+  LocalStorageAdapter,
   CloudinaryAdapter,
-  S3Adapter,
   getMediaStorage
 };

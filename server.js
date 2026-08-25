@@ -170,14 +170,21 @@ app.get('/api/check-auth', (req, res) => {
   return res.json({ authenticated: false });
 });
 
+const { getAllFeatureFlags } = require('./src/config/featureFlags');
+
 // Production Health Check Endpoint
 app.get('/api/health', (_req, res) => {
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
     provider: getProviderConfig().provider,
+    featureFlags: getAllFeatureFlags(),
     uptime: process.uptime()
   });
+});
+
+app.get('/api/feature-flags', (_req, res) => {
+  res.json(getAllFeatureFlags());
 });
 
 // Content Endpoints
