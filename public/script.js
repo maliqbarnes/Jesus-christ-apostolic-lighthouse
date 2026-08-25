@@ -183,16 +183,88 @@ document.addEventListener('DOMContentLoaded', () => {
   const scriptureCloseBtn = document.getElementById('scripture-modal-close');
   const scriptureOkBtn = document.getElementById('scripture-modal-ok-btn');
 
+  function expandScriptureRef(refText) {
+    if (!refText) return '';
+    let ref = refText.trim();
+    const bookMap = [
+      { abbr: /^1\s*Cor\b/i, full: '1 Corinthians' },
+      { abbr: /^2\s*Cor\b/i, full: '2 Corinthians' },
+      { abbr: /^1\s*Tim\b/i, full: '1 Timothy' },
+      { abbr: /^2\s*Tim\b/i, full: '2 Timothy' },
+      { abbr: /^1\s*Thess\b/i, full: '1 Thessalonians' },
+      { abbr: /^2\s*Thess\b/i, full: '2 Thessalonians' },
+      { abbr: /^1\s*Pet\b/i, full: '1 Peter' },
+      { abbr: /^2\s*Pet\b/i, full: '2 Peter' },
+      { abbr: /^1\s*Jn\b/i, full: '1 John' },
+      { abbr: /^2\s*Jn\b/i, full: '2 John' },
+      { abbr: /^3\s*Jn\b/i, full: '3 John' },
+      { abbr: /^Deut\b/i, full: 'Deuteronomy' },
+      { abbr: /^Gen\b/i, full: 'Genesis' },
+      { abbr: /^Ex\b/i, full: 'Exodus' },
+      { abbr: /^Lev\b/i, full: 'Leviticus' },
+      { abbr: /^Num\b/i, full: 'Numbers' },
+      { abbr: /^Josh\b/i, full: 'Joshua' },
+      { abbr: /^Judg\b/i, full: 'Judges' },
+      { abbr: /^Sam\b/i, full: 'Samuel' },
+      { abbr: /^Kgs\b/i, full: 'Kings' },
+      { abbr: /^Chron\b/i, full: 'Chronicles' },
+      { abbr: /^Neh\b/i, full: 'Nehemiah' },
+      { abbr: /^Esth\b/i, full: 'Esther' },
+      { abbr: /^Ps\b/i, full: 'Psalms' },
+      { abbr: /^Prov\b/i, full: 'Proverbs' },
+      { abbr: /^Eccl\b/i, full: 'Ecclesiastes' },
+      { abbr: /^Isa\b/i, full: 'Isaiah' },
+      { abbr: /^Jer\b/i, full: 'Jeremiah' },
+      { abbr: /^Lam\b/i, full: 'Lamentations' },
+      { abbr: /^Ezek\b/i, full: 'Ezekiel' },
+      { abbr: /^Dan\b/i, full: 'Daniel' },
+      { abbr: /^Hos\b/i, full: 'Hosea' },
+      { abbr: /^Obad\b/i, full: 'Obadiah' },
+      { abbr: /^Mic\b/i, full: 'Micah' },
+      { abbr: /^Nah\b/i, full: 'Nahum' },
+      { abbr: /^Hab\b/i, full: 'Habakkuk' },
+      { abbr: /^Zeph\b/i, full: 'Zephaniah' },
+      { abbr: /^Hag\b/i, full: 'Haggai' },
+      { abbr: /^Zech\b/i, full: 'Zechariah' },
+      { abbr: /^Mal\b/i, full: 'Malachi' },
+      { abbr: /^Matt\b/i, full: 'Matthew' },
+      { abbr: /^Mk\b/i, full: 'Mark' },
+      { abbr: /^Lk\b/i, full: 'Luke' },
+      { abbr: /^Jn\b/i, full: 'John' },
+      { abbr: /^Rom\b/i, full: 'Romans' },
+      { abbr: /^Gal\b/i, full: 'Galatians' },
+      { abbr: /^Eph\b/i, full: 'Ephesians' },
+      { abbr: /^Phil\b/i, full: 'Philippians' },
+      { abbr: /^Col\b/i, full: 'Colossians' },
+      { abbr: /^Philem\b/i, full: 'Philemon' },
+      { abbr: /^Heb\b/i, full: 'Hebrews' },
+      { abbr: /^Jas\b/i, full: 'James' },
+      { abbr: /^Rev\b/i, full: 'Revelation' }
+    ];
+
+    for (const item of bookMap) {
+      if (item.abbr.test(ref)) {
+        return ref.replace(item.abbr, item.full);
+      }
+    }
+    return ref;
+  }
+
   function getScriptureVerse(ref) {
     const raw = (ref || '').trim();
+    const expanded = expandScriptureRef(raw);
+
+    if (SCRIPTURE_TEXTS[expanded]) return SCRIPTURE_TEXTS[expanded];
     if (SCRIPTURE_TEXTS[raw]) return SCRIPTURE_TEXTS[raw];
-    const norm = raw.replace(/[\u2013\u2014-]/g, '-').toLowerCase();
+
+    const norm = expanded.replace(/[\u2013\u2014-]/g, '-').toLowerCase();
     for (const [k, v] of Object.entries(SCRIPTURE_TEXTS)) {
-      if (k.replace(/[\u2013\u2014-]/g, '-').toLowerCase() === norm) {
+      const kNorm = expandScriptureRef(k).replace(/[\u2013\u2014-]/g, '-').toLowerCase();
+      if (kNorm === norm) {
         return v;
       }
     }
-    return `Holy Scripture Proof for ${raw}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
+    return `Holy Scripture Proof for ${expanded}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
   }
 
   window.openScriptureModal = function(refText) {
@@ -202,9 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modal) return;
 
     const rawRef = (refText || '').trim();
+    const fullExpandedRef = expandScriptureRef(rawRef);
     const verseText = getScriptureVerse(rawRef);
 
-    if (refEl) refEl.textContent = rawRef;
+    if (refEl) refEl.textContent = fullExpandedRef;
     if (textEl) textEl.textContent = verseText;
 
     modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
