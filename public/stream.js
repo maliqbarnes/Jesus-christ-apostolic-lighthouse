@@ -456,8 +456,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Show Chat Section & adjust grid layout
       if (streamChatSection) streamChatSection.style.display = 'flex';
-      if (streamContainer && window.innerWidth > 1024) {
-        streamContainer.style.gridTemplateColumns = '1fr 390px';
+      if (streamContainer) {
+        streamContainer.classList.remove('standby-container-centered');
+        if (window.innerWidth > 1024) {
+          streamContainer.style.gridTemplateColumns = '1fr 390px';
+        }
       }
       if (publicVideoControls) publicVideoControls.style.display = 'flex';
 
@@ -495,7 +498,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Hide Chat Panel & Public Video Controls when Stream is Offline
       if (streamChatSection) streamChatSection.style.display = 'none';
-      if (streamContainer) streamContainer.style.gridTemplateColumns = '1fr';
+      if (streamContainer) {
+        streamContainer.style.gridTemplateColumns = '1fr';
+        streamContainer.classList.add('standby-container-centered');
+      }
       if (publicVideoControls) publicVideoControls.style.display = 'none';
 
       // Show Standby Overlay & Hide Video Elements
