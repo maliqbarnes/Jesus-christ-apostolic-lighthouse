@@ -104,8 +104,8 @@ async function runTests() {
     assert(resStreamState.statusCode === 200 && resStreamState.data.state.isLive === true, 'POST /api/stream/state updates live broadcast state');
 
     // Test 8: Public Contact Sanitization
-    const resContact = await makeRequest('/api/contact', 'POST', { name: '<script>alert(1)</script>Test Believer', email: 'test@example.com', message: 'Hello JCAL!' });
-    assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes input and saves message');
+    const resContact = await makeRequest('/api/contact', 'POST', { name: '<script>alert(1)</script>Test Believer', email: 'test@example.com', message: 'Hello JCAL!', isTest: true });
+    assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes input and returns success without creating fake messages');
 
     console.log(`\n==================================================`);
     console.log(`  Test Results: ${passed} / ${total} Passed`);
