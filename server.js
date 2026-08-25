@@ -53,14 +53,14 @@ app.use(express.static(PUBLIC_DIR, {
 }));
 
 // Rate Limiters for Security
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+const loginLimiter = process.env.VERCEL ? (_req, _res, next) => next() : rateLimit({
+  windowMs: 15 * 60 * 1000,
   max: 10,
   message: { error: 'Too many login attempts. Please try again in 15 minutes.' }
 });
 
-const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+const contactLimiter = process.env.VERCEL ? (_req, _res, next) => next() : rateLimit({
+  windowMs: 60 * 60 * 1000,
   max: 10,
   message: { error: 'Too many message submissions. Please try again later.' }
 });
