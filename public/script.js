@@ -1771,25 +1771,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Smooth Scroll-Driven Reveal Animations for Homepage Cards & Sections
-  if ('IntersectionObserver' in window) {
-    const revealTargets = document.querySelectorAll('.belief-card, .event-card-item, .legacy-card, .notice-card, .giving-card, section h2');
-    revealTargets.forEach(target => {
-      target.classList.add('scroll-reveal-target');
-    });
-
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('scroll-revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-    revealTargets.forEach(el => revealObserver.observe(el));
-  }
-
   // Initial Data Load, Stream Preview & Auth Check
   fetchSiteContent();
   checkAuthStatus();
