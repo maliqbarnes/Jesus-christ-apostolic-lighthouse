@@ -38,6 +38,132 @@ main {
   padding-top: 0;
 }
 
+/* Glassmorphic Scripture Reader Overlay with Heavy Blurred Background */
+.scripture-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 15, 30, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeInModal 0.3s ease-out;
+  box-sizing: border-box;
+}
+
+.scripture-modal-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 251, 235, 0.99));
+  border: 2.5px solid rgba(184, 137, 22, 0.45);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4), 0 0 40px rgba(184, 137, 22, 0.3);
+  border-radius: 28px;
+  max-width: 560px;
+  width: 100%;
+  padding: 32px 28px 28px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.scripture-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.scripture-close-btn:hover {
+  background: rgba(225, 29, 72, 0.15);
+  color: #e11d48;
+}
+
+.scripture-modal-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(184, 137, 22, 0.35);
+}
+
+.scripture-modal-ref {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--black);
+  margin: 4px 0 16px 0;
+  font-weight: 800;
+}
+
+.scripture-modal-quote-box {
+  position: relative;
+  background: rgba(184, 137, 22, 0.06);
+  border-left: 4px solid var(--gold-dark);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.quote-mark {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 3.5rem;
+  color: rgba(184, 137, 22, 0.2);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.scripture-modal-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: #1e293b;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Make scripture tags interactive & tap-friendly on mobile */
+.scripture-tag {
+  cursor: pointer !important;
+  user-select: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.scripture-tag:hover,
+.scripture-tag:active {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold)) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 6px 18px rgba(184, 137, 22, 0.4) !important;
+}
+
 /* Floating Glassmorphic Announcement Overlay */
 .notice-modal-overlay {
   position: fixed;

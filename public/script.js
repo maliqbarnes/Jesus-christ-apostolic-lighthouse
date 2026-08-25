@@ -131,6 +131,74 @@ document.addEventListener('DOMContentLoaded', () => {
         dashSidebar.classList.remove('open');
       }
     });
+  // Interactive Scripture Proof Modal with Blurred Background
+  const SCRIPTURE_TEXTS = {
+    'Deuteronomy 6:4': 'Hear, O Israel: The LORD our God is one LORD.',
+    'Isaiah 9:6': 'For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counseller, The mighty God, The everlasting Father, The Prince of Peace.',
+    'John 1:1, 14': 'In the beginning was the Word, and the Word was with God, and the Word was God... And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth.',
+    'John 10:30': 'I and my Father are one.',
+    'Colossians 2:9': 'For in him dwelleth all the fulness of the Godhead bodily.',
+    '1 Timothy 3:16': 'And without controversy great is the mystery of godliness: God was manifest in the flesh, justified in the Spirit, seen of angels, preached unto the Gentiles, believed on in the world, received up into glory.',
+    'Acts 4:12': 'Neither is there salvation in any other: for there is none other name under heaven given among men, whereby we must be saved.',
+    'John 3:3–5': 'Jesus answered and said unto him, Verily, verily, I say unto thee, Except a man be born again, he cannot see the kingdom of God. Nicodemus saith unto him, How can a man be born when he is old? can he enter the second time into his mother\'s womb, and be born? Jesus answered, Verily, verily, I say unto thee, Except a man be born of water and of the Spirit, he cannot enter into the kingdom of God.',
+    'Luke 24:47': 'And that repentance and remission of sins should be preached in his name among all nations, beginning at Jerusalem.',
+    'Acts 2:38–39': 'Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost. For the promise is unto you, and to your children, and to all that are afar off, even as many as the Lord our God shall call.',
+    'Acts 8:12–17': 'But when they believed Philip preaching the things concerning the kingdom of God, and the name of Jesus Christ, they were baptized, both men and women... Then laid they their hands on them, and they received the Holy Ghost.',
+    'Acts 10:44–48': 'While Peter yet spake these words, the Holy Ghost fell on all them which heard the word... And he commanded them to be baptized in the name of the Lord.',
+    'Acts 19:1–6': 'And when Paul had laid his hands upon them, the Holy Ghost came on them; and they spake with tongues, and prophesied.',
+    'Joel 2:28–29': 'And it shall come to pass afterward, that I will pour out my spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions.',
+    'Acts 1:8': 'But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth.',
+    'Acts 2:1–4': 'And when the day of Pentecost was fully come, they were all with one accord in one place... And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance.',
+    'Acts 10:44–46': 'While Peter yet spake these words, the Holy Ghost fell on all them which heard the word. And they of the circumcision which believed were astonished... For they heard them speak with tongues, and magnify God.',
+    'Acts 19:6': 'And when Paul had laid his hands upon them, the Holy Ghost came on them; and they spake with tongues, and prophesied.',
+    '1 Cor 12:4–11': 'Now there are diversities of gifts, but the same Spirit... But all these worketh that one and the selfsame Spirit, dividing to every man severally as he will.',
+    'Galatians 5:22–23': 'But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance: against such there is no law.',
+    'Romans 12:1–2': 'I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service. And be not conformed to this world: but be ye transformed by the renewing of your mind.',
+    '1 Cor 6:19–20': 'What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God\'s.',
+    '2 Cor 7:1': 'Having therefore these promises, dearly beloved, let us cleanse ourselves from all filthiness of the flesh and spirit, perfecting holiness in the fear of God.',
+    'Galatians 5:16–25': 'This I say then, Walk in the Spirit, and ye shall not fulfil the lust of the flesh... If we live in the Spirit, let us also walk in the Spirit.',
+    'Ephesians 4:11–13': 'And he gave some, apostles; and some, prophets; and some, evangelists; and some, pastors and teachers; For the perfecting of the saints, for the work of the ministry, for the edifying of the body of Christ.',
+    '1 Peter 2:9': 'But ye are a chosen generation, a royal priesthood, an holy nation, a peculiar people; that ye should shew forth the praises of him who hath called you out of darkness into his marvellous light.',
+    'Hebrews 10:25': 'Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.',
+    '1 Thess 4:16–17': 'For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air.',
+    'Titus 2:13': 'Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.',
+    'Revelation 20:11–15': 'And I saw a great white throne, and him that sat on it, from whose face the earth and the heaven fled away... And whosoever was not found written in the book of life was cast into the lake of fire.'
+  };
+
+  const scriptureModal = document.getElementById('scripture-modal');
+  const scriptureRefEl = document.getElementById('scripture-modal-ref');
+  const scriptureTextEl = document.getElementById('scripture-modal-text');
+  const scriptureCloseBtn = document.getElementById('scripture-modal-close');
+  const scriptureOkBtn = document.getElementById('scripture-modal-ok-btn');
+
+  function openScriptureModal(refText) {
+    if (!scriptureModal) return;
+    const cleanRef = refText.trim();
+    const verseText = SCRIPTURE_TEXTS[cleanRef] || SCRIPTURE_TEXTS[cleanRef.replace(/-/g, '–')] || `Holy Scripture Proof for ${cleanRef}: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness." (2 Timothy 3:16)`;
+
+    if (scriptureRefEl) scriptureRefEl.textContent = cleanRef;
+    if (scriptureTextEl) scriptureTextEl.textContent = verseText;
+    scriptureModal.style.display = 'flex';
+  }
+
+  function closeScriptureModal() {
+    if (scriptureModal) scriptureModal.style.display = 'none';
+  }
+
+  document.querySelectorAll('.scripture-tag').forEach((tag) => {
+    tag.addEventListener('click', (e) => {
+      e.preventDefault();
+      openScriptureModal(tag.textContent);
+    });
+  });
+
+  if (scriptureCloseBtn) scriptureCloseBtn.addEventListener('click', closeScriptureModal);
+  if (scriptureOkBtn) scriptureOkBtn.addEventListener('click', closeScriptureModal);
+
+  if (scriptureModal) {
+    scriptureModal.addEventListener('click', (e) => {
+      if (e.target === scriptureModal) closeScriptureModal();
+    });
   }
 
   // Active Link Scroll Highlight
