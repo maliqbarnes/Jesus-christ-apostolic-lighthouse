@@ -24,8 +24,14 @@ const SESSIONS_FILE = path.join(__dirname, 'data', 'sessions.json');
 const UPLOADS_DIR = path.join(__dirname, 'public', 'images', 'uploads');
 const AUDIO_DIR = path.join(__dirname, 'public', 'audio');
 
-// Initialize Socket.io Realtime Engine
-initSocketServer(server);
+// Initialize Socket.io Realtime Engine (Local server process only)
+if (!process.env.VERCEL) {
+  try {
+    initSocketServer(server);
+  } catch (err) {
+    console.warn('Socket.io skipped in serverless mode:', err.message);
+  }
+}
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -363,9 +369,13 @@ app.post('/api/stream/state', requireAuth, (req, res) => {
   res.json({ success: true, state: fullState });
 });
 
-// Catch-all route serving index.html
+// Catch-all route for API & Serverless Fallback
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+  const indexPath = path.join(PUBLIC_DIR, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  return res.json({ status: 'healthy', app: 'JCAL Ministries API Serverless Engine' });
 });
 
 function startServer(port) {
