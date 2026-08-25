@@ -131,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dashSidebar.classList.remove('open');
       }
     });
+  }
+
   // Interactive Scripture Proof Modal with Blurred Background
   const SCRIPTURE_TEXTS = {
     'Deuteronomy 6:4': 'Hear, O Israel: The LORD our God is one LORD.',
@@ -1682,19 +1684,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Homepage Stream State Fetcher
-  async function fetchCmsStreamState() {
-    try {
-      const res = await fetch('/api/stream/state');
-      if (res.ok) {
-        cmsStreamState = await res.json();
-        renderCmsStreamState(cmsStreamState);
-      }
-    } catch (err) {
-      console.error('Error fetching CMS stream state:', err);
-    }
-  }
-
   // Toggle Live Broadcast inside CMS
   if (cmsBtnLive) {
     cmsBtnLive.addEventListener('click', async () => {
@@ -1757,35 +1746,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('CMS save stream error:', err);
       }
     });
-  }
-
-  // Tribute Video Continuous Replay & Auto-Play Handler
-  const tributeVideo = document.getElementById('tribute-video-player');
-  if (tributeVideo) {
-    tributeVideo.muted = true;
-    tributeVideo.loop = true;
-    tributeVideo.playsInline = true;
-    
-    // Attempt auto-play immediately on page load
-    tributeVideo.play().catch(() => {});
-    
-    // Auto-replay continuously when finished
-    tributeVideo.addEventListener('ended', () => {
-      tributeVideo.currentTime = 0;
-      tributeVideo.play().catch(() => {});
-    });
-
-    // Auto-resume playback whenever scrolled into view
-    if ('IntersectionObserver' in window) {
-      const tributeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            tributeVideo.play().catch(() => {});
-          }
-        });
-      }, { threshold: 0.1 });
-      tributeObserver.observe(tributeVideo);
-    }
   }
 
   // Initial Data Load, Stream Preview & Auth Check
