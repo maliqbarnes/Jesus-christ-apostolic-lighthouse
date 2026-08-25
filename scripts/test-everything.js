@@ -5,6 +5,8 @@
  */
 
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 const { spawn } = require('child_process');
 process.env.ENABLE_LIVEPEER = 'true';
 process.env.ENABLE_CLOUDINARY = 'true';
@@ -137,6 +139,29 @@ async function testEverything() {
     // Public Contact XSS Sanitization test (isTest: true prevents creating fake database entries)
     const resContact = await makeReq('/api/contact', 'POST', { name: '<script>alert(1)</script>Apostolic Believer', email: 'believer@jcal.org', message: 'God bless JCAL!', isTest: true });
     assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes HTML input against XSS without creating fake messages');
+
+    // 38/38 Holy Scripture Proof Tag Resolution Verification Test
+    const htmlContent = fs.readFileSync(path.join(__dirname, '..', 'public', 'index.html'), 'utf8');
+    const jsContent = fs.readFileSync(path.join(__dirname, '..', 'public', 'script.js'), 'utf8');
+    const scriptureMatches = htmlContent.match(/data-scripture="([^"]+)"/g) || [];
+    const scriptureTags = scriptureMatches.map(m => m.replace('data-scripture="', '').replace('"', ''));
+    const dictMatch = jsContent.match(/const SCRIPTURE_TEXTS = (\{[\s\S]*?\});/);
+    let SCRIPTURE_TEXTS = {};
+    if (dictMatch) eval('SCRIPTURE_TEXTS = ' + dictMatch[1]);
+    
+    let resolvedCount = 0;
+    scriptureTags.forEach(ref => {
+      const raw = ref.trim();
+      const norm = raw.replace(/[\u2013\u2014-]/g, '-').toLowerCase();
+      let found = SCRIPTURE_TEXTS[raw];
+      if (!found) {
+        for (const [k, v] of Object.entries(SCRIPTURE_TEXTS)) {
+          if (k.replace(/[\u2013\u2014-]/g, '-').toLowerCase() === norm) { found = v; break; }
+        }
+      }
+      if (found) resolvedCount++;
+    });
+    assert(resolvedCount === scriptureTags.length && scriptureTags.length >= 38, `All ${scriptureTags.length} scripture proof tags resolve to valid King James Version text (${resolvedCount}/${scriptureTags.length} mapped)`);
 
   } catch (err) {
     assert(false, `HTTP test execution error: ${err.message}`);
