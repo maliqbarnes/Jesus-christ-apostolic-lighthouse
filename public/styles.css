@@ -256,13 +256,57 @@ main {
   box-shadow: 0 14px 28px rgba(184, 137, 22, 0.38);
 }
 
+/* Modern Glassmorphic 3-Bar Hamburger Toggle Button */
 .menu-toggle {
   display: none;
-  border: 0;
-  background: transparent;
-  font-size: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid rgba(184, 137, 22, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  color: var(--black);
+  z-index: 1100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  background: #ffffff;
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(184, 137, 22, 0.22);
+}
+
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background-color: var(--black);
+  border-radius: 4px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, background-color 0.3s ease;
+}
+
+/* Morph Hamburger to Animated X Close Icon */
+.menu-toggle.active .hamburger-bar:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+  background-color: var(--gold-dark);
+}
+
+.menu-toggle.active .hamburger-bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.menu-toggle.active .hamburger-bar:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+  background-color: var(--gold-dark);
 }
 
 /* ==========================================
@@ -2869,6 +2913,10 @@ a[href^="tel"] {
 
   .nav-shell {
     padding: 6px 12px;
+  }
+
+  .menu-toggle {
+    display: flex !important;
   }
 
   .brand-text strong {

@@ -72,21 +72,32 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // Mobile Navigation Toggle
+  // Mobile Navigation Toggle (3-Bar Hamburger Morph & Touch Dropdown)
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
 
   if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      navLinks.classList.toggle('open');
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isActive = menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active', isActive);
+      navLinks.classList.toggle('open', isActive);
     });
 
-    navLinks.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
+    navLinks.querySelectorAll('a, button').forEach((item) => {
+      item.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
         navLinks.classList.remove('active');
         navLinks.classList.remove('open');
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+        navLinks.classList.remove('open');
+      }
     });
   }
 

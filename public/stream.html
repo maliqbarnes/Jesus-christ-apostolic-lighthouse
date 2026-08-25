@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="stream.css?v=mobilebroadcasting1" />
+  <link rel="stylesheet" href="stream.css?v=hamburgermenu1" />
 </head>
 <body class="stream-body">
 
@@ -28,8 +28,25 @@
         </span>
       </a>
 
-      <div class="stream-status-pill standby-mode" id="global-status-pill">
-        <span id="global-status-text">SERVICE STANDBY</span>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="stream-status-pill standby-mode" id="global-status-pill">
+          <span id="global-status-text">SERVICE STANDBY</span>
+        </div>
+
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#beliefs">Beliefs</a>
+        <a href="index.html#leadership">Leadership</a>
+        <a href="index.html#events">Events</a>
+        <a href="index.html#giving" class="nav-cta">Give</a>
+        <a href="index.html" class="btn secondary sm">← Return to Home Page</a>
       </div>
     </nav>
   </header>
