@@ -217,10 +217,10 @@ body.stream-body {
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER (ENLARGED CINEMATIC THEATRE 1140PX) WITH NAV CLEARANCE */
+/* STANDBY CONTAINER (ENLARGED CINEMATIC THEATRE 1380PX) WITH NAV CLEARANCE */
 .stream-container.standby-container-centered {
-  max-width: 1140px !important;
-  width: min(96vw, 1140px) !important;
+  max-width: 1380px !important;
+  width: min(98vw, 1380px) !important;
   margin: 175px auto 50px auto !important;
   display: flex !important;
   flex-direction: column !important;
@@ -244,11 +244,12 @@ body.stream-body {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
+  min-height: 560px;
   background: #0284c7;
-  border-radius: 28px;
+  border-radius: 36px;
   overflow: hidden;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 24px 70px rgba(2, 132, 199, 0.35), 0 0 50px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 30px 90px rgba(2, 132, 199, 0.4), 0 0 60px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;

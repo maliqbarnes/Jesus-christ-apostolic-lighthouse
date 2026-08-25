@@ -984,10 +984,11 @@ main {
   width: 100%;
   max-width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 32px;
+  min-height: 520px;
+  border-radius: 36px;
   overflow: hidden;
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.28), 0 0 45px rgba(184, 137, 22, 0.25);
-  border: 3px solid rgba(184, 137, 22, 0.55);
+  box-shadow: 0 30px 85px rgba(0, 0, 0, 0.35), 0 0 55px rgba(184, 137, 22, 0.3);
+  border: 3.5px solid rgba(184, 137, 22, 0.65);
   background: #000000;
   display: flex;
   align-items: center;
