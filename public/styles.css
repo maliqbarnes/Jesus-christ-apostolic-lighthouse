@@ -99,29 +99,7 @@ main {
 }
 
 .scripture-close-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #64748b;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-  z-index: 10;
-}
-
-.scripture-close-btn:hover {
-  background: rgba(225, 29, 72, 0.1);
-  color: #e11d48;
-  border-color: #e11d48;
+  display: none !important;
 }
 
 .scripture-modal-quote-box {
