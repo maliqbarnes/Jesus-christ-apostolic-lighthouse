@@ -211,7 +211,7 @@ body.stream-body {
   box-sizing: border-box;
 }
 
-/* VIDEO THEATRE SECTION */
+/* VIDEO THEATRE SECTION & STANDBY OVERLAY */
 .video-theatre-section {
   display: flex;
   flex-direction: column;
@@ -222,11 +222,11 @@ body.stream-body {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #090d16;
+  background: #090a0f;
   border-radius: 24px;
   overflow: hidden;
-  border: 2px solid rgba(14, 165, 233, 0.25);
-  box-shadow: 0 20px 60px rgba(14, 165, 233, 0.12), 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(184, 137, 22, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,22 +248,26 @@ body.stream-body {
   filter: brightness(1.08) contrast(1.1) saturate(1.25);
 }
 
+/* SLEEK DEEP-DARK STANDBY SCREEN WITH GOLD ACCENTS (100% CENTERED) */
 .standby-screen {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #0f172a, #1e1b4b);
+  background: radial-gradient(circle at center, #1a1a22 0%, #09090c 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: clamp(12px, 3vw, 24px);
+  padding: 24px;
   z-index: 10;
   overflow: hidden !important;
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .standby-screen.hidden {
@@ -271,15 +275,15 @@ body.stream-body {
 }
 
 .standby-content {
-  max-width: 480px;
+  max-width: 520px;
   width: 100%;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  gap: clamp(10px, 2.5vw, 16px);
-  margin: auto;
+  gap: 16px;
+  margin: 0 auto;
 }
 
 .standby-emblem {
@@ -291,36 +295,37 @@ body.stream-body {
 }
 
 .standby-emblem img {
-  width: clamp(52px, 11vw, 84px);
+  width: clamp(60px, 12vw, 90px);
   height: auto;
   margin: 0 auto;
-  filter: drop-shadow(0 4px 16px rgba(234, 179, 8, 0.5));
+  filter: drop-shadow(0 6px 20px rgba(212, 175, 55, 0.4));
 }
 
 .standby-screen h2 {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.1rem, 3.4vw, 1.6rem);
+  font-size: clamp(1.2rem, 3.5vw, 1.7rem);
   color: #fef08a;
   margin: 0 auto;
-  line-height: 1.25;
+  line-height: 1.3;
   text-align: center;
   width: 100%;
+  letter-spacing: 0.02em;
 }
 
 .standby-screen p {
   color: #cbd5e1;
-  font-size: clamp(0.8rem, 2.3vw, 0.94rem);
-  line-height: 1.5;
+  font-size: clamp(0.85rem, 2.3vw, 0.96rem);
+  line-height: 1.6;
   margin: 0 auto;
-  max-width: 440px;
+  max-width: 460px;
   text-align: center;
   width: 100%;
 }
 
 .standby-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 12px;
+  margin-top: 8px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
