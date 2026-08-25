@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=hamburgermenu1" />
+  <link rel="stylesheet" href="styles.css?v=goldcirclecmsburger1" />
 </head>
 <body>
   <!-- Navigation Header -->
@@ -817,7 +817,12 @@
     <div class="dashboard-container glass-panel">
       <!-- Dashboard Top Header Bar -->
       <div class="dashboard-topbar">
-        <div class="dashboard-brand">
+        <div class="dashboard-brand" style="display: flex; align-items: center; gap: 14px;">
+          <button id="cms-menu-toggle" class="cms-menu-toggle" aria-label="Toggle CMS navigation menu">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+          </button>
           <div>
             <h2>JCAL Admin Portal</h2>
             <small id="admin-session-info">Logged in as <strong id="current-admin-user">admin</strong></small>

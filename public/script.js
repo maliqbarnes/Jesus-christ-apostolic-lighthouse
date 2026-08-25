@@ -101,6 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Admin CMS Mobile Hamburger Toggle
+  const cmsMenuToggle = document.getElementById('cms-menu-toggle');
+  const dashSidebar = document.querySelector('.dashboard-sidebar');
+
+  if (cmsMenuToggle && dashSidebar) {
+    cmsMenuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isActive = cmsMenuToggle.classList.toggle('active');
+      dashSidebar.classList.toggle('open', isActive);
+    });
+
+    dashSidebar.querySelectorAll('.dash-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        cmsMenuToggle.classList.remove('active');
+        dashSidebar.classList.remove('open');
+      });
+    });
+  }
+
   // Active Link Scroll Highlight
   const sections = document.querySelectorAll('section[id]');
   const links = document.querySelectorAll('.nav-links a');

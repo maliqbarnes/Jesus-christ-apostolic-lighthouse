@@ -115,6 +115,15 @@
   },
   "messages": [
     {
+      "id": "msg-1787630432194",
+      "name": "&lt;script&gt;alert(1)&lt;/script&gt;Apostolic Believer",
+      "email": "believer@jcal.org",
+      "phone": "",
+      "subject": "General Inquiry",
+      "message": "God bless JCAL!",
+      "date": "Aug 25, 2026, 12:00 AM"
+    },
+    {
       "id": "msg-1787630249761",
       "name": "&lt;script&gt;alert(1)&lt;/script&gt;Apostolic Believer",
       "email": "believer@jcal.org",
