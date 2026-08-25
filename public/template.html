@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dennis Maliq Barnes • Apple/Google White Glass Enterprise System Template</title>
+  <meta name="description" content="Ultra-crisp, crystal-clear white glassmorphic enterprise template designed by Dennis Maliq Barnes featuring an integrated CMS and optional live broadcasting system toggle." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Apple / Google White Glass Stylesheet -->
+  <link rel="stylesheet" href="template.css" />
+</head>
+<body>
+
+  <!-- Crystal-Clear Glass Header Navigation -->
+  <header class="site-header">
+    <nav class="nav-shell">
+      <a class="brand" href="#" aria-label="Dennis Maliq Barnes Template">
+        <div class="logo-badge">DMB</div>
+        <span class="brand-text">
+          <strong>Dennis Maliq Barnes</strong>
+          <small>Enterprise System Template</small>
+        </span>
+      </a>
+
+      <div class="nav-controls">
+        <span class="watermark-pill">Created by Dennis Maliq Barnes</span>
+        <button id="open-cms-btn" class="btn btn-primary">⚙️ Open CMS Dashboard</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-pill">✨ Apple & Google Inspired Glass Architecture</div>
+      <h1>Ultra-Crisp White Glass System Template</h1>
+      <p>Organized, high-precision modular architecture built with crystal-clear white glassmorphism, crisp typography, an integrated management CMS dashboard, and an optional Live Broadcasting System.</p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="document.getElementById('open-cms-btn').click()" class="btn btn-primary">Open CMS & Toggle Broadcast</button>
+        <a href="#broadcasting-system-section" class="btn btn-secondary">View Live Broadcasting System</a>
+      </div>
+    </section>
+
+    <!-- 3-Column Glass Card Feature Grid -->
+    <section style="margin-top: 50px;">
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: #0f172a; margin-bottom: 20px;">Organized Component System</h2>
+      <div class="grid-3">
+        <article class="glass-card">
+          <span style="font-size: 1.8rem; display:block; margin-bottom: 10px;">💎</span>
+          <h3>Crystal-Clear Glassmorphism</h3>
+          <p>Zero dim or foggy effects. Styled with high-contrast, crystal-clear white backdrop blurring, 1.5px slate borders, and soft luminous shadows.</p>
+        </article>
+
+        <article class="glass-card">
+          <span style="font-size: 1.8rem; display:block; margin-bottom: 10px;">⚙️</span>
+          <h3>Integrated Admin CMS</h3>
+          <p>Full management portal modal equipped with settings, content controls, and a dynamic real-time toggle switch for optional platform modules.</p>
+        </article>
+
+        <article class="glass-card">
+          <span style="font-size: 1.8rem; display:block; margin-bottom: 10px;">📡</span>
+          <h3>Optional Broadcasting Suite</h3>
+          <p>Includes an HLS video player theatre, live telemetry monitors, and real-time fellowship chat system that can be turned ON/OFF in the CMS.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- OPTIONAL LIVE BROADCASTING SYSTEM SECTION (TOGGLED VIA CMS) -->
+    <section id="broadcasting-system-section" class="broadcast-system-section">
+      <div class="broadcast-status-bar">
+        <div>
+          <span id="broadcast-pill" class="broadcast-pill standby">SERVICE STANDBY</span>
+          <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 6px;">Live Worship & Stream Theatre</h2>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button id="toggle-live-state-btn" class="btn btn-accent">🔴 Start Live Stream</button>
+        </div>
+      </div>
+
+      <div class="broadcast-grid">
+        <!-- Left: Video Theatre Container -->
+        <div class="video-theatre" id="video-state-display">
+          <div style="text-align:center;">
+            <span style="font-size: 2.5rem; display:block; margin-bottom:8px;">🎥</span>
+            <strong style="font-size: 1.2rem; color: #ffffff;">BROADCAST STANDBY MODE</strong>
+            <p style="color: #cbd5e1; font-size: 0.9rem; margin-top:4px;">Stream studio ready for next live service</p>
+          </div>
+        </div>
+
+        <!-- Right: Live Fellowship & Chat Panel -->
+        <aside class="chat-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-light);">
+            <strong style="font-size: 1rem; color: #0f172a;">Live Fellowship & Chat</strong>
+            <span class="watermark-pill" style="font-size: 0.7rem; padding: 2px 8px;">Active</span>
+          </div>
+          <div class="chat-feed">
+            <div class="chat-bubble">
+              <strong style="color: #0f172a; display:block;">Community Member</strong>
+              <span>Welcome to the live fellowship stream!</span>
+            </div>
+            <div class="chat-bubble">
+              <strong style="color: #0f172a; display:block;">Apostolic Fellowship</strong>
+              <span>Praying and worshiping together live.</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" placeholder="Share a prayer or message..." style="flex:1; padding: 10px; border: 1px solid var(--border-light); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 0.88rem;" />
+            <button class="btn btn-primary" style="padding: 10px 16px;">Send</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- INTEGRATED ADMIN CMS MODAL SYSTEM -->
+  <div id="cms-modal" class="cms-modal-backdrop" style="display: none;">
+    <div class="cms-modal-card">
+      <div class="cms-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">Enterprise Management CMS</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Configure platform settings and optional system modules</p>
+        </div>
+        <button id="close-cms-btn" class="btn btn-secondary" style="padding: 6px 14px; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <div class="cms-body">
+        <h4 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">Broadcasting System Configuration</h4>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Toggle the optional public live stream theatre and fellowship chat system ON or OFF in real time across the website.</p>
+
+        <!-- CMS DYNAMIC BROADCAST SYSTEM TOGGLE SWITCH -->
+        <div class="cms-toggle-switch">
+          <label class="switch">
+            <input type="checkbox" id="toggle-broadcast-cms" checked />
+            <span class="slider"></span>
+          </label>
+          <div>
+            <strong id="broadcast-status-text" style="font-size: 1rem; color: #0f172a; display: block;">Broadcasting System Enabled</strong>
+            <small style="color: var(--text-muted);">When enabled, the live stream theatre and interactive chat are accessible to visitors.</small>
+          </div>
+        </div>
+
+        <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">System Information</h4>
+          <p style="font-size: 0.9rem; color: var(--text-body);">Architecture created by <strong>Dennis Maliq Barnes</strong> featuring modular components, crisp white glassmorphic styling, and native REST API support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with Dennis Maliq Barnes Watermarks -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4 style="font-size: 1.25rem;">Dennis Maliq Barnes</h4>
+        <p>Ultra-crisp Apple & Google inspired white glass enterprise template architecture.</p>
+        
+        <div class="watermark-banner">
+          🎨 Watermark: Designed & Created by Dennis Maliq Barnes
+        </div>
+      </div>
+
+      <div>
+        <h4>System Modules</h4>
+        <p>• Public Glassmorphic Layout</p>
+        <p>• Integrated Admin CMS</p>
+        <p>• Optional Broadcasting Suite</p>
+        <p>• Real-time WebSockets Fellowship</p>
+      </div>
+
+      <div>
+        <h4>Platform Metadata</h4>
+        <p>Style: White Glass Crisp (Non-Foggy)</p>
+        <p>Author: Dennis Maliq Barnes</p>
+        <p>License: Proprietary Enterprise</p>
+      </div>
+    </div>
+
+    <!-- Copyright Notice with Dennis Maliq Barnes Watermark -->
+    <div class="copyright">
+      <p>© 2026 Dennis Maliq Barnes. All Rights Reserved. Watermarked White Glass Enterprise System Template.</p>
+    </div>
+  </footer>
+
+  <!-- Template Logic Script -->
+  <script src="template.js"></script>
+</body>
+</html>
