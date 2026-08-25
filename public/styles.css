@@ -477,18 +477,15 @@ main {
   font-size: 0.95rem;
 }
 
-.info-item strong {
-  display: inline;
-  color: var(--black);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.info-item.break-after-strong strong,
+.info-item strong,
 .service-times-card strong {
   display: block;
   width: 100%;
-  margin-bottom: 4px;
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  line-height: 1.35;
 }
 
 /* ==========================================
@@ -981,17 +978,17 @@ main {
 .legacy-video-outside-box {
   position: relative;
   width: 100%;
+  max-width: 640px;
   aspect-ratio: 16 / 9;
-  min-height: 420px;
-  border-radius: 36px;
+  border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.28), 0 0 50px rgba(184, 137, 22, 0.2);
-  border: 3px solid rgba(184, 137, 22, 0.55);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22), 0 0 35px rgba(184, 137, 22, 0.2);
+  border: 2px solid rgba(184, 137, 22, 0.5);
   background: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0;
+  margin: 0 auto;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
