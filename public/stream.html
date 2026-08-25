@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="stream.css?v=cleanheaderstandbyv1" />
+  <link rel="stylesheet" href="stream.css?v=nonfloatingheaderstandbyv2" />
 </head>
 <body class="stream-body">
 
@@ -28,12 +28,15 @@
         </span>
       </a>
 
-      <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
         <div class="stream-status-pill standby-mode" id="global-status-pill">
           <span id="global-status-text">SERVICE STANDBY</span>
         </div>
 
-        <a href="index.html" class="btn secondary sm">← Return to Home Page</a>
+        <a href="index.html" class="btn secondary sm" style="white-space: nowrap;">
+          <span class="desktop-only-inline">← Return to Home Page</span>
+          <span class="mobile-only-inline">← Home</span>
+        </a>
       </div>
     </nav>
   </header>
