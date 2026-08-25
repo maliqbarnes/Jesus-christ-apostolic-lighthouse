@@ -978,12 +978,11 @@ main {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: 420px;
   border-radius: 36px;
   overflow: hidden;
   box-shadow: 0 28px 75px rgba(0, 0, 0, 0.28), 0 0 50px rgba(184, 137, 22, 0.2);
   border: 3px solid rgba(184, 137, 22, 0.55);
-  background: #000000;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -999,10 +998,10 @@ main {
 .tribute-video-element {
   width: 100%;
   height: 100%;
-  object-fit: contain !important;
-  background: #000000;
+  object-fit: cover !important;
   display: block;
   border: none;
+  border-radius: 33px;
 }
 
 .tribute-mute-btn {
@@ -2971,7 +2970,8 @@ a[href^="tel"] {
 
   .tribute-video-element {
     width: 100% !important;
-    max-height: 280px !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 
   .tribute-mute-btn {
