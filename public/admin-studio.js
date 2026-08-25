@@ -168,7 +168,16 @@ document.addEventListener('DOMContentLoaded', () => {
     studioVideo.style.display = 'none';
     studioStandbyScreen.style.display = 'block';
     isCamActive = false;
-    studioBtnCam.textContent = '📷 Start Camera & Mic';
+  function stopCamera() {
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+      localStream = null;
+    }
+    studioVideo.srcObject = null;
+    studioVideo.style.display = 'none';
+    studioStandbyScreen.style.display = 'block';
+    isCamActive = false;
+    studioBtnCam.textContent = 'Start Camera & Mic';
   }
 
   if (studioBtnCam) {
@@ -185,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioTracks.length > 0) {
           isMicMuted = !isMicMuted;
           audioTracks[0].enabled = !isMicMuted;
-          studioBtnMic.textContent = isMicMuted ? '🎙 Unmute Mic' : '🎙 Mute Mic';
+          studioBtnMic.textContent = isMicMuted ? 'Unmute Mic' : 'Mute Mic';
         }
       }
     });
@@ -195,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     studioBtnFilter.addEventListener('click', () => {
       currentFilterIndex = (currentFilterIndex + 1) % filterClasses.length;
       studioVideo.className = 'video-element ' + filterClasses[currentFilterIndex];
-      studioBtnFilter.textContent = `✨ Filter: ${filterNames[currentFilterIndex]}`;
+      studioBtnFilter.textContent = `Filter: ${filterNames[currentFilterIndex]}`;
     });
   }
 
@@ -233,14 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (statResolution) statResolution.textContent = '1080p Full HD • 30 FPS';
       if (providerAutoStatus) {
         providerAutoStatus.className = 'pill live';
-        providerAutoStatus.innerHTML = '🔴 LIVEPEER INGEST CONFIRMED';
+        providerAutoStatus.innerHTML = 'LIVEPEER INGEST CONFIRMED';
       }
       if (providerHealthText) providerHealthText.textContent = '1080p Full HD • 30 FPS • 4.5 Mbps • AAC 48kHz';
     } else {
       if (statResolution) statResolution.textContent = 'Standby / Offline';
       if (providerAutoStatus) {
         providerAutoStatus.className = 'pill standby';
-        providerAutoStatus.innerHTML = '📡 WAITING FOR OBS INGEST';
+        providerAutoStatus.innerHTML = 'WAITING FOR OBS INGEST';
       }
       if (providerHealthText) providerHealthText.textContent = 'Standby (Ready for OBS connection)';
     }
@@ -249,10 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.isLive) {
       if (studioLivePill) {
         studioLivePill.className = 'stream-status-pill live-mode';
-        studioLivePillText.innerHTML = '<span class="live-pulse-dot"></span><span>🔴 BROADCASTING LIVE</span>';
+        studioLivePillText.innerHTML = '<span class="live-pulse-dot"></span><span>BROADCASTING LIVE</span>';
       }
       if (studioBtnMasterLive) {
-        studioBtnMasterLive.textContent = '⏹ END BROADCAST';
+        studioBtnMasterLive.textContent = 'END BROADCAST';
         studioBtnMasterLive.className = 'btn danger';
       }
 
@@ -275,10 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       if (studioLivePill) {
         studioLivePill.className = 'stream-status-pill standby-mode';
-        studioLivePillText.textContent = '⏳ STANDBY / OFFLINE';
+        studioLivePillText.textContent = 'STANDBY / OFFLINE';
       }
       if (studioBtnMasterLive) {
-        studioBtnMasterLive.textContent = '🔴 GO LIVE BROADCAST';
+        studioBtnMasterLive.textContent = 'GO LIVE BROADCAST';
         studioBtnMasterLive.className = 'btn primary';
       }
       stopFrameBroadcasting();
@@ -395,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="chat-author">${msg.author}</span>
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="chat-time">${msg.timestamp}</span>
-            <button class="del-chat-btn" data-id="${msg.id}" title="Remove message">🗑 Delete</button>
+            <button class="del-chat-btn" data-id="${msg.id}" title="Remove message">Delete</button>
           </div>
         </div>
         <div class="chat-msg-body">

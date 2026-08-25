@@ -617,8 +617,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="admin-message-body">${msg.message}</div>
               </div>
               <div class="admin-msg-actions" style="display: flex; gap: 8px; flex-direction: column;">
-                <button class="btn secondary sm archive-msg-btn" data-id="${msg.id}">${isArchived ? '📥 Unarchive' : '📦 Archive'}</button>
-                <button class="btn danger sm delete-msg-btn" data-id="${msg.id}">🗑️ Delete</button>
+                <button class="btn secondary sm archive-msg-btn" data-id="${msg.id}">${isArchived ? 'Unarchive' : 'Archive'}</button>
+                <button class="btn danger sm delete-msg-btn" data-id="${msg.id}">Delete</button>
               </div>
             </div>
           `;
@@ -708,8 +708,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <input type="text" class="slide-title-input refined-input" data-id="${s.id}" value="${s.title.replace(/"/g, '&quot;')}" placeholder="Photo Title" />
               </div>
               <div class="admin-slide-actions" style="display: flex; gap: 8px;">
-                <button class="btn primary sm save-slide-btn" data-id="${s.id}" style="flex: 1;">💾 Save</button>
-                <button class="btn danger sm del-slide-btn" data-id="${s.id}" style="padding: 6px 12px;">🗑 Delete</button>
+                <button class="btn primary sm save-slide-btn" data-id="${s.id}" style="flex: 1;">Save</button>
+                <button class="btn danger sm del-slide-btn" data-id="${s.id}" style="padding: 6px 12px;">Delete</button>
               </div>
             </div>
           </div>
