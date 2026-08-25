@@ -217,7 +217,7 @@ body.stream-body {
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER 100% DEAD-CENTERED ON WEB PAGE */
+/* STANDBY CONTAINER CENTERED WITH 5REM RIGHT OFFSET */
 .stream-container.standby-container-centered {
   max-width: 900px !important;
   width: min(92vw, 900px) !important;
@@ -229,8 +229,8 @@ body.stream-body {
   grid-template-columns: 1fr !important;
   position: relative !important;
   top: auto !important;
-  left: auto !important;
-  transform: none !important;
+  left: 5rem !important;
+  transform: translateX(5rem) !important;
 }
 
 /* VIDEO THEATRE SECTION & STANDBY OVERLAY */
