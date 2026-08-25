@@ -34,6 +34,15 @@ body.stream-body {
 .desktop-only-inline { display: inline; }
 .mobile-only-inline { display: none; }
 
+.gold-subtitle {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--gold-dark) !important;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-top: 1px;
+}
+
 /* Integrated Non-Floating Glass Header for Live Broadcast Page */
 .stream-header {
   position: relative;
@@ -860,7 +869,13 @@ body.stream-body {
   }
 
   .stream-header .brand-text small {
-    display: none !important;
+    display: block !important;
+    font-size: 0.6rem !important;
+    color: var(--gold-dark) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    margin-top: 1px !important;
+    white-space: nowrap !important;
   }
 
   .stream-header .stream-status-pill {
@@ -871,51 +886,62 @@ body.stream-body {
     flex-shrink: 0 !important;
   }
 
-  .stream-header .btn.secondary.sm {
-    font-size: 0.74rem !important;
-    padding: 5px 12px !important;
-    border-radius: 8px !important;
-    white-space: nowrap !important;
-    background: #0f172a !important;
-    color: #ffffff !important;
-    border: none !important;
-    flex-shrink: 0 !important;
-  }
-
   .desktop-only-inline { display: none !important; }
   .mobile-only-inline { display: inline !important; }
 
   .stream-container {
     padding: 16px 12px 24px 12px !important;
     margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  /* Mobile Standby Container (Fits 100% without scrolling) */
+  /* Mobile Standby Container - Fully Visible Without Cutoffs */
   .standby-screen {
-    overflow: hidden !important;
-    padding: 10px 8px !important;
+    overflow: visible !important;
+    padding: 16px 12px !important;
+    min-height: auto !important;
+    height: auto !important;
   }
 
   .standby-content {
-    gap: 6px !important;
+    gap: 12px !important;
+    padding: 20px 16px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .standby-emblem img {
-    width: 44px !important;
+    width: 52px !important;
   }
 
   .standby-screen h2 {
-    font-size: 0.98rem !important;
-    line-height: 1.2 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
   }
 
   .standby-screen p {
-    font-size: 0.74rem !important;
-    line-height: 1.35 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-size: 0.84rem !important;
+    line-height: 1.55 !important;
+    display: block !important;
+    overflow: visible !important;
+    color: #cbd5e1 !important;
+  }
+
+  .standby-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+  }
+
+  .standby-actions .btn {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
   .standby-actions {
