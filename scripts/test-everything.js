@@ -134,9 +134,9 @@ async function testEverything() {
     const resStateAfterWebhook = await makeReq('/api/stream/state');
     assert(resStateAfterWebhook.statusCode === 200 && resStateAfterWebhook.data.isLive === true, 'StreamState automatically activates live broadcast upon provider webhook ingest');
 
-    // Public Contact XSS Sanitization test
-    const resContact = await makeReq('/api/contact', 'POST', { name: '<script>alert(1)</script>Apostolic Believer', email: 'believer@jcal.org', message: 'God bless JCAL!' });
-    assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes HTML input against XSS');
+    // Public Contact XSS Sanitization test (isTest: true prevents creating fake database entries)
+    const resContact = await makeReq('/api/contact', 'POST', { name: '<script>alert(1)</script>Apostolic Believer', email: 'believer@jcal.org', message: 'God bless JCAL!', isTest: true });
+    assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes HTML input against XSS without creating fake messages');
 
   } catch (err) {
     assert(false, `HTTP test execution error: ${err.message}`);

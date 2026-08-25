@@ -237,6 +237,11 @@ app.post('/api/contact', contactLimiter, (req, res) => {
     const cleanEmail = String(email).replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
     const cleanMessage = String(message).replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
 
+    // Do not persist test submissions to content.json during automated testing
+    if (req.body && (req.body.isTest === true || req.body.isTest === 'true')) {
+      return res.json({ success: true, message: 'Test message validated successfully!' });
+    }
+
     const currentContent = getData() || {};
     const newSubmission = {
       id: 'msg-' + Date.now(),
