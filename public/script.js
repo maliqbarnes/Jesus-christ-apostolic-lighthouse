@@ -1756,6 +1756,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Tribute Video Continuous Replay & Auto-Play Handler
+  const tributeVideo = document.getElementById('tribute-video-player');
+  if (tributeVideo) {
+    tributeVideo.muted = true;
+    tributeVideo.loop = true;
+    tributeVideo.playsInline = true;
+    
+    // Attempt auto-play immediately on page load
+    tributeVideo.play().catch(() => {});
+    
+    // Auto-replay continuously when finished
+    tributeVideo.addEventListener('ended', () => {
+      tributeVideo.currentTime = 0;
+      tributeVideo.play().catch(() => {});
+    });
+
+    // Auto-resume playback whenever scrolled into view
+    if ('IntersectionObserver' in window) {
+      const tributeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tributeVideo.play().catch(() => {});
+          }
+        });
+      }, { threshold: 0.1 });
+      tributeObserver.observe(tributeVideo);
+    }
+  }
+
+  // Smooth Scroll-Driven Reveal Animations for Homepage Cards & Sections
+  if ('IntersectionObserver' in window) {
+    const revealTargets = document.querySelectorAll('.belief-card, .event-card-item, .legacy-card, .notice-card, .giving-card, section h2');
+    revealTargets.forEach(target => {
+      target.classList.add('scroll-reveal-target');
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('scroll-revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    revealTargets.forEach(el => revealObserver.observe(el));
+  }
+
   // Initial Data Load, Stream Preview & Auth Check
   fetchSiteContent();
   checkAuthStatus();

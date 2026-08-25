@@ -170,7 +170,7 @@ main {
   margin: 0;
 }
 
-/* Interactive Desktop & Mobile Scripture Proof Tags */
+/* Interactive Desktop & Mobile Scripture Proof Tags (No Emojis) */
 .scripture-tag {
   cursor: pointer !important;
   user-select: none;
@@ -179,6 +179,7 @@ main {
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 6px !important;
   padding: 6px 14px !important;
   border-radius: 999px !important;
@@ -191,13 +192,6 @@ main {
   position: relative !important;
 }
 
-.scripture-tag::after {
-  content: '📖';
-  font-size: 0.8rem;
-  opacity: 0.75;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
 .scripture-tag:hover,
 .scripture-tag:active,
 .scripture-tag:focus {
@@ -207,12 +201,6 @@ main {
   transform: translateY(-3px) scale(1.06) !important;
   box-shadow: 0 8px 22px rgba(184, 137, 22, 0.45) !important;
   outline: none !important;
-}
-
-.scripture-tag:hover::after,
-.scripture-tag:focus::after {
-  opacity: 1;
-  transform: scale(1.18) rotate(-6deg);
 }
 
 /* Desktop Scripture Modal Sizing & Layout */
@@ -3466,4 +3454,36 @@ a[href^="tel"] {
     font-size: 0.78rem;
     padding: 6px 12px;
   }
+}
+
+/* Polished Initial Load & Scroll Reveal Keyframe Animations */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  animation: pageEntranceFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageEntranceFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal-target {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }

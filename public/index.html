@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=desktopscripturev4" />
+  <link rel="stylesheet" href="styles.css?v=cleanfxv5" />
 </head>
 <body>
   <!-- Navigation Header -->
@@ -301,7 +301,7 @@
 
         <!-- Right Side: Video Box OUTSIDE of the legacy-card container -->
         <div class="legacy-video-outside-box">
-          <video id="tribute-video-player" autoplay muted loop playsinline class="tribute-video-element">
+          <video id="tribute-video-player" autoplay muted loop playsinline preload="auto" onended="this.currentTime=0; this.play();" class="tribute-video-element">
             <source src="videos/Camellia%20House%20presents%20a%20tribute%20A%20great%20man%20of%20God.%20Apostle%20Ronnie%20R.%20Stewart,%20Sr.%20-%20Camellia%20City%20(1080p).mp4" type="video/mp4" />
             Your browser does not support HTML5 video.
           </video>
@@ -1148,6 +1148,6 @@
   </div>
 
   <!-- Unified Script -->
-  <script src="script.js?v=desktopscripturev4"></script>
+  <script src="script.js?v=cleanfxv5"></script>
 </body>
 </html>
