@@ -194,11 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scriptureModal) scriptureModal.style.display = 'none';
   }
 
-  document.querySelectorAll('.scripture-tag').forEach((tag) => {
-    tag.addEventListener('click', (e) => {
+  // Global Event Delegation for Scripture Tag Taps (Works 100% on Mobile & Desktop)
+  document.addEventListener('click', (e) => {
+    const tag = e.target.closest('.scripture-tag');
+    if (tag) {
       e.preventDefault();
+      e.stopPropagation();
       openScriptureModal(tag.textContent);
-    });
+    }
   });
 
   if (scriptureCloseBtn) scriptureCloseBtn.addEventListener('click', closeScriptureModal);
