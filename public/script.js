@@ -168,7 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
     'Hebrews 10:25': 'Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.',
     '1 Thess 4:16–17': 'For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air.',
     'Titus 2:13': 'Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.',
-    'Revelation 20:11–15': 'And I saw a great white throne, and him that sat on it, from whose face the earth and the heaven fled away... And whosoever was not found written in the book of life was cast into the lake of fire.'
+    'Revelation 20:11–15': 'And I saw a great white throne, and him that sat on it, from whose face the earth and the heaven fled away... And whosoever was not found written in the book of life was cast into the lake of fire.',
+    'John 14:1–3': 'Let not your heart be troubled: ye believe in God, believe also in me. In my Father\'s house are many mansions: if it were not so, I would have told you. I go to prepare a place for you. And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also.',
+    'Acts 1:9–11': 'And when he had spoken these things, while they beheld, he was taken up; and a cloud received him out of their sight... This same Jesus, which is taken up from you into heaven, shall so come in like manner as ye have seen him go into heaven.',
+    '1 Cor 15:51–52': 'Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed.',
+    'Revelation 21:1–4': 'And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea... And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain.'
   };
 
   const scriptureModal = document.getElementById('scripture-modal');
@@ -222,7 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
     openScriptureModal(text);
   };
 
-  // Global Event Delegation for Scripture Tag Taps (Works 100% on Mobile & Desktop)
+  // Desktop Keyboard Accessibility & Shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeScriptureModal();
+    }
+    if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('scripture-tag')) {
+      e.preventDefault();
+      const text = document.activeElement.dataset.scripture || document.activeElement.textContent;
+      openScriptureModal(text);
+    }
+  });
+
+  // Global Event Delegation for Scripture Tag Taps (Desktop & Mobile)
   document.addEventListener('click', (e) => {
     const tag = e.target.closest('.scripture-tag');
     if (tag) {

@@ -170,18 +170,32 @@ main {
   margin: 0;
 }
 
-/* Make scripture tags interactive & tap-friendly on mobile */
+/* Interactive Desktop & Mobile Scripture Proof Tags */
 .scripture-tag {
   cursor: pointer !important;
   user-select: none;
   touch-action: manipulation !important;
   -webkit-tap-highlight-color: rgba(184, 137, 22, 0.3) !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 4px !important;
-  padding: 6px 12px !important;
-  border-radius: 8px !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  background: rgba(184, 137, 22, 0.08) !important;
+  border: 1px solid rgba(184, 137, 22, 0.28) !important;
+  color: var(--black) !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.01em !important;
+  position: relative !important;
+}
+
+.scripture-tag::after {
+  content: '📖';
+  font-size: 0.8rem;
+  opacity: 0.75;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .scripture-tag:hover,
@@ -189,8 +203,34 @@ main {
 .scripture-tag:focus {
   background: linear-gradient(135deg, var(--gold-dark), var(--gold)) !important;
   color: #ffffff !important;
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 0 6px 18px rgba(184, 137, 22, 0.4) !important;
+  border-color: var(--gold) !important;
+  transform: translateY(-3px) scale(1.06) !important;
+  box-shadow: 0 8px 22px rgba(184, 137, 22, 0.45) !important;
+  outline: none !important;
+}
+
+.scripture-tag:hover::after,
+.scripture-tag:focus::after {
+  opacity: 1;
+  transform: scale(1.18) rotate(-6deg);
+}
+
+/* Desktop Scripture Modal Sizing & Layout */
+@media (min-width: 769px) {
+  .scripture-modal-card {
+    max-width: 620px !important;
+    padding: 38px 36px 32px 36px !important;
+    border-radius: 32px !important;
+  }
+
+  .scripture-modal-ref {
+    font-size: 1.9rem !important;
+  }
+
+  .scripture-modal-text {
+    font-size: 1.2rem !important;
+    line-height: 1.7 !important;
+  }
 }
 
 /* Floating Glassmorphic Announcement Overlay */
