@@ -207,7 +207,7 @@ body.stream-body {
 .stream-container {
   max-width: 1440px;
   width: min(95vw, 1440px);
-  margin: 140px auto 40px auto;
+  margin: 180px auto 50px auto;
   display: grid;
   grid-template-columns: 1fr 390px;
   gap: 24px;
@@ -217,16 +217,16 @@ body.stream-body {
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER 100% DEAD-CENTERED IN THE MIDDLE OF THE SCREEN */
+/* STANDBY CONTAINER 100% DEAD-CENTERED IN THE MIDDLE OF THE SCREEN WITH GENEROUS NAV CLEARANCE */
 .stream-container.standby-container-centered {
   position: fixed !important;
-  top: 50% !important;
+  top: 56% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   margin: 0 !important;
   padding: 0 !important;
-  max-width: 920px !important;
-  width: min(94vw, 920px) !important;
+  max-width: 900px !important;
+  width: min(92vw, 900px) !important;
   grid-template-columns: 1fr !important;
   z-index: 500;
 }
