@@ -207,7 +207,7 @@ body.stream-body {
 .stream-container {
   max-width: 1440px;
   width: min(95vw, 1440px);
-  margin: 180px auto 50px auto;
+  margin: 120px auto 40px auto;
   display: grid;
   grid-template-columns: 1fr 390px;
   gap: 24px;
@@ -217,18 +217,20 @@ body.stream-body {
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER 100% DEAD-CENTERED IN THE MIDDLE OF THE SCREEN WITH GENEROUS NAV CLEARANCE */
+/* STANDBY CONTAINER 100% DEAD-CENTERED ON WEB PAGE */
 .stream-container.standby-container-centered {
-  position: fixed !important;
-  top: 56% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  margin: 0 !important;
-  padding: 0 !important;
   max-width: 900px !important;
   width: min(92vw, 900px) !important;
+  margin: 120px auto 40px auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   grid-template-columns: 1fr !important;
-  z-index: 500;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
 }
 
 /* VIDEO THEATRE SECTION & STANDBY OVERLAY */
@@ -243,11 +245,11 @@ body.stream-body {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #0284c7;
-  border-radius: 28px;
+  background: #0b0f19;
+  border-radius: 24px;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 24px 70px rgba(2, 132, 199, 0.35), 0 0 50px rgba(0, 0, 0, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,7 +274,7 @@ body.stream-body {
   filter: brightness(1.08) contrast(1.1) saturate(1.25);
 }
 
-/* BRIGHTER ROYAL BLUE BACKGROUND CANVAS */
+/* CRISP DARK OBSIDIAN STANDBY SCREEN (ZERO CLOUDINESS / FOG) */
 .standby-screen {
   position: absolute;
   top: 0;
@@ -281,16 +283,13 @@ body.stream-body {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 25% 20%, rgba(56, 189, 248, 0.45), transparent 55%),
-    radial-gradient(circle at 75% 80%, rgba(245, 158, 11, 0.25), transparent 50%),
-    linear-gradient(135deg, #0284c7 0%, #0369a1 55%, #075985 100%);
+  background: #0b0f19;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center;
-  padding: 20px;
+  padding: 24px;
   z-index: 10;
   overflow: hidden !important;
   box-sizing: border-box;
@@ -302,19 +301,16 @@ body.stream-body {
   display: none !important;
 }
 
-/* TRANSPARENT GLASS LAYER OVER THE BRIGHTER BLUE BACKGROUND */
+/* TRANSPARENT CONTENT WRAPPER - NO INNER NESTED CARD BOX / NO BLUR FOG */
 .standby-content {
   max-width: 600px;
-  width: min(94%, 600px);
-  background: rgba(255, 255, 255, 0.14) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 28px !important;
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.3), 
-    inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
-  padding: clamp(22px, 4vw, 36px) !important;
+  width: 100%;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -337,7 +333,7 @@ body.stream-body {
   width: clamp(64px, 12vw, 92px);
   height: auto;
   margin: 0 auto;
-  filter: drop-shadow(0 8px 24px rgba(254, 243, 199, 0.6));
+  filter: drop-shadow(0 8px 24px rgba(212, 175, 55, 0.4));
 }
 
 .standby-screen h2 {
@@ -350,20 +346,18 @@ body.stream-body {
   text-align: center;
   width: 100%;
   letter-spacing: -0.01em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .standby-screen p {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  color: #f8fafc;
+  color: #cbd5e1;
   font-size: clamp(0.88rem, 2.4vw, 0.98rem);
   line-height: 1.65;
   margin: 0 auto;
   max-width: 520px;
   text-align: center;
   width: 100%;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .standby-actions {
@@ -374,6 +368,36 @@ body.stream-body {
   justify-content: center;
   align-items: center;
   width: 100%;
+}
+
+.standby-actions .btn {
+  font-family: 'Poppins', sans-serif !important;
+  letter-spacing: 0.02em;
+  border-radius: 14px !important;
+  padding: 10px 22px !important;
+  font-size: 0.86rem !important;
+  font-weight: 700 !important;
+}
+
+.standby-actions .btn.primary {
+  background: linear-gradient(135deg, #b45309, #d97706);
+  color: #ffffff !important;
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  font-weight: 800 !important;
+  box-shadow: 0 8px 24px rgba(180, 83, 9, 0.35);
+}
+
+.standby-actions .btn.secondary {
+  background: #1e293b;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 700 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.standby-actions .btn.secondary:hover {
+  background: #334155;
+  border-color: #ffffff;
 }
 
 .standby-actions .btn {
