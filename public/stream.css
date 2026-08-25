@@ -23,7 +23,7 @@ body.stream-body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 0;
   padding: 0;
@@ -203,35 +203,34 @@ body.stream-body {
   min-width: 260px;
 }
 
-/* MAIN STREAM CONTAINER GRID - 100% CENTERED ON SCREEN */
+/* MAIN STREAM CONTAINER GRID - 100% CENTERED ON PAGE */
 .stream-container {
   max-width: 1440px;
-  width: 100%;
-  margin: auto;
-  padding: 140px 24px 40px 24px;
+  width: min(95vw, 1440px);
+  margin: 140px auto 40px auto;
   display: grid;
   grid-template-columns: 1fr 390px;
   gap: 24px;
   flex: 1;
-  align-self: center;
-  justify-self: center;
   box-sizing: border-box;
   transition: all 0.3s ease;
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER 100% DEAD-CENTERED ON MONITOR SCREEN */
+/* STANDBY CONTAINER 100% CENTERED ON THE WEB PAGE */
 .stream-container.standby-container-centered {
-  position: fixed !important;
-  top: 52% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: 900px !important;
-  width: min(92vw, 900px) !important;
+  max-width: 960px !important;
+  width: min(94vw, 960px) !important;
+  margin: 140px auto 50px auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   grid-template-columns: 1fr !important;
-  z-index: 500;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
 }
 
 /* VIDEO THEATRE SECTION & STANDBY OVERLAY */
