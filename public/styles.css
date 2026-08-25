@@ -28,10 +28,6 @@ body {
   background: var(--white);
 }
 
-button, input, select, textarea, optgroup {
-  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -92,7 +88,7 @@ main {
 }
 
 .notice-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.45rem;
   font-weight: 800;
   color: var(--navy-dark);
@@ -190,7 +186,7 @@ main {
 
 .brand-text strong {
   display: block;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-weight: 800;
   font-size: clamp(2.1rem, 4vw, 2.8rem);
   letter-spacing: 0.16em;
@@ -202,7 +198,7 @@ main {
   display: block;
   margin-top: 5px;
   color: var(--gold-dark);
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-weight: 700;
   font-size: clamp(0.64rem, 1.05vw, 0.78rem);
   letter-spacing: 0.18em;
@@ -338,7 +334,7 @@ main {
 .eyebrow {
   display: block;
   margin: 0 0 16px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -357,7 +353,7 @@ main {
   max-width: 780px;
   margin: 0;
   color: var(--black);
-  font-family: 'Cinzel', serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(2.4rem, 4.5vw, 4.4rem);
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -434,7 +430,7 @@ main {
 .hero-card h3 {
   margin: 0;
   color: var(--gold-dark);
-  font-family: 'Cinzel', serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(1.5rem, 2.5vw, 1.9rem);
   text-align: center;
   text-transform: uppercase;
@@ -546,7 +542,7 @@ main {
 
 .flip-card-front h3 {
   margin: 0 0 10px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.35rem;
   color: var(--black);
 }
@@ -571,7 +567,7 @@ main {
 
 .flip-card-back h3 {
   margin: 0 0 10px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.3rem;
   font-weight: 800;
   color: #8c670b;
@@ -597,7 +593,7 @@ main {
 .section h2 {
   margin: 0 0 20px;
   color: var(--black);
-  font-family: 'Cinzel', serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(1.9rem, 3.6vw, 3rem);
   line-height: 1.15;
   text-align: center;
@@ -681,7 +677,7 @@ main {
 #beliefs .eyebrow {
   display: inline-block;
   margin: 0 auto 18px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -769,7 +765,7 @@ main {
 #beliefs .belief-card h3 {
   margin: 0;
   color: var(--black);
-  font-family: "Poppins", system-ui, -apple-system, sans-serif;
+  font-family: "Outfit", system-ui, -apple-system, sans-serif;
   font-weight: 700;
   letter-spacing: -0.01em;
   font-size: 1.28rem;
@@ -802,7 +798,7 @@ main {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.74rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -822,7 +818,7 @@ main {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.09);
   color: #555560;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   padding: 4px 10px;
@@ -890,7 +886,7 @@ main {
 .give-card h3 {
   margin: 0 0 10px;
   color: var(--black);
-  font-family: "Poppins", system-ui, -apple-system, sans-serif;
+  font-family: "Outfit", system-ui, -apple-system, sans-serif;
   font-weight: 700;
   letter-spacing: -0.01em;
   font-size: 1.32rem;
@@ -965,7 +961,7 @@ main {
 }
 
 .legacy-text-details h3 {
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: clamp(1.1rem, 2.5vw, 1.55rem);
   white-space: nowrap !important;
   color: var(--black);
@@ -1174,7 +1170,7 @@ main {
   padding: 24px 32px 20px;
   background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 15, 0.82) 100%);
   color: #ffffff;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   text-align: left;
@@ -1247,7 +1243,7 @@ main {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;
@@ -1466,7 +1462,7 @@ main {
 }
 
 .media-broadcast-info h3 {
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.45rem;
   color: var(--black);
   margin: 0 0 10px;
@@ -1533,7 +1529,7 @@ main {
 
 .give-card-header h3 {
   color: #ffffff;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.35rem;
   margin: 10px 0 6px;
   text-align: center;
@@ -1622,7 +1618,7 @@ main {
 
 .contact-form-box h3 {
   margin: 0 0 20px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.3rem;
   color: var(--black);
 }
@@ -1671,7 +1667,7 @@ a[href^="tel"] {
 
 .contact-info-card h4 {
   margin: 0 0 4px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1rem;
   color: var(--black);
 }
@@ -1805,7 +1801,7 @@ a[href^="tel"] {
 
 .admin-message-card h4 {
   margin: 0;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.1rem;
   color: var(--black);
 }
@@ -2056,7 +2052,7 @@ a[href^="tel"] {
   background: transparent;
   border: 1px solid rgba(0, 0, 0, 0.12);
   color: var(--black);
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.85rem;
   padding: 6px 14px;
@@ -2125,7 +2121,7 @@ a[href^="tel"] {
 
 .modal-header h3 {
   margin: 0 0 6px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.4rem;
   color: var(--black);
 }
@@ -2144,7 +2140,7 @@ a[href^="tel"] {
 
 .form-group label {
   display: block;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--black);
@@ -2262,7 +2258,7 @@ a[href^="tel"] {
 
 .dashboard-brand h2 {
   margin: 0;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.3rem;
   color: var(--black);
 }
@@ -2319,7 +2315,7 @@ a[href^="tel"] {
   border-radius: 14px;
   background: transparent;
   color: #475569;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
@@ -2383,7 +2379,7 @@ a[href^="tel"] {
   border: none;
   background: transparent;
   color: #64748b;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
   cursor: pointer;
@@ -2530,7 +2526,7 @@ a[href^="tel"] {
 }
 
 .gallery-card-header h4 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.15rem;
   color: #0f172a;
   margin: 0 0 4px 0;
@@ -2612,7 +2608,7 @@ a[href^="tel"] {
 .audio-widget-info strong {
   display: block;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #ffffff;
 }
 
@@ -2634,7 +2630,7 @@ a[href^="tel"] {
 
 .dash-panel-header h3 {
   margin: 0 0 4px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.3rem;
   color: var(--black);
 }
@@ -2656,7 +2652,7 @@ a[href^="tel"] {
 
 .form-box h4 {
   margin: 0 0 16px;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1.1rem;
   color: var(--black);
 }
@@ -2685,7 +2681,7 @@ a[href^="tel"] {
 
 .admin-event-info strong {
   display: block;
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 1rem;
   color: var(--black);
 }
@@ -2858,7 +2854,7 @@ a[href^="tel"] {
   gap: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: "Outfit", system-ui, sans-serif;
   font-size: 0.85rem;
 }
 
