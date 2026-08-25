@@ -252,36 +252,138 @@ body.admin-studio-body {
 }
 
 .studio-card-box h3 {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', system-ui, sans-serif;
   font-size: 1.2rem;
   margin: 0 0 16px 0;
   color: #0f172a;
 }
 
+/* COMPREHENSIVE BROADCASTER STUDIO MOBILE RESPONSIVE SUITE */
+@media (max-width: 1024px) {
+  .studio-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 120px 16px 32px 16px;
+  }
+}
+
 @media (max-width: 768px) {
   .admin-studio-nav {
     position: fixed !important;
-    top: 12px !important;
+    top: 8px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: 94% !important;
-    border-radius: 999px !important;
-    padding: 8px 12px !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    width: 95% !important;
+    border-radius: 20px !important;
+    padding: 8px 14px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
     border: 1.5px solid rgba(184, 137, 22, 0.35) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
     z-index: 1000 !important;
   }
 
-  .studio-grid-layout {
-    grid-template-columns: 1fr !important;
-    padding: 140px 12px 24px 12px !important;
+  .studio-nav-shell {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand-text strong {
+    font-size: 0.88rem;
+  }
+
+  .brand-text small {
+    display: none;
+  }
+
+  .studio-top-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .studio-top-actions .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .studio-stats-bar {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+  }
+
+  .stat-card-studio {
+    padding: 10px 12px !important;
+    min-height: auto !important;
+  }
+
+  .stat-info small {
+    font-size: 0.72rem !important;
+  }
+
+  .stat-info strong {
+    font-size: 0.9rem !important;
+  }
+
+  .studio-viewport-card {
+    border-radius: 20px !important;
+    padding: 12px !important;
+  }
+
+  .studio-controls-panel {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .ctrl-group {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .ctrl-group .btn {
+    flex: 1 1 auto !important;
+    min-height: 44px !important;
+    font-size: 0.88rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  #studio-btn-master-live {
+    width: 100% !important;
+    padding: 14px 18px !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+  }
+
+  .studio-card-box {
+    padding: 16px !important;
+    border-radius: 18px !important;
+  }
+
+  .studio-card-box select,
+  .studio-card-box input {
+    font-size: 16px !important; /* Prevents iOS safari zoom on focus */
+    min-height: 44px !important;
+  }
+
+  #studio-chat-feed {
+    min-height: 240px !important;
+    max-height: 320px !important;
   }
 }
 
-/* RESPONSIVE BREAKPOINTS */
-@media (max-width: 1024px) {
+@media (max-width: 480px) {
   .studio-grid-layout {
-    grid-template-columns: 1fr;
+    padding: 135px 10px 24px 10px !important;
+  }
+
+  .studio-stats-bar {
+    grid-template-columns: 1fr 1fr !important;
   }
 }

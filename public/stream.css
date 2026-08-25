@@ -1052,3 +1052,44 @@ body.stream-body {
   background: #0f172a;
   color: #ffffff;
 }
+
+/* PUBLIC LIVE STREAM BROADCAST MOBILE RESPONSIVE SUITE */
+@media (max-width: 768px) {
+  .stream-container.standby-container-centered {
+    left: 0 !important;
+    transform: none !important;
+    margin: 95px auto 30px auto !important;
+    width: 95vw !important;
+  }
+
+  .video-viewport-wrapper {
+    min-height: auto !important;
+    border-radius: 20px !important;
+  }
+
+  .standby-content {
+    max-width: 100% !important;
+    padding: 20px 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .standby-emblem-large {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .standby-title {
+    font-size: 1.25rem !important;
+  }
+
+  .stream-sidebar-section {
+    width: 100% !important;
+  }
+
+  .chat-input,
+  .name-input,
+  .speaker-select {
+    font-size: 16px !important; /* Prevents iOS Safari page auto-zoom */
+    min-height: 44px !important;
+  }
+}
