@@ -945,18 +945,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   }
 
+  // Global Portal Open Handler (Works 100% on Mobile & Desktop)
+  window.openAdminPortal = async function() {
+    const loginModal = document.getElementById('admin-login-modal');
+    const dashboardOverlay = document.getElementById('admin-dashboard-overlay');
+    
+    const isAuth = await checkAuthStatus();
+    if (isAuth) {
+      if (dashboardOverlay) dashboardOverlay.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
+    } else {
+      if (loginModal) loginModal.style.cssText = 'display: grid !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
+    }
+  };
+
   // Portal Button Event Listener
   if (adminPortalBtn) {
-    adminPortalBtn.addEventListener('click', async (e) => {
+    adminPortalBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const isAuth = await checkAuthStatus();
-      if (isAuth) {
-        dashboardOverlay.style.display = 'grid';
-      } else {
-        loginModal.style.display = 'grid';
-      }
+      window.openAdminPortal();
     });
   }
+
+  // Global Click Event Delegation fallback for any button with class nav-admin-btn or ID admin-portal-btn
+  document.addEventListener('click', (e) => {
+    const portalBtn = e.target.closest('#admin-portal-btn, .nav-admin-btn, #dock-open-dash-btn');
+    if (portalBtn) {
+      e.preventDefault();
+      window.openAdminPortal();
+    }
+  });
 
   // Close Login Modal
   if (closeLoginModalBtn) {
