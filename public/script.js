@@ -680,32 +680,37 @@ document.addEventListener('DOMContentLoaded', () => {
       if (slideCountEl) slideCountEl.textContent = slides.length;
       if (slides.length > 0) {
         slidesGrid.innerHTML = slides.map((s, index) => `
-          <div class="admin-slide-card" data-id="${s.id}" data-index="${index}" draggable="true">
-            <div class="admin-slide-order-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span class="order-badge" style="font-size: 0.76rem; font-weight: 800; color: var(--gold-dark); background: rgba(184, 137, 22, 0.12); padding: 3px 10px; border-radius: 999px;">#${index + 1} Position</span>
-              <div style="display: flex; gap: 4px;">
-                <button class="btn secondary sm move-up-btn" data-id="${s.id}" title="Move Photo Left/Earlier" ${index === 0 ? 'disabled style="opacity:0.35; cursor:not-allowed;"' : ''}>⬅</button>
-                <button class="btn secondary sm move-down-btn" data-id="${s.id}" title="Move Photo Right/Later" ${index === slides.length - 1 ? 'disabled style="opacity:0.35; cursor:not-allowed;"' : ''}>➡</button>
+          <div class="admin-slide-card refined-slide-card" data-id="${s.id}" data-index="${index}" draggable="true">
+            <div class="admin-slide-order-bar">
+              <span class="order-badge">#${index + 1} Position</span>
+              <span class="drag-handle-hint" title="Drag to re-order photo position">⋮⋮ Drag</span>
+              <div class="position-btn-group">
+                <button class="btn secondary sm move-up-btn" data-id="${s.id}" title="Move Photo Left/Earlier" ${index === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>⬅</button>
+                <button class="btn secondary sm move-down-btn" data-id="${s.id}" title="Move Photo Right/Later" ${index === slides.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>➡</button>
               </div>
             </div>
-            <img src="${s.image}" class="admin-slide-thumb" alt="${s.title}" />
-            <div class="form-group sm">
-              <label>Category Tag</label>
-              <select class="slide-badge-input" data-id="${s.id}">
-                <option value="VACATION BIBLE SCHOOL" ${s.badge === 'VACATION BIBLE SCHOOL' ? 'selected' : ''}>VACATION BIBLE SCHOOL</option>
-                <option value="SUNDAY SERVICE" ${s.badge === 'SUNDAY SERVICE' ? 'selected' : ''}>SUNDAY SERVICE</option>
-                <option value="OUTREACH" ${s.badge === 'OUTREACH' ? 'selected' : ''}>OUTREACH</option>
-                <option value="YOUTH MINISTRY" ${s.badge === 'YOUTH MINISTRY' ? 'selected' : ''}>YOUTH MINISTRY</option>
-                <option value="COMMUNITY" ${s.badge === 'COMMUNITY' ? 'selected' : ''}>COMMUNITY</option>
-              </select>
+            <div class="slide-thumb-wrapper">
+              <img src="${s.image}" class="admin-slide-thumb" alt="${s.title}" />
             </div>
-            <div class="form-group sm">
-              <label>Caption / Title</label>
-              <input type="text" class="slide-title-input" data-id="${s.id}" value="${s.title.replace(/"/g, '&quot;')}" placeholder="Photo Title" />
-            </div>
-            <div class="admin-slide-actions">
-              <button class="btn primary sm save-slide-btn" data-id="${s.id}">Save Edits</button>
-              <button class="btn danger sm del-slide-btn" data-id="${s.id}">Delete</button>
+            <div class="slide-card-body">
+              <div class="form-group sm" style="margin-bottom: 8px;">
+                <label style="font-weight: 700; color: #475569; font-size: 0.74rem;">Category Tag</label>
+                <select class="slide-badge-input refined-select" data-id="${s.id}">
+                  <option value="VACATION BIBLE SCHOOL" ${s.badge === 'VACATION BIBLE SCHOOL' ? 'selected' : ''}>VACATION BIBLE SCHOOL</option>
+                  <option value="SUNDAY SERVICE" ${s.badge === 'SUNDAY SERVICE' ? 'selected' : ''}>SUNDAY SERVICE</option>
+                  <option value="OUTREACH" ${s.badge === 'OUTREACH' ? 'selected' : ''}>OUTREACH</option>
+                  <option value="YOUTH MINISTRY" ${s.badge === 'YOUTH MINISTRY' ? 'selected' : ''}>YOUTH MINISTRY</option>
+                  <option value="COMMUNITY" ${s.badge === 'COMMUNITY' ? 'selected' : ''}>COMMUNITY</option>
+                </select>
+              </div>
+              <div class="form-group sm" style="margin-bottom: 12px;">
+                <label style="font-weight: 700; color: #475569; font-size: 0.74rem;">Caption / Description</label>
+                <input type="text" class="slide-title-input refined-input" data-id="${s.id}" value="${s.title.replace(/"/g, '&quot;')}" placeholder="Photo Title" />
+              </div>
+              <div class="admin-slide-actions" style="display: flex; gap: 8px;">
+                <button class="btn primary sm save-slide-btn" data-id="${s.id}" style="flex: 1;">💾 Save</button>
+                <button class="btn danger sm del-slide-btn" data-id="${s.id}" style="padding: 6px 12px;">🗑 Delete</button>
+              </div>
             </div>
           </div>
         `).join('');

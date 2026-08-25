@@ -992,18 +992,24 @@
 
         <!-- TAB 4: GALLERY & MUSIC MANAGER -->
         <div id="tab-gallery" class="dash-panel">
-          <div class="dash-panel-header">
+          <div class="dash-panel-header" style="margin-bottom: 20px;">
             <div>
-              <h3>Gallery Photos & Background Music</h3>
-              <p>Organize carousel photos, edit captions & category tags, upload images, and choose music.</p>
+              <h3 style="margin-bottom: 4px;">🖼️ Gallery Photos & Background Audio</h3>
+              <p style="margin: 0;">Organize carousel photos, edit captions, drag to reorder, upload images, and manage background worship music.</p>
             </div>
           </div>
 
-          <!-- Sub-Tabs Navigation -->
-          <div class="sub-tabs">
-            <button class="sub-tab active" data-subtab="subtab-manage-photos">🖼️ Manage & Edit Photos (<span id="slide-count">0</span>)</button>
-            <button class="sub-tab" data-subtab="subtab-upload-photo">➕ Upload New Photo</button>
-            <button class="sub-tab" data-subtab="subtab-music">🎵 Background Music</button>
+          <!-- Refined Sub-Tabs Segmented Bar -->
+          <div class="sub-tabs-segmented">
+            <button class="sub-tab active" data-subtab="subtab-manage-photos">
+              <span class="sub-tab-icon">🖼️</span> Photo Library (<span id="slide-count">0</span>)
+            </button>
+            <button class="sub-tab" data-subtab="subtab-upload-photo">
+              <span class="sub-tab-icon">➕</span> Upload New Photo
+            </button>
+            <button class="sub-tab" data-subtab="subtab-music">
+              <span class="sub-tab-icon">🎵</span> Background Music Manager
+            </button>
           </div>
 
           <!-- SUB-TAB 1: MANAGE & EDIT PHOTOS -->
@@ -1013,17 +1019,25 @@
 
           <!-- SUB-TAB 2: UPLOAD NEW PHOTO -->
           <div id="subtab-upload-photo" class="sub-panel">
-            <div class="form-box">
-              <h4 style="margin-bottom: 12px; font-family: 'Outfit', sans-serif;">Upload & Add New Carousel Photo</h4>
-              <form id="admin-photo-form">
-                <div class="form-row">
-                  <div class="form-group col">
-                    <label for="upload-photo-file">Select Image File (.jpg, .png, .webp)</label>
-                    <input type="file" id="upload-photo-file" accept="image/*" required />
+            <div class="gallery-form-card">
+              <div class="gallery-card-header">
+                <h4>➕ Upload & Add New Carousel Photo</h4>
+                <p>Upload high-resolution ministry photos (.jpg, .png, .webp). Max size 10MB.</p>
+              </div>
+              <form id="admin-photo-form" class="refined-form">
+                <div class="upload-dropzone" id="photo-dropzone">
+                  <span class="dropzone-icon">📷</span>
+                  <div class="dropzone-text">
+                    <strong>Click to Browse</strong> or drag image file here
+                    <small>.JPG, .PNG, or .WEBP supported</small>
                   </div>
+                  <input type="file" id="upload-photo-file" accept="image/*" required class="dropzone-file-input" />
+                </div>
+                
+                <div class="form-row" style="margin-top: 16px;">
                   <div class="form-group col">
-                    <label for="photo-badge">Category Badge</label>
-                    <select id="photo-badge" required>
+                    <label for="photo-badge">Category Tag</label>
+                    <select id="photo-badge" required class="refined-select">
                       <option value="VACATION BIBLE SCHOOL">VACATION BIBLE SCHOOL</option>
                       <option value="SUNDAY SERVICE">SUNDAY SERVICE</option>
                       <option value="OUTREACH">OUTREACH</option>
@@ -1031,31 +1045,54 @@
                       <option value="COMMUNITY">COMMUNITY</option>
                     </select>
                   </div>
+                  <div class="form-group col">
+                    <label for="photo-title">Photo Caption / Description</label>
+                    <input type="text" id="photo-title" placeholder="e.g. Worship Gathering or VBS Activity" required class="refined-input" />
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="photo-title">Photo Caption / Description</label>
-                  <input type="text" id="photo-title" placeholder="e.g. Worship Gathering or VBS Activity" required />
-                </div>
-                <button type="submit" class="btn primary">Upload & Add Photo to Carousel</button>
+
+                <button type="submit" class="btn primary" style="width: 100%; margin-top: 12px; padding: 12px;">✨ Upload & Add Photo to Carousel</button>
               </form>
             </div>
           </div>
 
           <!-- SUB-TAB 3: BACKGROUND MUSIC -->
           <div id="subtab-music" class="sub-panel">
-            <div class="form-box">
-              <h4 style="margin-bottom: 12px; font-family: 'Outfit', sans-serif;">🎵 Background Audio Manager</h4>
-              <form id="admin-audio-form">
-                <div class="form-group">
-                  <label for="cfg-audio-url">Active Music File Path / URL</label>
-                  <input type="text" id="cfg-audio-url" placeholder="e.g. audio/worship.mp3 or https://..." required />
+            <div class="gallery-form-card">
+              <div class="gallery-card-header">
+                <h4>🎵 Background Audio Manager</h4>
+                <p>Manage background worship audio that plays across the homepage gallery.</p>
+              </div>
+
+              <!-- Interactive Live Audio Preview Widget -->
+              <div class="audio-player-preview-widget">
+                <div class="audio-widget-info">
+                  <span class="audio-pulse-badge">▶ LIVE PLAYER PREVIEW</span>
+                  <strong id="audio-preview-title">Active Worship Audio Track</strong>
+                  <small id="audio-preview-path" style="color: var(--muted); display: block; font-family: monospace;">audio/worship.mp3</small>
                 </div>
+                <audio id="admin-audio-preview" controls controlsList="nodownload" style="width: 100%; margin-top: 10px; border-radius: 10px;">
+                  <source id="admin-audio-source" src="audio/worship.mp3" type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+
+              <form id="admin-audio-form" class="refined-form" style="margin-top: 20px;">
                 <div class="form-group">
-                  <label for="upload-audio-file">Upload New Music File (.mp3, .wav, .m4a)</label>
-                  <input type="file" id="upload-audio-file" accept="audio/*" />
-                  <small style="color: var(--muted); display: block; margin-top: 4px;">Selecting a music file will upload it directly to the server and update your active music URL.</small>
+                  <label for="cfg-audio-url">Active Music File Path / Direct URL</label>
+                  <input type="text" id="cfg-audio-url" placeholder="e.g. audio/worship.mp3 or https://..." required class="refined-input" />
                 </div>
-                <button type="submit" class="btn primary">Save Music Settings</button>
+
+                <div class="upload-dropzone" id="audio-dropzone" style="margin-top: 16px;">
+                  <span class="dropzone-icon">🎙️</span>
+                  <div class="dropzone-text">
+                    <strong>Upload New Audio File</strong> (.mp3, .wav, .m4a)
+                    <small>Directly uploads audio to server & sets active track</small>
+                  </div>
+                  <input type="file" id="upload-audio-file" accept="audio/*" class="dropzone-file-input" />
+                </div>
+
+                <button type="submit" class="btn primary" style="width: 100%; margin-top: 16px; padding: 12px;">💾 Save Background Music Settings</button>
               </form>
             </div>
           </div>
