@@ -217,10 +217,10 @@ body.stream-body {
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-/* STANDBY CONTAINER (ENLARGED CINEMATIC THEATRE 1380PX) WITH NAV CLEARANCE */
+/* STANDBY CONTAINER WITH 175PX NAV BAR CLEARANCE & 5REM RIGHT OFFSET */
 .stream-container.standby-container-centered {
-  max-width: 1380px !important;
-  width: min(98vw, 1380px) !important;
+  max-width: 900px !important;
+  width: min(92vw, 900px) !important;
   margin: 175px auto 50px auto !important;
   display: flex !important;
   flex-direction: column !important;
@@ -228,8 +228,9 @@ body.stream-body {
   justify-content: center !important;
   grid-template-columns: 1fr !important;
   position: relative !important;
-  left: auto !important;
-  transform: none !important;
+  left: 5rem !important;
+  transform: translate3d(5rem, 0, 0) !important;
+  -webkit-transform: translate3d(5rem, 0, 0) !important;
 }
 
 /* VIDEO THEATRE SECTION & STANDBY OVERLAY */
@@ -244,12 +245,11 @@ body.stream-body {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: 560px;
   background: #0284c7;
-  border-radius: 36px;
+  border-radius: 28px;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 30px 90px rgba(2, 132, 199, 0.4), 0 0 60px rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 24px 70px rgba(2, 132, 199, 0.35), 0 0 50px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,8 +306,8 @@ body.stream-body {
 
 /* MODERN FROSTED GLASS CONTENT CARD OVERLAY */
 .standby-content {
-  max-width: 680px;
-  width: min(94%, 680px);
+  max-width: 580px;
+  width: min(94%, 580px);
   background: rgba(255, 255, 255, 0.16) !important;
   backdrop-filter: blur(20px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
