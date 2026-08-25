@@ -647,26 +647,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (liveChatForm) {
-    liveChatForm.addEventListener('submit', (e) => {
+    liveChatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const author = chatAuthorInput.value.trim();
       const message = chatMessageInput.value.trim();
+      const submitBtn = liveChatForm.querySelector('button[type="submit"]');
 
       if (!author || !message) return;
       localStorage.setItem('jcal_chat_author', author);
 
+      // Disable inputs and button while request is in-flight until response is answered
+      if (chatAuthorInput) chatAuthorInput.disabled = true;
+      if (chatMessageInput) chatMessageInput.disabled = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.dataset.origText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+      }
+
+      function enableFormControls() {
+        if (currentStreamState && currentStreamState.isLive) {
+          if (chatAuthorInput) chatAuthorInput.disabled = false;
+          if (chatMessageInput) {
+            chatMessageInput.disabled = false;
+            chatMessageInput.focus();
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitBtn.dataset.origText || 'Send';
+          }
+        }
+      }
+
       if (socket) {
         socket.emit('sendChatMessage', { author, message });
         chatMessageInput.value = '';
+        setTimeout(enableFormControls, 400);
       } else {
-        fetch('/api/stream/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ author, message })
-        }).then(() => {
+        try {
+          await fetch('/api/stream/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ author, message })
+          });
           chatMessageInput.value = '';
-          fetchLiveChat();
-        }).catch(err => console.error('Chat error:', err));
+          await fetchLiveChat();
+        } catch (err) {
+          console.error('Chat error:', err);
+        } finally {
+          enableFormControls();
+        }
       }
     });
   }

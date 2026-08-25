@@ -1290,12 +1290,43 @@ document.addEventListener('DOMContentLoaded', () => {
   if (publicContactForm) {
     publicContactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('contact-name').value;
-      const email = document.getElementById('contact-email').value;
-      const phone = document.getElementById('contact-phone').value;
-      const subject = document.getElementById('contact-subject').value;
-      const message = document.getElementById('contact-message').value;
+      const nameInput = document.getElementById('contact-name');
+      const emailInput = document.getElementById('contact-email');
+      const phoneInput = document.getElementById('contact-phone');
+      const subjectInput = document.getElementById('contact-subject');
+      const messageInput = document.getElementById('contact-message');
+      const submitBtn = publicContactForm.querySelector('button[type="submit"]');
       const alertBox = document.getElementById('contact-alert');
+
+      const name = nameInput.value;
+      const email = emailInput.value;
+      const phone = phoneInput.value;
+      const subject = subjectInput.value;
+      const message = messageInput.value;
+
+      // Disable inputs and button until response is answered
+      if (nameInput) nameInput.disabled = true;
+      if (emailInput) emailInput.disabled = true;
+      if (phoneInput) phoneInput.disabled = true;
+      if (subjectInput) subjectInput.disabled = true;
+      if (messageInput) messageInput.disabled = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.dataset.origText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending Request...';
+      }
+
+      function reEnableContactForm() {
+        if (nameInput) nameInput.disabled = false;
+        if (emailInput) emailInput.disabled = false;
+        if (phoneInput) phoneInput.disabled = false;
+        if (subjectInput) subjectInput.disabled = false;
+        if (messageInput) messageInput.disabled = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = submitBtn.dataset.origText || 'Send Message ✉';
+        }
+      }
 
       try {
         const res = await fetch('/api/contact', {
@@ -1310,7 +1341,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alertBox.textContent = `Thank you, ${name}! Your ${subject.toLowerCase()} has been sent to JCAL Ministries. God bless you!`;
           }
           publicContactForm.reset();
-          // Immediately re-fetch content from server to update CMS Inbox & notification counters!
           await fetchSiteContent();
         } else {
           if (alertBox) {
@@ -1323,7 +1353,10 @@ document.addEventListener('DOMContentLoaded', () => {
           alertBox.style.display = 'block';
           alertBox.textContent = 'Server connection error. Please try again later.';
         }
+      } finally {
+        reEnableContactForm();
       }
+
       setTimeout(() => {
         if (alertBox) alertBox.style.display = 'none';
       }, 7000);
