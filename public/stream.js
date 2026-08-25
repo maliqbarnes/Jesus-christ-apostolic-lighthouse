@@ -440,16 +440,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const streamChatSection = document.getElementById('stream-chat-section');
     const streamContainer = document.querySelector('.stream-container');
     const publicVideoControls = document.getElementById('public-video-controls');
+    const streamTagPill = document.getElementById('stream-tag-pill');
 
     if (streamSermonTitle) streamSermonTitle.textContent = state.title || 'Sunday Worship Service';
     if (streamSermonSpeaker) streamSermonSpeaker.textContent = `Ministering: ${state.speaker || 'Apostle Joyce B. Stewart'}`;
     if (viewerCountPill) viewerCountPill.textContent = `${state.viewerCount || 0} Viewers`;
 
     if (state.isLive) {
-      // LIVE MODE: Show Live Stream, Chat Section & Controls
+      // LIVE MODE: Switch to Live Pills, Unlock Chat & Play Live Stream
       if (globalStatusPill) {
         globalStatusPill.className = 'stream-status-pill live-mode';
-        globalStatusPill.innerHTML = '<span class="live-pulse-dot"></span><span>LIVE SERVICE IN PROGRESS</span>';
+        globalStatusPill.innerHTML = '<span class="live-pulse-dot"></span><span>LIVE BROADCAST</span>';
+      }
+      if (streamTagPill) {
+        streamTagPill.className = 'stream-tag live-tag';
+        streamTagPill.innerHTML = '🔴 LIVE NOW • SUNDAY WORSHIP';
       }
 
       hideStandbyScreen();
@@ -488,10 +493,14 @@ document.addEventListener('DOMContentLoaded', () => {
         startHlsPlayback(state.playbackUrl || state.hlsUrl);
       }
     } else {
-      // STANDBY MODE: Hide Chat Section Completely & Show Standby Banner
+      // STANDBY MODE: Show Service Standby Pill, Hide Chat Section & Display Standby Glass Card
       if (globalStatusPill) {
         globalStatusPill.className = 'stream-status-pill standby-mode';
         globalStatusPill.innerHTML = '<span>SERVICE STANDBY</span>';
+      }
+      if (streamTagPill) {
+        streamTagPill.className = 'stream-tag';
+        streamTagPill.innerHTML = 'SUNDAY WORSHIP SERVICE';
       }
 
       stopHlsPlayback();
@@ -508,8 +517,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showStandbyScreen();
       if (liveIframe) liveIframe.style.display = 'none';
       if (liveCameraImg) liveCameraImg.style.display = 'none';
-    }
-  }
 
       // Lock Chat & Praise Reaction Buttons when Offline / Standby
       if (chatMessageInput) {

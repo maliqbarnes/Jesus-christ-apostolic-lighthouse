@@ -296,18 +296,15 @@ body.stream-body {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.25), transparent 55%),
-    radial-gradient(circle at 75% 80%, rgba(254, 243, 199, 0.2), transparent 50%),
-    linear-gradient(135deg, #0ea5e9 0%, #0284c7 60%, #0369a1 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.96)),
+              linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center;
-  padding: 20px;
+  padding: 24px 20px;
   z-index: 10;
-  overflow: hidden !important;
   box-sizing: border-box;
   margin: 0;
   font-family: 'Poppins', system-ui, sans-serif;
@@ -320,15 +317,13 @@ body.stream-body {
 /* MODERN FROSTED GLASS CONTENT CARD OVERLAY */
 .standby-content {
   max-width: 580px;
-  width: min(94%, 580px);
-  background: rgba(255, 255, 255, 0.16) !important;
-  backdrop-filter: blur(20px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 28px !important;
-  box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.25), 
-    inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+  width: min(92%, 580px);
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(184, 137, 22, 0.35) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35) !important;
   padding: clamp(24px, 4vw, 36px) !important;
   display: flex !important;
   flex-direction: column !important;
@@ -349,17 +344,17 @@ body.stream-body {
 }
 
 .standby-emblem img {
-  width: clamp(64px, 12vw, 92px);
+  width: clamp(56px, 10vw, 84px);
   height: auto;
   margin: 0 auto;
-  filter: drop-shadow(0 8px 24px rgba(212, 175, 55, 0.4));
+  filter: drop-shadow(0 6px 18px rgba(184, 137, 22, 0.35));
 }
 
 .standby-screen h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(1.35rem, 3.8vw, 1.95rem);
+  font-size: clamp(1.35rem, 3.8vw, 1.85rem);
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin: 0 auto;
   line-height: 1.28;
   text-align: center;
@@ -369,9 +364,9 @@ body.stream-body {
 
 .standby-screen p {
   font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  color: #cbd5e1;
-  font-size: clamp(0.88rem, 2.4vw, 0.98rem);
+  font-weight: 450;
+  color: #475569;
+  font-size: clamp(0.88rem, 2.4vw, 0.96rem);
   line-height: 1.65;
   margin: 0 auto;
   max-width: 520px;
@@ -392,31 +387,37 @@ body.stream-body {
 .standby-actions .btn {
   font-family: 'Poppins', sans-serif !important;
   letter-spacing: 0.02em;
-  border-radius: 14px !important;
-  padding: 10px 22px !important;
+  border-radius: 12px !important;
+  padding: 11px 24px !important;
   font-size: 0.86rem !important;
   font-weight: 700 !important;
+  transition: all 0.2s ease !important;
 }
 
 .standby-actions .btn.primary {
-  background: linear-gradient(135deg, #b45309, #d97706);
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold)) !important;
   color: #ffffff !important;
-  border: 1px solid rgba(251, 191, 36, 0.5);
-  font-weight: 800 !important;
-  box-shadow: 0 8px 24px rgba(180, 83, 9, 0.35);
+  border: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(184, 137, 22, 0.25) !important;
+}
+
+.standby-actions .btn.primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(184, 137, 22, 0.35) !important;
 }
 
 .standby-actions .btn.secondary {
-  background: #1e293b;
+  background: #0f172a !important;
   color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-weight: 700 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: none !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2) !important;
 }
 
 .standby-actions .btn.secondary:hover {
-  background: #334155;
-  border-color: #ffffff;
+  background: #1e293b !important;
+  transform: translateY(-1px) !important;
 }
 
 .standby-actions .btn {
@@ -558,15 +559,15 @@ body.stream-body {
   white-space: nowrap !important;
 }
 
-/* FUTURISTIC BRIGHT STREAM INFO CARD */
+/* MODERN BRAND GOLD & SLATE STREAM INFO CARD */
 .stream-info-card {
-  background: var(--stream-card-bg);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(184, 137, 22, 0.25);
-  border-radius: 24px;
-  padding: 26px 30px;
-  box-shadow: 0 16px 40px rgba(14, 165, 233, 0.08);
+  border: 1.5px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
 }
 
 .stream-meta-header {
@@ -579,44 +580,56 @@ body.stream-body {
 
 .stream-tag {
   display: inline-block;
-  background: rgba(14, 165, 233, 0.12);
-  color: var(--stream-accent-cyan);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 4px 12px;
+  background: rgba(184, 137, 22, 0.12);
+  color: var(--gold-dark);
+  border: 1px solid rgba(184, 137, 22, 0.35);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 14px;
   border-radius: 999px;
   margin-bottom: 8px;
   white-space: nowrap !important;
+  text-transform: uppercase;
+}
+
+.stream-tag.live-tag {
+  background: rgba(225, 29, 72, 0.12) !important;
+  color: #e11d48 !important;
+  border: 1px solid rgba(225, 29, 72, 0.35) !important;
 }
 
 .stream-info-card h1 {
-  font-family: 'Cinzel', serif;
-  font-size: 1.65rem;
-  margin: 6px 0 8px 0;
-  color: var(--navy-dark);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 4px 0 8px 0;
+  color: #0f172a;
+  letter-spacing: -0.01em;
 }
 
 .stream-speaker {
-  color: #475569;
-  font-size: 0.98rem;
+  font-family: 'Poppins', sans-serif;
+  color: #64748b;
+  font-size: 0.95rem;
   font-weight: 500;
   margin: 0;
 }
 
-/* BRIGHT FUTURISTIC LIVE CHAT PANEL */
+/* MODERN BRAND GOLD & SLATE LIVE CHAT PANEL */
 .stream-chat-section {
-  background: var(--stream-card-bg);
+  background: #ffffff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(184, 137, 22, 0.25);
-  border-radius: 24px;
+  border: 1.5px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   height: 690px;
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(14, 165, 233, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
 }
 
 .chat-header {
@@ -625,67 +638,67 @@ body.stream-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 249, 255, 0.95));
+  background: #f8fafc;
 }
 
 .chat-header h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
   margin: 0;
-  color: var(--navy-dark);
+  color: #0f172a;
 }
 
 .chat-header small {
+  font-family: 'Poppins', sans-serif;
   color: #64748b;
   font-size: 0.78rem;
+  font-weight: 500;
 }
 
 .chat-count-badge {
-  background: rgba(14, 165, 233, 0.12);
-  color: var(--stream-accent-cyan);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  font-size: 0.74rem;
-  font-weight: 800;
+  background: rgba(184, 137, 22, 0.12);
+  color: var(--gold-dark);
+  border: 1px solid rgba(184, 137, 22, 0.35);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
   padding: 4px 12px;
   border-radius: 999px;
-  white-space: nowrap !important;
 }
 
-/* GLOSSY PRAISE REACTION BAR */
 .praise-reaction-bar {
-  display: flex;
-  gap: 10px;
-  padding: 14px 18px;
+  padding: 10px 14px;
+  background: #ffffff;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  background: #f8fafc;
+  display: flex;
+  gap: 8px;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .praise-btn {
-  background: linear-gradient(135deg, #ffffff, #f1f5f9);
-  color: var(--navy-dark);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  padding: 8px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
   border-radius: 999px;
-  font-size: 0.84rem;
-  font-weight: 800;
+  padding: 6px 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
 .praise-btn:hover {
-  background: linear-gradient(135deg, #0284c7, #0369a1);
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
   color: #ffffff;
-  border-color: #0284c7;
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(184, 137, 22, 0.25);
 }
 
 /* CHAT MESSAGES FEED */
@@ -697,23 +710,18 @@ body.stream-body {
   flex-direction: column;
   gap: 12px;
   scroll-behavior: smooth;
-  background: rgba(248, 250, 252, 0.6);
+  background: #f8fafc;
 }
 
 .chat-msg-item {
   background: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.9);
   padding: 12px 16px;
-  border-radius: 16px;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9rem;
   word-break: break-word;
-  animation: fadeInMsg 0.25s ease-out;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-@keyframes fadeInMsg {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
 }
 
 .chat-msg-header {
@@ -723,47 +731,24 @@ body.stream-body {
   margin-bottom: 4px;
 }
 
-.del-chat-btn {
-  background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1;
-}
-
-.del-chat-btn:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-  transform: scale(1.05);
-}
-
 .chat-author {
-  font-weight: 800;
-  color: var(--stream-accent-cyan);
-  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .chat-time {
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   color: #94a3b8;
+  font-family: 'Poppins', sans-serif;
 }
 
 .chat-msg-body {
   color: #334155;
-  line-height: 1.45;
-  font-weight: 500;
-}
-
-.chat-msg-reaction {
-  font-size: 1.4rem;
-  display: inline-block;
-  margin-top: 2px;
+  line-height: 1.5;
+  font-weight: 450;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* CHAT INPUT FORM */
@@ -781,9 +766,10 @@ body.stream-body {
   background: #f8fafc;
   border: 1px solid rgba(226, 232, 240, 0.9);
   color: #0f172a;
-  padding: 11px 16px;
-  border-radius: 12px;
-  font-size: 0.9rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
   outline: none;
   transition: all 0.2s ease;
 }
@@ -791,8 +777,8 @@ body.stream-body {
 .chat-name-field:focus,
 .chat-text-field:focus {
   background: #ffffff;
-  border-color: var(--stream-accent-cyan);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184, 137, 22, 0.15);
 }
 
 .chat-input-row {
@@ -806,7 +792,13 @@ body.stream-body {
 
 .chat-send-btn {
   white-space: nowrap;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold)) !important;
+  color: #ffffff !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important;
+  border: none !important;
+  padding: 10px 20px !important;
 }
 
 /* ==========================================
