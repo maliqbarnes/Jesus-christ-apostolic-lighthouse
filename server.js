@@ -369,6 +369,14 @@ app.post('/api/stream/state', requireAuth, (req, res) => {
   res.json({ success: true, state: fullState });
 });
 
+// Express Error Handler Middleware for Serverless Protection
+app.use((err, _req, res, _next) => {
+  console.error('Express Internal Server Error:', err);
+  if (!res.headersSent) {
+    res.status(500).json({ error: 'Internal Server Error', message: err.message || 'An internal error occurred.' });
+  }
+});
+
 // Catch-all route for API & Serverless Fallback
 app.get('*', (_req, res) => {
   const indexPath = path.join(PUBLIC_DIR, 'index.html');
