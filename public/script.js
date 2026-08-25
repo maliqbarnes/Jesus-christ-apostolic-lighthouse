@@ -487,7 +487,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Auto-open CMS dashboard if hash === '#admin' or sessionStorage 'jcal_cms_active' is true
         if (window.location.hash === '#admin' || sessionStorage.getItem('jcal_cms_active') === 'true') {
           sessionStorage.setItem('jcal_cms_active', 'true');
-          if (dashboardOverlay) dashboardOverlay.style.display = 'flex';
+          if (dashboardOverlay) {
+            dashboardOverlay.style.display = 'flex';
+            toggleSiteHeader(false);
+          }
           if (adminDock) adminDock.style.display = 'none';
         }
         return true;
@@ -510,6 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (token && dashboardOverlay) {
         sessionStorage.setItem('jcal_cms_active', 'true');
         dashboardOverlay.style.display = 'flex';
+        toggleSiteHeader(false);
         if (adminDock) adminDock.style.display = 'none';
       } else if (adminModal) {
         adminModal.style.display = 'flex';
@@ -947,6 +951,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   }
 
+  function toggleSiteHeader(show) {
+    const siteHeader = document.querySelector('.site-header');
+    if (siteHeader) {
+      siteHeader.style.display = show ? 'block' : 'none';
+    }
+  }
+
   // Global Portal Open Handler (Works 100% on Mobile & Desktop)
   window.openAdminPortal = async function() {
     const loginModal = document.getElementById('admin-login-modal');
@@ -954,9 +965,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const isAuth = await checkAuthStatus();
     if (isAuth) {
-      if (dashboardOverlay) dashboardOverlay.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
+      if (dashboardOverlay) {
+        dashboardOverlay.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 9999999 !important;';
+        toggleSiteHeader(false);
+      }
     } else {
-      if (loginModal) loginModal.style.cssText = 'display: grid !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
+      if (loginModal) loginModal.style.cssText = 'display: grid !important; opacity: 1 !important; visibility: visible !important; z-index: 9999999 !important;';
     }
   };
 
@@ -1041,6 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setToken(null);
     sessionStorage.removeItem('jcal_cms_active');
     dashboardOverlay.style.display = 'none';
+    toggleSiteHeader(true);
     if (adminDock) adminDock.style.display = 'none';
   }
 
@@ -1053,6 +1068,7 @@ document.addEventListener('DOMContentLoaded', () => {
     viewLiveSiteBtn.addEventListener('click', async () => {
       sessionStorage.removeItem('jcal_cms_active');
       dashboardOverlay.style.display = 'none';
+      toggleSiteHeader(true);
       if (adminDock) adminDock.style.display = 'flex';
       await fetchSiteContent();
       window.scrollTo({ top: 0, behavior: 'smooth' });

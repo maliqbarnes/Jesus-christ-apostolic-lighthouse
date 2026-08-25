@@ -2454,15 +2454,23 @@ a[href^="tel"] {
 .dashboard-overlay {
   position: fixed;
   inset: 0;
-  z-index: 2500;
-  background: rgba(15, 23, 42, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  z-index: 9999999 !important;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
+}
+
+/* Hide Floating Site Header Navbar when CMS Dashboard is open */
+#admin-dashboard-overlay:not([style*="display: none"]) ~ .site-header,
+.dashboard-overlay:not([style*="display: none"]) ~ header,
+header:has(~ #admin-dashboard-overlay[style*="display: flex"]),
+header:has(~ #admin-dashboard-overlay[style*="display: grid"]) {
+  display: none !important;
 }
 
 .dashboard-container {
