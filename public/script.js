@@ -1361,6 +1361,83 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  // CSV Export Helper for Messages & Prayer Requests
+  function downloadMessagesAsCSV(filterType) {
+    const allMessages = siteContent.messages || [];
+    if (allMessages.length === 0) {
+      alert('No messages available to export.');
+      return;
+    }
+
+    let exportMsgs = allMessages;
+    let filenamePrefix = 'jcal-all-messages';
+
+    if (filterType === 'prayer') {
+      exportMsgs = allMessages.filter(m => m.subject === 'Prayer Request');
+      filenamePrefix = 'jcal-prayer-requests';
+    } else if (filterType === 'current') {
+      const activeFilterBtn = document.querySelector('.msg-filter-btn.active');
+      const currentFilter = activeFilterBtn ? activeFilterBtn.dataset.filter : 'all';
+      if (currentFilter === 'prayer') {
+        exportMsgs = allMessages.filter(m => m.subject === 'Prayer Request');
+        filenamePrefix = 'jcal-prayer-requests';
+      } else if (currentFilter === 'active') {
+        exportMsgs = allMessages.filter(m => !m.archived);
+        filenamePrefix = 'jcal-active-messages';
+      } else if (currentFilter === 'archived') {
+        exportMsgs = allMessages.filter(m => m.archived);
+        filenamePrefix = 'jcal-archived-messages';
+      }
+    }
+
+    if (exportMsgs.length === 0) {
+      alert(`No ${filterType === 'prayer' ? 'prayer requests' : 'matching messages'} found to export.`);
+      return;
+    }
+
+    const headers = ["ID", "Date", "Subject", "Name", "Email", "Phone", "Message", "Status"];
+    
+    function escapeCSV(val) {
+      if (val === undefined || val === null) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    }
+
+    const rows = exportMsgs.map(m => [
+      escapeCSV(m.id),
+      escapeCSV(m.date || ''),
+      escapeCSV(m.subject || 'General Inquiry'),
+      escapeCSV(m.name || ''),
+      escapeCSV(m.email || ''),
+      escapeCSV(m.phone || ''),
+      escapeCSV(m.message || ''),
+      escapeCSV(m.archived ? 'Archived' : 'Active')
+    ].join(','));
+
+    const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    const today = new Date().toISOString().split('T')[0];
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${filenamePrefix}-${today}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  const exportPrayersBtn = document.getElementById('export-prayers-csv-btn');
+  if (exportPrayersBtn) {
+    exportPrayersBtn.onclick = () => downloadMessagesAsCSV('prayer');
+  }
+
+  const exportAllMsgsBtn = document.getElementById('export-all-messages-csv-btn');
+  if (exportAllMsgsBtn) {
+    exportAllMsgsBtn.onclick = () => downloadMessagesAsCSV('all');
+  }
+
   // Services / Schedule Form Submit
   if (servicesForm) {
     servicesForm.addEventListener('submit', async (e) => {

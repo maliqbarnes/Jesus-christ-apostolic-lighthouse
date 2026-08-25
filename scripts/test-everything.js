@@ -88,7 +88,7 @@ async function testEverything() {
         res.on('end', () => {
           let parsed = null;
           try { parsed = JSON.parse(data); } catch (e) {}
-          resolve({ statusCode: res.statusCode, headers: res.headers, data: parsed });
+          resolve({ statusCode: res.statusCode, headers: res.headers, data: parsed !== null ? parsed : data, rawData: data });
         });
       });
       req.on('error', reject);
@@ -139,6 +139,10 @@ async function testEverything() {
     // Public Contact XSS Sanitization test (isTest: true prevents creating fake database entries)
     const resContact = await makeReq('/api/contact', 'POST', { name: '<script>alert(1)</script>Apostolic Believer', email: 'believer@jcal.org', message: 'God bless JCAL!', isTest: true });
     assert(resContact.statusCode === 200 && resContact.data.success === true, 'POST /api/contact sanitizes HTML input against XSS without creating fake messages');
+
+    // Admin CSV Export Endpoint Test
+    const resExport = await makeReq('/api/admin/messages/export?type=prayer', 'GET', null, { 'Authorization': `Bearer ${token}` });
+    assert(resExport.statusCode === 200 && typeof resExport.data === 'string' && resExport.data.includes('Subject'), 'GET /api/admin/messages/export returns formatted CSV for prayer requests');
 
     // 38/38 Holy Scripture Proof Tag Resolution Verification Test
     const htmlContent = fs.readFileSync(path.join(__dirname, '..', 'public', 'index.html'), 'utf8');

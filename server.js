@@ -225,6 +225,58 @@ app.put('/api/content', requireAuth, (req, res) => {
   }
 });
 
+// Admin CSV Export Endpoint for Prayer Requests & Messages
+app.get('/api/admin/messages/export', requireAuth, (req, res) => {
+  try {
+    const filterType = (req.query.type || 'all').toLowerCase();
+    const currentData = getData() || {};
+    const allMessages = currentData.messages || [];
+
+    let exportMsgs = allMessages;
+    let filename = 'jcal-all-messages';
+
+    if (filterType === 'prayer') {
+      exportMsgs = allMessages.filter(m => m.subject === 'Prayer Request');
+      filename = 'jcal-prayer-requests';
+    } else if (filterType === 'archived') {
+      exportMsgs = allMessages.filter(m => m.archived);
+      filename = 'jcal-archived-messages';
+    } else if (filterType === 'active') {
+      exportMsgs = allMessages.filter(m => !m.archived);
+      filename = 'jcal-active-messages';
+    }
+
+    const headers = ["ID", "Date", "Subject", "Name", "Email", "Phone", "Message", "Status"];
+
+    function escapeCSV(val) {
+      if (val === undefined || val === null) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    }
+
+    const rows = exportMsgs.map(m => [
+      escapeCSV(m.id),
+      escapeCSV(m.date || ''),
+      escapeCSV(m.subject || 'General Inquiry'),
+      escapeCSV(m.name || ''),
+      escapeCSV(m.email || ''),
+      escapeCSV(m.phone || ''),
+      escapeCSV(m.message || ''),
+      escapeCSV(m.archived ? 'Archived' : 'Active')
+    ].join(','));
+
+    const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+    const today = new Date().toISOString().split('T')[0];
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}-${today}.csv"`);
+    return res.status(200).send(csvContent);
+  } catch (err) {
+    console.error('Export CSV error:', err);
+    return res.status(500).json({ error: 'Failed to export CSV.' });
+  }
+});
+
 // Public Contact Form Endpoint
 app.post('/api/contact', contactLimiter, (req, res) => {
   try {

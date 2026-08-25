@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
   
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=fullbooknamesv24" />
+  <link rel="stylesheet" href="styles.css?v=legacyinleadershipv25" />
 </head>
 <body>
   <!-- Navigation Header -->
@@ -279,12 +279,13 @@
       </div>
     </section>
 
-    <!-- Founding Legacy Section -->
-    <section class="section legacy">
-      <p class="eyebrow centered">Founding Legacy</p>
-      <h2>Honoring Our Founder</h2>
+    <!-- Leadership & Founding Legacy Section -->
+    <section id="leadership" class="section">
+      <p class="eyebrow centered">Leadership & Founding Legacy</p>
+      <h2>Servant Leadership & Our Founder</h2>
 
-      <div class="legacy-outer-layout">
+      <!-- Founding Legacy Tribute -->
+      <div class="legacy-outer-layout" style="margin-top: 28px; margin-bottom: 48px;">
         <!-- Left Side Container: Card with Founder Image & Tribute Words -->
         <div class="legacy-card">
           <div class="portrait large has-image">
@@ -292,6 +293,7 @@
           </div>
 
           <div class="legacy-text-details">
+            <span class="eyebrow" style="color: var(--gold-dark); margin-bottom: 4px;">Founding Legacy</span>
             <h3>Apostle Dr. Ronnie Ray Stewart Sr.</h3>
             <p>In loving tribute to the life, vision, labor, and enduring spiritual legacy of Apostle Dr. Ronnie Ray Stewart Sr., whose dedicated shepherd's heart laid the foundation for Jesus Christ Apostolic Lighthouse Kingdom Ministries International.</p>
           </div>
@@ -309,12 +311,7 @@
           </button>
         </div>
       </div>
-    </section>
 
-    <!-- Leadership Section -->
-    <section id="leadership" class="section">
-      <p class="eyebrow centered">Leadership</p>
-      <h2>Servant Leadership</h2>
       <div class="leadership-grid">
         <article class="leader featured">
           <div class="portrait has-image">
@@ -886,12 +883,16 @@
 
         <!-- TAB: INBOX & PRAYER REQUESTS -->
         <div id="tab-messages" class="dash-panel">
-          <div class="dash-panel-header">
+          <div class="dash-panel-header" style="flex-wrap: wrap; gap: 12px;">
             <div>
               <h3>Incoming Prayer Requests & Messages <span id="msg-badge-header" class="header-badge-count">0 Active</span></h3>
-              <p>View, filter, archive, or delete prayer requests and contact form inquiries sent from the website.</p>
+              <p>View, filter, archive, or export prayer requests and contact form inquiries sent from the website.</p>
             </div>
-            <button id="clear-all-messages-btn" class="btn secondary sm">Clear Inbox</button>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <button id="export-prayers-csv-btn" class="btn primary sm" style="white-space: nowrap;">📥 Export Prayer Requests (CSV)</button>
+              <button id="export-all-messages-csv-btn" class="btn secondary sm" style="white-space: nowrap;">📥 Export All Messages (CSV)</button>
+              <button id="clear-all-messages-btn" class="btn secondary sm">Clear Inbox</button>
+            </div>
           </div>
 
           <!-- Message Sub-Tab Filters -->
