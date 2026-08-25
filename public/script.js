@@ -500,18 +500,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render Dynamic Content on Homepage
   function renderPublicContent() {
-    // 1. Render Events in .event-list
+    // 1. Render Events in .event-list or display empty events message
     const eventsContainer = document.querySelector('#events .event-list') || document.querySelector('#events .cards');
-    if (eventsContainer && siteContent.events && siteContent.events.length > 0) {
-      eventsContainer.innerHTML = siteContent.events.map(evt => `
-        <article>
-          <span>${evt.tag || 'EVENT'}</span>
-          <div>
-            <h3>${evt.title}</h3>
-            <p>${evt.description}${evt.time ? ' • ' + evt.time : ''}</p>
+    if (eventsContainer) {
+      if (siteContent.events && siteContent.events.length > 0) {
+        eventsContainer.innerHTML = siteContent.events.map(evt => `
+          <article class="event-card-item">
+            <span>${evt.tag || 'EVENT'}</span>
+            <div>
+              <h3>${evt.title}</h3>
+              <p>${evt.description}${evt.time ? ' • ' + evt.time : ''}</p>
+            </div>
+          </article>
+        `).join('');
+      } else {
+        eventsContainer.innerHTML = `
+          <div class="no-events-card glass-panel" style="grid-column: 1 / -1; width: 100%; text-align: center; padding: 36px 24px; border-radius: 20px; background: rgba(255, 255, 255, 0.92); border: 1.5px dashed rgba(184, 137, 22, 0.4); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);">
+            <div style="font-size: 2.2rem; margin-bottom: 10px;">📅</div>
+            <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">No Upcoming Events Scheduled</h3>
+            <p style="color: #64748b; font-size: 0.94rem; margin: 0;">Check back soon for upcoming fellowship, Bible studies, and special worship services.</p>
           </div>
-        </article>
-      `).join('');
+        `;
+      }
     }
 
     // 2. Render Schedule & Announcement in Gather With Us card
