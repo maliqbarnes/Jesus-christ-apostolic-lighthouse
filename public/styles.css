@@ -477,13 +477,17 @@ main {
   font-size: 0.95rem;
 }
 
-.info-item strong,
-.service-times-card strong {
-  display: block;
-  width: 100%;
+.info-item strong {
+  display: inline;
   color: var(--black);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.info-item.break-after-strong strong,
+.service-times-card strong {
+  display: block;
+  width: 100%;
   margin-bottom: 4px;
 }
 
@@ -999,7 +1003,7 @@ main {
 .tribute-video-element {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain !important;
   background: #000000;
   display: block;
   border: none;
@@ -2971,7 +2975,8 @@ a[href^="tel"] {
 
   .tribute-video-element {
     width: 100% !important;
-    max-height: 280px !important;
+    height: 100% !important;
+    object-fit: contain !important;
   }
 
   .tribute-mute-btn {
