@@ -178,6 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (scriptureRefEl) scriptureRefEl.textContent = cleanRef;
     if (scriptureTextEl) scriptureTextEl.textContent = verseText;
+
+    // Reset zoom animation for instant spring pop effect
+    const cardEl = scriptureModal.querySelector('.scripture-modal-card');
+    if (cardEl) {
+      cardEl.style.animation = 'none';
+      void cardEl.offsetWidth;
+      cardEl.style.animation = 'scriptureZoomIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+    }
+
     scriptureModal.style.display = 'flex';
   }
 
