@@ -57,11 +57,11 @@ main {
   transition: opacity 0.15s ease;
 }
 
-/* Pure Minimalist Glass Card - Words Floating on Glass with Matching Highlight Border */
+/* Pure Minimalist Glass Card - Words Floating on Glass with Vibrant Blue Highlight Border */
 .scripture-modal-card {
   background: rgba(255, 255, 255, 0.96);
-  border: 2px solid #0f172a;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+  border: 2px solid #2563eb;
+  box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15);
   border-radius: 20px;
   max-width: 600px;
   width: 92%;
@@ -76,9 +76,9 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0;
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.3);
   font-family: 'Poppins', sans-serif;
   font-size: 0.76rem;
   font-weight: 600;
@@ -119,8 +119,9 @@ main {
 }
 
 .scripture-close-btn:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: rgba(225, 29, 72, 0.1);
+  color: #e11d48;
+  border-color: #e11d48;
 }
 
 .scripture-modal-quote-box {
@@ -148,30 +149,30 @@ main {
 }
 
 .scripture-dismiss-btn {
-  background: #0f172a !important;
+  background: #2563eb !important;
   color: #ffffff !important;
   font-family: 'Poppins', sans-serif !important;
   font-weight: 600 !important;
   font-size: 0.86rem !important;
   border-radius: 8px !important;
   padding: 8px 24px !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
   border: none !important;
   transition: background 0.15s ease !important;
 }
 
 .scripture-dismiss-btn:hover {
-  background: #1e293b !important;
+  background: #1d4ed8 !important;
   transform: none !important;
   box-shadow: none !important;
 }
 
-/* Simplistic Desktop & Mobile Scripture Tags */
+/* Simplistic Desktop & Mobile Scripture Tags with Blue Hover */
 .scripture-tag {
   cursor: pointer !important;
   user-select: none;
   touch-action: manipulation !important;
-  transition: background 0.15s ease !important;
+  transition: all 0.15s ease !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -189,11 +190,11 @@ main {
 .scripture-tag:hover,
 .scripture-tag:active,
 .scripture-tag:focus {
-  background: #0f172a !important;
+  background: #2563eb !important;
   color: #ffffff !important;
-  border-color: #0f172a !important;
+  border-color: #2563eb !important;
   transform: none !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
   outline: none !important;
 }
 
