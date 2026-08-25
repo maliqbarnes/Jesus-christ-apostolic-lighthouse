@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const publicVideoControls = document.getElementById('public-video-controls');
 
     if (streamSermonTitle) streamSermonTitle.textContent = state.title || 'Sunday Worship Service';
-    if (streamSermonSpeaker) streamSermonSpeaker.textContent = `Ministering: ${state.speaker || 'JCAL Ministries'}`;
+    if (streamSermonSpeaker) streamSermonSpeaker.textContent = `Ministering: ${state.speaker || 'Apostle Joyce B. Stewart'}`;
     if (viewerCountPill) viewerCountPill.textContent = `${state.viewerCount || 0} Viewers`;
 
     if (state.isLive) {

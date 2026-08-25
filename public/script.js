@@ -1393,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('preview-sermon-title').textContent = state.title || 'Sunday Worship Service';
           }
           if (document.getElementById('preview-sermon-speaker')) {
-            document.getElementById('preview-sermon-speaker').textContent = `Ministering: ${state.speaker || 'JCAL Ministries'}`;
+            document.getElementById('preview-sermon-speaker').textContent = `Ministering: ${state.speaker || 'Apostle Joyce B. Stewart'}`;
           }
           if (document.getElementById('preview-viewer-count')) {
             document.getElementById('preview-viewer-count').textContent = `${state.viewerCount || 0} Watching`;
