@@ -928,7 +928,7 @@ main {
 
 .legacy-outer-layout {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 2fr;
   gap: clamp(32px, 4vw, 56px);
   align-items: center !important;
   max-width: 1440px;
