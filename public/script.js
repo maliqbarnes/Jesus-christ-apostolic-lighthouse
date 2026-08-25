@@ -207,14 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (refEl) refEl.textContent = rawRef;
     if (textEl) textEl.textContent = verseText;
 
-    // Reset zoom animation for instant spring pop effect
-    const cardEl = modal.querySelector('.scripture-modal-card');
-    if (cardEl) {
-      cardEl.style.animation = 'none';
-      void cardEl.offsetWidth;
-      cardEl.style.animation = 'scriptureZoomIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-    }
-
     modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; z-index: 999999 !important;';
   };
 
